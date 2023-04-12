@@ -1,0 +1,10 @@
+html {
+    padding: 0;
+    margin: 0;
+    font-size: medium;
+}
+
+li {
+    list-style: none;
+    margin: 0;
+}
