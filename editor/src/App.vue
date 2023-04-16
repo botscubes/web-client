@@ -13,12 +13,14 @@
       id="test">
 
     </div>
+    <EditorComponent />
   </div>
 </template>
 
 <script>
 
 import { ref } from 'vue'
+import EditorComponent from './components/EditorComponent.vue'
 
 export default {
   data() {
@@ -33,6 +35,11 @@ export default {
       //focus: false,
     }
   },
+
+  components: {
+    EditorComponent,
+  },
+
   computed: {
     styleObject() {
       return {
