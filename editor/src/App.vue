@@ -2,9 +2,11 @@
   <div 
     id="editor"
     :style="editorStyle"
+    ref="editor"
     @mousedown="onMouseDown($event)"
     @mouseup="onMouseUp"
-    @mousemove="onMouseMove">
+    @mousemove="onMouseMove"
+    @mouseleave="onMouseLeave">
     
     <!-- <div 
       :style="styleObject" 
@@ -14,8 +16,8 @@
       id="test">
 
     </div> -->
-    <editor-component :editor-mouse-move-event="mouseMoveEvent" />
-    <editor-component :editor-mouse-move-event="mouseMoveEvent" />
+    <editor-component :editor-object="editorObject" />
+    <editor-component :editor-object="editorObject" />
   </div>
 </template>
 
@@ -28,14 +30,13 @@ export default {
   data() {
     return {
       mouseDown: false,
-      // left: 0,
-      // top: 0,
-      editorLeft: 0,
-      editorTop: 0,
-      // shiftX: 0,
-      // shiftY: 0,
-      //focus: false,
-      mouseMoveEvent: null,
+      
+      editorLeft: 100,
+      editorTop: 100,
+      
+      mouseX: 0,
+      mouseY: 0,
+      
     }
   },
 
@@ -44,50 +45,52 @@ export default {
   },
 
   computed: {
-    // styleObject() {
-    //   return {
-    //     left: this.left + "px",
-    //     top: this.top + "px",
-    //   }
-    // },
+    
     editorStyle() {
       return {
         left: this.editorLeft + "px",
         top: this.editorTop + "px",
       }
+    },
+    editorObject() {
+      return {
+        mouseX: this.mouseX,
+        mouseY: this.mouseY,
+        mouseDown: this.mouseDown,
+      }
     }
+    
+    
+
   },
   methods: {
-    onMouseDown(event) {
-      // this.mouseDown = true;
-      // const rect = this.testt.getBoundingClientRect();
-      // this.shiftX = event.clientX - rect.left;
-      // this.shiftY = event.clientY - rect.top;
-      //this.testt.addEventListener('mousemove', this.onMouseMove);
-      //this.testt.addEventListener('mouseup', this.onMouseUp);
-      //this.focus = this.focus;
-      console.log(event);
+    onMouseDown() {
+      this.mouseDown = true;
+      
     },
     onMouseUp() {
       
-      //this.mouseDown = false;
+      this.mouseDown = false;
     },
     onMouseMove(event) {
-      this.mouseMoveEvent = event
-      // if(this.mouseDown) {
-      //   this.left = event.pageX - this.shiftX;
-      //   this.top = event.pageY - this.shiftY;
-      // }
+      const rect = this.editor.getBoundingClientRect();
+      this.mouseX = this.editor.scrollLeft + event.clientX - rect.left;
+      this.mouseY = this.editor.scrollTop + event.clientY - rect.top;
+      
+      
       
     },
     onDragStart() {
       return false;
+    },
+    onMouseLeave() {
+      this.mouseDown = false;
     }
   },
   setup() {
-    const testt = ref(null)
+    const editor = ref(null)
     return {
-      testt
+      editor
     }
   }
   

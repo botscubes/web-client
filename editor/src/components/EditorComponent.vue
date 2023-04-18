@@ -1,9 +1,9 @@
 <template>
     <div
-        @dragstart="this.onDragStart"
-        @mousedown="onMouseDown($event)"
+        @dragstart="onDragStart"
+        @mousedown="onMouseDown()"
         @mouseup="onMouseUp"
-        @mousemove="onMouseMove($event)"
+        @mousemove="onMouseMove()"
         
         :style="styleComponent" 
         ref = "component"
@@ -18,7 +18,7 @@ import { ref } from 'vue'
 
 export default {
   props: {
-    editorMouseMoveEvent: {
+    editorObject: {
         type: Object,
         default: null,
     }
@@ -26,8 +26,8 @@ export default {
   data() {
     return {
       mouseDown: false,
-      left: 1200,
-      top: 1200,
+      left: 0,
+      top: 0,
       editorLeft: 0,
       editorTop: 0,
       shiftX: 0,
@@ -46,16 +46,21 @@ export default {
   
   methods: {
     onDragStart() {
+        console.log("aaaa");
         return false;
     },
     onMouseUp() {
       this.mouseDown = false;
     },
-    onMouseDown(event) {
-      this.mouseDown = true;
-      const rect = this.component.getBoundingClientRect();
-      this.shiftX = event.clientX - rect.left;
-      this.shiftY = event.clientY - rect.top;
+    onMouseDown() {
+      
+      if(this.editorObject) {
+        this.mouseDown = true;
+        
+        this.shiftX = this.editorObject.mouseX - this.left;
+        this.shiftY = this.editorObject.mouseY - this.top;
+      }
+      
       
     },
     onMouseMove() {
@@ -67,12 +72,16 @@ export default {
     }
   },
   watch: {
-    editorMouseMoveEvent(event) {
-      if(event) {
+    editorObject() {
+      if(this.editorObject) {
+        if(!this.editorObject.mouseDown) {
+          this.mouseDown = false;
+        }
+
+
         if(this.mouseDown) {
-          this.left = event.pageX - this.shiftX;
-          this.top = event.pageY - this.shiftY;
-          
+          this.left = this.editorObject.mouseX - this.shiftX;
+          this.top = this.editorObject.mouseY - this.shiftY;
         }
       }
       
