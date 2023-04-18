@@ -1,6 +1,6 @@
 <template>
     <div
-        @dragstart="onDragStart"
+        @dragstart.prevent="onDragStart($event)"
         @mousedown="onMouseDown()"
         @mouseup="onMouseUp"
         @mousemove="onMouseMove()"
@@ -46,7 +46,6 @@ export default {
   
   methods: {
     onDragStart() {
-        console.log("aaaa");
         return false;
     },
     onMouseUp() {
