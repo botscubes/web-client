@@ -6,15 +6,18 @@
         @mousemove="onMouseMove()"
         
         :style="styleComponent" 
-        ref = "component"
-        id = "component"
-    ></div>
+        ref="component"
+        class="component"
+    >
+      <connecting-element class="conn-el"/>
+    </div>
 
 </template>
 
 
 <script>
 import { ref } from 'vue'
+import ConnectingElement from './ConnectingElement.vue'
 
 export default {
   props: {
@@ -22,6 +25,9 @@ export default {
         type: Object,
         default: null,
     }
+  },
+  components: {
+    ConnectingElement,
   },
   data() {
     return {
@@ -99,12 +105,18 @@ export default {
 
 <style>
 
-#component {
+.component {
   width: 100px;
   height: 100px;
   background-color: aqua;
   position: absolute;
   z-index: 1;
+}
+
+.conn-el {
+  position: absolute;
+  left: -10px;
+  top: 40px;
 }
 
 </style>
