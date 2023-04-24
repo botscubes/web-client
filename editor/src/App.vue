@@ -17,9 +17,11 @@
 
     </div> -->
     <editor-component 
-    v-for="(component, index) in components"
-    :key="index"
-    :editor-object="editorObject" />
+    v-for="component in editorController.getComponents()"
+    :key="component.id"
+    :id="component.id"
+    :editor-object="editorObject" 
+    @delete-component="deleteComponent"/>
     
 
     <button @click="addComponent" id="btn-add">Add component</button>
@@ -30,6 +32,7 @@
 
 import { ref } from 'vue'
 import EditorComponent from './components/EditorComponent.vue'
+import { EditorController } from './EditorController.js'
 
 export default {
   data() {
@@ -41,10 +44,9 @@ export default {
       
       mouseX: 0,
       mouseY: 0,
-      components: [
-        1,
-        2,
-      ],
+
+      editorController: new EditorController(),
+      
     }
   },
 
@@ -66,7 +68,7 @@ export default {
         mouseY: this.mouseY,
         mouseDown: this.mouseDown,
       }
-    }
+    },
     
     
 
@@ -95,7 +97,11 @@ export default {
       this.mouseDown = false;
     },
     addComponent() {
-      this.components.push(3)
+      //this.components.push(3)
+      this.editorController.addComponent()
+    },
+    deleteComponent(id) {
+      this.editorController.deleteComponentById(id)
     }
   },
   setup() {

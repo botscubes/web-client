@@ -10,12 +10,14 @@
         class="component"
     >
       <connecting-element class="conn-el"/>
+      <button @click="deleteComponent" class="btn-delete">&#10006;</button>
     </div>
 
 </template>
 
 
 <script>
+
 import { ref } from 'vue'
 import ConnectingElement from './ConnectingElement.vue'
 
@@ -24,6 +26,10 @@ export default {
     editorObject: {
         type: Object,
         default: null,
+    },
+    id: {
+      type: Number,
+      default: null,
     }
   },
   components: {
@@ -74,6 +80,10 @@ export default {
     onMouseLeave() {
       this.mouseDown = false;
       
+    },
+    deleteComponent() {
+      
+      this.$emit('deleteComponent', this.id)
     }
   },
   watch: {
@@ -92,8 +102,16 @@ export default {
       
     }
   },
+  emits: {
+    
+    deleteComponent: (id) => {
+      if(id===null) {
+        return false;
+      }
+      return true;
+    },
   
-
+  },
   setup() {
     const component = ref(null)
     return {
@@ -117,6 +135,12 @@ export default {
   position: absolute;
   left: -10px;
   top: 40px;
+}
+
+.btn-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 </style>
