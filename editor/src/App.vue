@@ -16,8 +16,13 @@
       id="test">
 
     </div> -->
-    <editor-component :editor-object="editorObject" />
-    <editor-component :editor-object="editorObject" />
+    <editor-component 
+    v-for="(component, index) in components"
+    :key="index"
+    :editor-object="editorObject" />
+    
+
+    <button @click="addComponent" id="btn-add">Add component</button>
   </div>
 </template>
 
@@ -36,7 +41,10 @@ export default {
       
       mouseX: 0,
       mouseY: 0,
-      
+      components: [
+        1,
+        2,
+      ],
     }
   },
 
@@ -85,6 +93,9 @@ export default {
     },
     onMouseLeave() {
       this.mouseDown = false;
+    },
+    addComponent() {
+      this.components.push(3)
     }
   },
   setup() {
@@ -107,7 +118,15 @@ export default {
     overflow-block: scroll;
     background-color: red;
     width: 800px;
-    height: 800px;
+    height: 600px;
+  }
+
+  #btn-add {
+    position: absolute;
+    z-index: 1000;
+    bottom: 0;
+    left: 0;
+    margin: 10px;
   }
   
 </style>
