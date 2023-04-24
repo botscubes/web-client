@@ -23,8 +23,10 @@
     :editor-object="editorObject" 
     @delete-component="deleteComponent"/>
     
-
-    <button @click="addComponent" id="btn-add">Add component</button>
+    <div class="delete-btn-location">
+      <button @click="addComponent" id="btn-add">Add component</button>
+    </div>
+    
   </div>
 </template>
 
@@ -123,16 +125,25 @@ export default {
     overflow-y: scroll;
     overflow-block: scroll;
     background-color: red;
-    width: 800px;
+    width: 70%;
     height: 600px;
   }
 
+
+
   #btn-add {
-    position: absolute;
+    position: fixed;
     z-index: 1000;
-    bottom: 0;
-    left: 0;
-    margin: 10px;
+    padding:0;
+    
+  }
+
+  .delete-btn-location {
+    position: absolute;
+    left: 5%;
+    bottom: 5%;
+    margin: 0;
+    
   }
   
 </style>
