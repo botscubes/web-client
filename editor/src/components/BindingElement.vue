@@ -3,7 +3,7 @@
       @mouseenter="onMouseEnter"
       @mouseleave="onMouseLeave"
       :style="styleObject"
-      class="conn-el"
+      class="bind-el"
       
       
       ></div>
@@ -13,7 +13,20 @@
 
 <script>
 
+
+
 export default {
+  props: {
+    width: {
+      type: Number,
+      default: 0,
+    },
+    height: {
+      type: Number,
+      default: 0,
+    }
+  },
+  
   data() {
     return {
       focus: false,
@@ -23,6 +36,8 @@ export default {
     styleObject() {
       return { 
         opacity: this.focus ? 1 : 0,
+        width: this.width + "px" ,
+        height: this.height + "px",
       }
     }
   },
@@ -37,20 +52,20 @@ export default {
     
   },
   setup() {
-      
+    
   },
 }
 </script>
 
 
 <style>
-  .conn-el {
+  .bind-el {
+    position: absolute;
     padding: 0;
     margin: 0;
     border-radius: 50%;
     background-color: green;
-    width: 20px;
-    height: 20px;
+    
   }
 </style>
 

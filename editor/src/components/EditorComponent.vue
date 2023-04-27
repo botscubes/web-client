@@ -9,13 +9,12 @@
         ref="component"
         class="component"
     >
-      <connecting-element class="conn-el"/>
       <button @click="deleteComponent" class="btn-delete">&#10006;</button>
 
-      <binding-area class="binding-area-left"/>
-      <binding-area class="binding-area-right"/>
-      <binding-area class="binding-area-top"/>
-      <binding-area class="binding-area-bottom"/>
+      <binding-area v-bind="bindingAreaLeft" />
+      <binding-area v-bind="bindingAreaRight" />
+      <binding-area v-bind="bindingAreaTop" />
+      <binding-area v-bind="bindingAreaBottom" />
     </div>
 
 </template>
@@ -24,7 +23,6 @@
 <script>
 
 import { ref } from 'vue'
-import ConnectingElement from './ConnectingElement.vue'
 import BindingArea from './BindingArea.vue'
 
 export default {
@@ -36,10 +34,9 @@ export default {
     id: {
       type: Number,
       default: null,
-    }
+    },
   },
   components: {
-    ConnectingElement,
     BindingArea,
   },
   data() {
@@ -51,6 +48,10 @@ export default {
       editorTop: 0,
       shiftX: 0,
       shiftY: 0,
+      size: {
+        width: 100,
+        height: 100
+      }
       //focus: false,
     }
   },
@@ -59,8 +60,47 @@ export default {
       return {
         left: this.left + "px",
         top: this.top + "px",
+        width: this.size.width + "px",
+        height: this.size.height + "px"
       }
     },
+    bindingAreaLeft() {
+      const w = this.size.width/5;
+
+      return {
+        width: w,
+        height: this.size.height,
+        left: -w/2
+      };
+    },
+    bindingAreaRight() {
+      const w = this.size.width/5;
+
+      return {
+        width: w,
+        height: this.size.height,
+        right: -w/2
+      };
+    },
+    bindingAreaTop() {
+      const h = this.size.width/5;
+
+      return {
+        width: this.size.width,
+        height: h,
+        top: -h/2
+      };
+    },
+    bindingAreaBottom() {
+      const h = this.size.width/5;
+
+      return {
+        width: this.size.width,
+        height: h,
+        bottom: -h/2
+      };
+    },
+
   },
   
   methods: {
@@ -131,8 +171,6 @@ export default {
 <style>
 
 .component {
-  width: 100px;
-  height: 100px;
   background-color: aqua;
   position: absolute;
   z-index: 1;
@@ -151,30 +189,6 @@ export default {
   right: 0;
 }
 
-.binding-area-left {
-  position: absolute;
-  height: 100%;
-  width: 20%;
-  left: -10%;
-}
 
-.binding-area-top {
-  position: absolute;
-  height: 20%;
-  width: 100%;
-  top: -10%;
-}
-.binding-area-right {
-  position: absolute;
-  height: 100%;
-  width: 20%;
-  right: -10%;
-}
-.binding-area-bottom {
-  position: absolute;
-  height: 20%;
-  width: 100%;
-  bottom: -10%;
-}
 
 </style>
