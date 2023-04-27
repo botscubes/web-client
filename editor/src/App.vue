@@ -124,7 +124,7 @@ export default {
     padding: 0;
     overflow-y: scroll;
     overflow-block: scroll;
-    background-color: red;
+    background-color: gray;
     width: 70%;
     height: 600px;
   }

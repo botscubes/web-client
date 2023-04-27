@@ -11,6 +11,11 @@
     >
       <connecting-element class="conn-el"/>
       <button @click="deleteComponent" class="btn-delete">&#10006;</button>
+
+      <binding-area class="binding-area-left"/>
+      <binding-area class="binding-area-right"/>
+      <binding-area class="binding-area-top"/>
+      <binding-area class="binding-area-bottom"/>
     </div>
 
 </template>
@@ -20,6 +25,7 @@
 
 import { ref } from 'vue'
 import ConnectingElement from './ConnectingElement.vue'
+import BindingArea from './BindingArea.vue'
 
 export default {
   props: {
@@ -34,6 +40,7 @@ export default {
   },
   components: {
     ConnectingElement,
+    BindingArea,
   },
   data() {
     return {
@@ -139,8 +146,35 @@ export default {
 
 .btn-delete {
   position: absolute;
+  margin: 20px;
   top: 0;
   right: 0;
+}
+
+.binding-area-left {
+  position: absolute;
+  height: 100%;
+  width: 20%;
+  left: -10%;
+}
+
+.binding-area-top {
+  position: absolute;
+  height: 20%;
+  width: 100%;
+  top: -10%;
+}
+.binding-area-right {
+  position: absolute;
+  height: 100%;
+  width: 20%;
+  right: -10%;
+}
+.binding-area-bottom {
+  position: absolute;
+  height: 20%;
+  width: 100%;
+  bottom: -10%;
 }
 
 </style>
