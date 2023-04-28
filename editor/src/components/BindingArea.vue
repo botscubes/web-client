@@ -2,7 +2,8 @@
     <div class="binding-area"
     ref="bindingArea"
     :style="styleObject"
-    @mousedown.stop="onmousedown">
+    @mousedown.stop="onMouseDown"
+    @mousemove="onMouseMove">
       
       <binding-element  
         v-for="(el, index) in elements"
@@ -46,6 +47,14 @@ export default {
       type: Number,
       default: null,
     },
+    mouseX: {
+      type: Number,
+      default: 0,
+    },
+    mouseY: {
+      type: Number,
+      default: 0,
+    },
 
     
 
@@ -54,12 +63,17 @@ export default {
     return {
       elements: [
         1
-      ]
+      ],
+      relativeX: 0,
+      relativeY: 0,
     }
   },
   methods: {
-    mousedown() {
+    onMouseDown() {
       
+    },
+    onMouseMove() {
+
     }
   },
   computed: {
@@ -70,6 +84,8 @@ export default {
       return {
         width: min,
         height: min,
+        left: this.bindingElementLeft,
+        top: this.bindingElementTop,
       }
     },
     styleObject() {
@@ -82,8 +98,35 @@ export default {
         bottom: this.bottom + "px",
       };
       
-    }
+    },
+    bindingElementLeft() {
+      if(this.top || this.bottom){
+        return this.relativeX;
+      }
+      return null;
+    },
+    bindingElementTop() {
+      if(this.left || this.right){
+        return this.relativeY;
+      }
+      return null;
+    },
+
     
+    
+  },
+  watch: {
+    mouseX() {
+      if(this.mouseX > 0 && this.mouseX < this.width) {
+        this.relativeX = this.mouseX;
+      }
+      
+    },
+    mouseY() {
+      if(this.mouseY > 0 && this.mouseY < this.height) {
+        this.relativeY = this.mouseY;
+      }
+    },
   },
 
   components: {

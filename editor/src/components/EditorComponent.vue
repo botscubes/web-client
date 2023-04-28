@@ -70,7 +70,9 @@ export default {
       return {
         width: w,
         height: this.size.height,
-        left: -w/2
+        left: -w/2,
+        mouseX: this.editorObject.mouseX - this.left,
+        mouseY: this.editorObject.mouseY - this.top,
       };
     },
     bindingAreaRight() {
@@ -79,7 +81,9 @@ export default {
       return {
         width: w,
         height: this.size.height,
-        right: -w/2
+        right: -w/2,
+        mouseX: this.editorObject.mouseX - this.left,
+        mouseY: this.editorObject.mouseY - this.top,
       };
     },
     bindingAreaTop() {
@@ -88,7 +92,9 @@ export default {
       return {
         width: this.size.width,
         height: h,
-        top: -h/2
+        top: -h/2,
+        mouseX: this.editorObject.mouseX - this.left,
+        mouseY: this.editorObject.mouseY - this.top,
       };
     },
     bindingAreaBottom() {
@@ -97,7 +103,9 @@ export default {
       return {
         width: this.size.width,
         height: h,
-        bottom: -h/2
+        bottom: -h/2,
+        mouseX: this.editorObject.mouseX - this.left,
+        mouseY: this.editorObject.mouseY - this.top,
       };
     },
 
