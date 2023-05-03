@@ -5,16 +5,28 @@
         @mouseup="onMouseUp"
         @mousemove="onMouseMove()"
         
-        :style="styleComponent" 
+        :style="componentStyle" 
         ref="component"
         class="component"
     >
       <button @click="deleteComponent" class="btn-delete">&#10006;</button>
 
-      <binding-area v-bind="bindingAreaLeft" />
+      <!-- <binding-area v-bind="bindingAreaLeft" />
       <binding-area v-bind="bindingAreaRight" />
       <binding-area v-bind="bindingAreaTop" />
-      <binding-area v-bind="bindingAreaBottom" />
+      <binding-area v-bind="bindingAreaBottom" /> -->
+
+      <jump-button 
+      v-for="(btn, index) in buttons"
+      :key="index" 
+      :text="btn.text"
+      :width="this.size.width"
+      :height="this.buttonHeight"
+      :top="(this.buttonIndent+this.buttonHeight)*index + this.buttonIndent"
+
+
+      />
+
     </div>
 
 </template>
@@ -23,7 +35,7 @@
 <script>
 
 import { ref } from 'vue'
-import BindingArea from './BindingArea.vue'
+import JumpButton from './JumpButton.vue'
 
 export default {
   props: {
@@ -37,7 +49,7 @@ export default {
     },
   },
   components: {
-    BindingArea,
+    JumpButton,
   },
   data() {
     return {
@@ -51,17 +63,31 @@ export default {
       size: {
         width: 100,
         height: 100
-      }
+      },
+      buttons: [
+        {
+          text: "Test",
+        },
+        {
+          text: "Test",
+        },
+        
+      ],
+      buttonIndent: 20,
+      buttonHeight: 40,
       //focus: false,
     }
   },
   computed: {
-    styleComponent() {
+    componentStyle() {
+      const height = this.buttons.length * (this.buttonHeight+this.buttonIndent) + this.buttonIndent;
+
+
       return {
         left: this.left + "px",
         top: this.top + "px",
         width: this.size.width + "px",
-        height: this.size.height + "px"
+        height: height + "px"
       }
     },
     bindingAreaLeft() {
@@ -192,7 +218,7 @@ export default {
 
 .btn-delete {
   position: absolute;
-  margin: 20px;
+  margin: 0px;
   top: 0;
   right: 0;
 }
