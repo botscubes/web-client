@@ -3,7 +3,11 @@
     class="conn-line"
     :style="lineStyleObject" 
      xmlns="http://www.w3.org/2000/svg">
-    <line x1="0" y1="80" x2="100" y2="20" stroke="black" />
+    <line 
+    :x1="this.relativeX1" 
+    :y1="this.relativeY1" 
+    :x2="this.relativeX2" 
+    :y2="this.relativeY2" stroke="black" />
   </svg>  
 </template>
 
@@ -32,7 +36,9 @@ export default {
   },
   
   data() {
+    return {
 
+    }
   },
   computed: {
     lineStyleObject() {
@@ -40,12 +46,12 @@ export default {
       let top = 0;
       let left = 0;
 
-      const h = this.absoluteY1 - this.absoluteY2;
+      const h = this.absoluteY2 - this.absoluteY1;
       const w = this.absoluteX2 - this.absoluteX1;
       if(h >= 0) {
-        top = this.absoluteY2;
-      } else {
         top = this.absoluteY1;
+      } else {
+        top = this.absoluteY2;
       }
       if(w >= 0) {
         left = this.absoluteX1;
@@ -66,7 +72,7 @@ export default {
       if(w >= 0) {
         return 0;
       }
-      return w;
+      return Math.abs(w);
     },
     relativeX2() {
       const w = this.absoluteX2 - this.absoluteX1;
@@ -76,14 +82,14 @@ export default {
       return 0;
     },
     relativeY1() {
-      const h = this.absoluteY1 - this.absoluteY2;
+      const h = this.absoluteY2 - this.absoluteY1;
       if(h >= 0) {
         return 0;
       }
-      return h;
+      return Math.abs(h);
     },
     relativeY2() {
-      const h = this.absoluteY1 - this.absoluteY2;
+      const h = this.absoluteY2 - this.absoluteY1;
       if(h >= 0) {
         return h;
       }

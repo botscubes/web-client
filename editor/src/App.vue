@@ -23,6 +23,13 @@
     :editor-object="editorObject" 
     @delete-component="deleteComponent"/>
     
+    <connecting-line 
+    :absolute-x1="this.mouseLineStartX"
+    :absolute-x2="this.mouseLineEndX"
+    :absolute-y1="this.mouseLineStartY"
+    :absolute-y2="this.mouseLineEndY"/>
+
+
     <div class="delete-btn-location">
       <button @click="addComponent" id="btn-add">Add component</button>
     </div>
@@ -33,8 +40,10 @@
 <script>
 
 import { ref } from 'vue'
-import EditorComponent from './components/EditorComponent.vue'
 import { EditorController } from './EditorController.js'
+
+import EditorComponent from './components/EditorComponent.vue'
+import ConnectingLine from './components/ConnectingLine.vue'
 
 export default {
   data() {
@@ -46,7 +55,10 @@ export default {
       
       mouseX: 0,
       mouseY: 0,
-
+      mouseLineStartX: 0,
+      mouseLineStartY: 0,
+      mouseLineEndX: 0,
+      mouseLineEndY: 0,
       editorController: new EditorController(),
       
     }
@@ -54,6 +66,7 @@ export default {
 
   components: {
     EditorComponent,
+    ConnectingLine,
   },
 
   computed: {
@@ -78,7 +91,8 @@ export default {
   methods: {
     onMouseDown() {
       this.mouseDown = true;
-      
+      this.mouseLineStartX = this.mouseX;
+      this.mouseLineStartY = this.mouseY;
     },
     onMouseUp() {
       
@@ -89,7 +103,10 @@ export default {
       this.mouseX = this.editor.scrollLeft + event.clientX - rect.left;
       this.mouseY = this.editor.scrollTop + event.clientY - rect.top;
       
-      
+      if(this.mouseDown) {
+        this.mouseLineEndX = this.mouseX;
+        this.mouseLineEndY = this.mouseY;
+      }
       
     },
     onDragStart() {
