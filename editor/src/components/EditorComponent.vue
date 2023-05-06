@@ -40,9 +40,18 @@ import BindingArea from './BindingArea.vue'
 
 export default {
   props: {
-    editorObject: {
-        type: Object,
-        default: null,
+    editorMouseX: {
+      type: Number,
+      default: 0,
+    },
+    editorMouseY: {
+      type: Number,
+      default: 0,
+    },
+
+    move: {
+        type: Boolean,
+        default: false,
     },
     id: {
       type: Number,
@@ -100,8 +109,8 @@ export default {
         width: w,
         height: this.height,
         left: -w/2,
-        mouseX: this.editorObject.mouseX - this.left,
-        mouseY: this.editorObject.mouseY - this.top,
+        mouseX: this.editorMouseX - this.left,
+        mouseY: this.editorMouseY - this.top,
       };
     },
     bindingAreaRight() {
@@ -111,8 +120,8 @@ export default {
         width: w,
         height: this.height,
         right: -w/2,
-        mouseX: this.editorObject.mouseX - this.left,
-        mouseY: this.editorObject.mouseY - this.top,
+        mouseX: this.editorMouseX - this.left,
+        mouseY: this.editorMouseY - this.top,
       };
     },
     bindingAreaTop() {
@@ -122,8 +131,8 @@ export default {
         width: this.width,
         height: h,
         top: -h/2,
-        mouseX: this.editorObject.mouseX - this.left,
-        mouseY: this.editorObject.mouseY - this.top,
+        mouseX: this.editorMouseX - this.left,
+        mouseY: this.editorMouseY - this.top,
       };
     },
     bindingAreaBottom() {
@@ -133,8 +142,8 @@ export default {
         width: this.width,
         height: h,
         bottom: -h/2,
-        mouseX: this.editorObject.mouseX - this.left,
-        mouseY: this.editorObject.mouseY - this.top,
+        mouseX: this.editorMouseX - this.left,
+        mouseY: this.editorMouseY - this.top,
       };
     },
 
@@ -149,12 +158,12 @@ export default {
     },
     onMouseDown() {
       
-      if(this.editorObject) {
-        this.mouseDown = true;
-        
-        this.shiftX = this.editorObject.mouseX - this.left;
-        this.shiftY = this.editorObject.mouseY - this.top;
-      }
+      
+      this.mouseDown = true;
+      
+      this.shiftX = this.editorMouseX - this.left;
+      this.shiftY = this.editorMouseY - this.top;
+      
       
       
     },
@@ -171,21 +180,22 @@ export default {
     }
   },
   watch: {
-    editorObject() {
-      if(this.editorObject) {
-        if(!this.editorObject.mouseDown) {
-          this.mouseDown = false;
-        }
-
-
-        if(this.mouseDown) {
-          this.left = this.editorObject.mouseX - this.shiftX;
-          this.top = this.editorObject.mouseY - this.shiftY;
-        }
-      }
-      
-    },
     
+    move(val) {
+      if(!val) {
+        this.mouseDown = false;
+      }
+    },
+    editorMouseX(val) {
+      if(this.mouseDown) {
+          this.left = val - this.shiftX;
+        }
+    },
+    editorMouseY(val) {
+      if(this.mouseDown) {
+        this.top = val - this.shiftY;
+      }
+    }
      
     
   },

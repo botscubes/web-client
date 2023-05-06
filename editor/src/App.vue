@@ -20,7 +20,7 @@
     v-for="component in editorController.getComponents()"
     :key="component.id"
     :id="component.id"
-    :editor-object="editorObject" 
+    v-bind="editorComponent" 
     @delete-component="deleteComponent"/>
     
     <connecting-line 
@@ -77,11 +77,11 @@ export default {
         top: this.editorTop + "px",
       }
     },
-    editorObject() {
+    editorComponent() {
       return {
-        mouseX: this.mouseX,
-        mouseY: this.mouseY,
-        mouseDown: this.mouseDown,
+        editorMouseX: this.mouseX,
+        editorMouseY: this.mouseY,
+        move: this.mouseDown,
       }
     },
     
