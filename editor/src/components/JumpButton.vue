@@ -5,13 +5,13 @@
 
       
       >
-      <static-binding-element 
+      <binding-element-from 
         :top="this.height/2"
         :left="0"
         :height="20"
         :width="20"
         />
-      <static-binding-element 
+      <binding-element-from 
         :top="this.height/2"
         :left="this.width"
         :height="20"
@@ -25,7 +25,7 @@
 
 
 <script>
-import StaticBindingElement from './StaticBindingElement.vue'
+import BindingElementFrom from './BindingElementFrom.vue'
 
 export default {
   props: {
@@ -55,7 +55,7 @@ export default {
 
   },
   components: {
-    StaticBindingElement
+    BindingElementFrom
   },
   computed: {
     buttonStyle() {

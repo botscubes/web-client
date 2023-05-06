@@ -11,16 +11,16 @@
     >
       <button @click="deleteComponent" class="btn-delete">&#10006;</button>
 
-      <!-- <binding-area v-bind="bindingAreaLeft" />
+      <binding-area v-bind="bindingAreaLeft" />
       <binding-area v-bind="bindingAreaRight" />
       <binding-area v-bind="bindingAreaTop" />
-      <binding-area v-bind="bindingAreaBottom" /> -->
+      <binding-area v-bind="bindingAreaBottom" />
 
       <jump-button 
       v-for="(btn, index) in buttons"
       :key="index" 
       :text="btn.text"
-      :width="this.size.width"
+      :width="this.width"
       :height="this.buttonHeight"
       :top="(this.buttonIndent+this.buttonHeight)*index + this.buttonIndent"
 
@@ -36,6 +36,7 @@
 
 import { ref } from 'vue'
 import JumpButton from './JumpButton.vue'
+import BindingArea from './BindingArea.vue'
 
 export default {
   props: {
@@ -50,6 +51,7 @@ export default {
   },
   components: {
     JumpButton,
+    BindingArea
   },
   data() {
     return {
@@ -60,10 +62,8 @@ export default {
       editorTop: 0,
       shiftX: 0,
       shiftY: 0,
-      size: {
-        width: 100,
-        height: 100
-      },
+      width: 100,
+    
       buttons: [
         {
           text: "Test",
@@ -79,44 +79,47 @@ export default {
     }
   },
   computed: {
+    height() {
+      return this.buttons.length * (this.buttonHeight+this.buttonIndent) + this.buttonIndent;
+    },
     componentStyle() {
-      const height = this.buttons.length * (this.buttonHeight+this.buttonIndent) + this.buttonIndent;
+      
 
 
       return {
         left: this.left + "px",
         top: this.top + "px",
-        width: this.size.width + "px",
-        height: height + "px"
+        width: this.width + "px",
+        height: this.height + "px"
       }
     },
     bindingAreaLeft() {
-      const w = this.size.width/5;
+      const w = this.width/5;
 
       return {
         width: w,
-        height: this.size.height,
+        height: this.height,
         left: -w/2,
         mouseX: this.editorObject.mouseX - this.left,
         mouseY: this.editorObject.mouseY - this.top,
       };
     },
     bindingAreaRight() {
-      const w = this.size.width/5;
+      const w = this.width/5;
 
       return {
         width: w,
-        height: this.size.height,
+        height: this.height,
         right: -w/2,
         mouseX: this.editorObject.mouseX - this.left,
         mouseY: this.editorObject.mouseY - this.top,
       };
     },
     bindingAreaTop() {
-      const h = this.size.width/5;
+      const h = this.width/5;
 
       return {
-        width: this.size.width,
+        width: this.width,
         height: h,
         top: -h/2,
         mouseX: this.editorObject.mouseX - this.left,
@@ -124,10 +127,10 @@ export default {
       };
     },
     bindingAreaBottom() {
-      const h = this.size.width/5;
+      const h = this.width/5;
 
       return {
-        width: this.size.width,
+        width: this.width,
         height: h,
         bottom: -h/2,
         mouseX: this.editorObject.mouseX - this.left,
@@ -181,7 +184,10 @@ export default {
         }
       }
       
-    }
+    },
+    
+     
+    
   },
   emits: {
     

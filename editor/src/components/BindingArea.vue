@@ -2,10 +2,10 @@
     <div class="binding-area"
     ref="bindingArea"
     :style="styleObject"
-    @mousedown.stop="onMouseDown"
+    @mousedown="onMouseDown"
     @mousemove="onMouseMove">
       
-      <binding-element  
+      <binding-element-to
         v-for="(el, index) in elements"
         :key="index"
         v-bind="bindingElement"
@@ -19,7 +19,7 @@
 <script>
 
 
-import BindingElement from './BindingElement.vue'
+import BindingElementTo from './BindingElementTo.vue'
 
 export default {
   props: {
@@ -130,7 +130,7 @@ export default {
   },
 
   components: {
-    BindingElement,
+    BindingElementTo ,
   },
   setup() {
     
@@ -145,6 +145,7 @@ export default {
 <style>
 .binding-area {
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0);
+  z-index: -1;
 }
 </style>

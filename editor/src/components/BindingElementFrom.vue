@@ -1,6 +1,7 @@
 <template>
     <div 
       @mouseenter="onMouseEnter"
+      @mousemove="onMouseMove"
       @mouseleave="onMouseLeave"
       :style="styleObject"
       class="bind-el"
@@ -27,11 +28,11 @@ export default {
     },
     top: {
       type: Number,
-      default: null,
+      default: 0,
     },
     left: {
       type: Number,
-      default: null,
+      default: 0,
     },
     
   },
@@ -44,20 +45,12 @@ export default {
   },
   computed: {
     styleObject() {
-      let top = 0;
-      let left = 0;
-      if(this.top) {
-        top = this.top-this.height/2;
-      }
-      if(this.left) {
-        left = this.left-this.width/2;
-      }
       return { 
-        opacity: this.focus ? 1 : 0,
+        opacity: this.focus ? 0.5 : 0,
         width: this.width + "px" ,
         height: this.height + "px",
-        top: top + "px",
-        left: left + "px",
+        top: this.top - this.height/2 + "px",
+        left: this.left - this.width/2 + "px",
       }
     }
   },
@@ -69,6 +62,9 @@ export default {
     onMouseLeave() {
       this.focus = false;
     },
+    onMouseMove() {
+
+    }
     
   },
   setup() {
@@ -84,7 +80,7 @@ export default {
     padding: 0;
     margin: 0;
     border-radius: 50%;
-    background-color: green;
+    background-color: blue;
     
   }
 </style>

@@ -3,7 +3,7 @@
       @mouseenter="onMouseEnter"
       @mouseleave="onMouseLeave"
       :style="styleObject"
-      class="bind-el"
+      class="bind-el-to"
       
       
       ></div>
@@ -27,11 +27,11 @@ export default {
     },
     top: {
       type: Number,
-      default: 0,
+      default: null,
     },
     left: {
       type: Number,
-      default: 0,
+      default: null,
     },
     
   },
@@ -44,12 +44,20 @@ export default {
   },
   computed: {
     styleObject() {
+      let top = 0;
+      let left = 0;
+      if(this.top) {
+        top = this.top-this.height/2;
+      }
+      if(this.left) {
+        left = this.left-this.width/2;
+      }
       return { 
-        opacity: this.focus ? 1 : 0,
+        opacity: this.focus ? 0.5 : 0,
         width: this.width + "px" ,
         height: this.height + "px",
-        top: this.top - this.height/2 + "px",
-        left: this.left - this.width/2 + "px",
+        top: top + "px",
+        left: left + "px",
       }
     }
   },
@@ -71,7 +79,7 @@ export default {
 
 
 <style>
-  .bind-el {
+  .bind-el-to {
     position: absolute;
     padding: 0;
     margin: 0;
