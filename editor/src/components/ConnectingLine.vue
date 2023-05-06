@@ -8,6 +8,24 @@
     :y1="this.relativeY1" 
     :x2="this.relativeX2" 
     :y2="this.relativeY2" stroke="black" />
+
+
+    <line 
+    :x1="this.relativeX2" 
+    :y1="this.relativeY2" 
+    :x2="this.arrowLine1X2" 
+    :y2="this.arrowLine1Y2" stroke="black" />
+
+    <line 
+    :x1="this.relativeX2" 
+    :y1="this.relativeY2" 
+    :x2="this.arrowLine2X2" 
+    :y2="this.arrowLine2Y2" stroke="black" />
+
+    <!-- <circle 
+    :cx="cx"
+    :cy="cy"
+    r="5" stroke="red"/> -->
   </svg>  
 </template>
 
@@ -38,6 +56,8 @@ export default {
   data() {
     return {
       padding: 10,
+      arrowLength: 10,
+      arrowAngle: Math.PI/4,
     }
   },
   computed: {
@@ -96,6 +116,73 @@ export default {
         return h+this.padding;
       }
       return this.padding;
+    },
+    arrowPointX() {
+      let px = 0;
+      let h = Math.abs(this.absoluteY2 - this.absoluteY1);
+      let w = this.absoluteX2 - this.absoluteX1;
+      if(w >= 0) {
+        px = this.padding + w - Math.cos(Math.atan(h/w)) * this.arrowLength;
+      } else {
+        w = Math.abs(w);
+        px = this.padding + Math.cos(Math.atan(h/w)) * this.arrowLength;
+      }
+      
+
+      return px
+    },
+    arrowPointY() {
+      let py = 0;
+      let h = this.absoluteY2 - this.absoluteY1;
+      const w = Math.abs(this.absoluteX2 - this.absoluteX1);
+      if(h >= 0) {
+        py = this.padding + h - Math.sin(Math.atan(h/w)) * this.arrowLength;
+      } else {
+        h = Math.abs(h);
+        py = this.padding + Math.sin(Math.atan(h/w)) * this.arrowLength;
+      }
+      return py;
+    },
+
+    arrowLine1X2() {
+      let h = this.absoluteY2 - this.absoluteY1;
+      let w = Math.abs(this.absoluteX2 - this.absoluteX1);
+      let m = this.arrowLength * Math.tan(this.arrowAngle/2);
+      if(h >= 0) {
+        return Math.round(this.arrowPointX + Math.sin(Math.atan(h/w)) * m);
+      }
+      h = Math.abs(h);
+      return Math.round(this.arrowPointX - Math.sin(Math.atan(h/w)) * m);
+    },
+    arrowLine1Y2() {
+      let h = Math.abs(this.absoluteY2 - this.absoluteY1);
+      let w = this.absoluteX2 - this.absoluteX1;
+      let m = this.arrowLength * Math.tan(this.arrowAngle/2);
+      if(w >= 0) {
+        return Math.round(this.arrowPointY - Math.cos(Math.atan(h/w)) * m);
+      }
+      w = Math.abs(w);
+      return Math.round(this.arrowPointY + Math.cos(Math.atan(h/w)) * m);
+    },
+    arrowLine2X2() {
+      let h = this.absoluteY2 - this.absoluteY1;
+      let w = Math.abs(this.absoluteX2 - this.absoluteX1);
+      let m = this.arrowLength * Math.tan(this.arrowAngle/2);
+      if(h >= 0) {
+        return Math.round(this.arrowPointX - Math.sin(Math.atan(h/w)) * m);
+      }
+      h = Math.abs(h);
+      return Math.round(this.arrowPointX + Math.sin(Math.atan(h/w)) * m);
+    },
+    arrowLine2Y2() {
+      let h = Math.abs(this.absoluteY2 - this.absoluteY1);
+      let w = this.absoluteX2 - this.absoluteX1;
+      let m = this.arrowLength * Math.tan(this.arrowAngle/2);
+      if(w >= 0) {
+        return Math.round(this.arrowPointY + Math.cos(Math.atan(h/w)) * m);
+      }
+      w = Math.abs(w);
+      return Math.round(this.arrowPointY - Math.cos(Math.atan(h/w)) * m);
     },
 
   },
