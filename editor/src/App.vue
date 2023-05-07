@@ -17,11 +17,13 @@
 
     </div> -->
     <editor-component 
-    v-for="component in editorController.getComponents()"
-    :key="component.id"
-    :id="component.id"
-    v-bind="editorComponent" 
-    @delete-component="deleteComponent"/>
+      v-for="component in editorController.getComponents()"
+      :key="component.id"
+      :id="component.id"
+      v-bind="editorComponent" 
+      @delete-component="deleteComponent"
+      @conn-start="startConnecting"
+      />
     
     <connecting-line 
     :absolute-x1="this.mouseLineStartX"
@@ -49,7 +51,6 @@ export default {
   data() {
     return {
       mouseDown: false,
-      
       editorLeft: 100,
       editorTop: 100,
       
@@ -81,7 +82,7 @@ export default {
       return {
         editorMouseX: this.mouseX,
         editorMouseY: this.mouseY,
-        move: this.mouseDown,
+        
       }
     },
     
@@ -121,6 +122,10 @@ export default {
     },
     deleteComponent(id) {
       this.editorController.deleteComponentById(id)
+    },
+    startConnecting(event) {
+      console.log(event)
+     
     }
   },
   setup() {

@@ -3,6 +3,7 @@
       @mouseenter="onMouseEnter"
       @mousemove="onMouseMove"
       @mouseleave="onMouseLeave"
+      @mousedown="onMouseDown"
       :style="styleObject"
       class="conn-el"
       
@@ -64,9 +65,20 @@ export default {
     },
     onMouseMove() {
 
+    },
+    onMouseDown() {
+      const top = this.top;
+      const left = this.left;
+      this.$emit("connStart", {
+        x: left,
+        y: top,
+      })
     }
     
   },
+  emits: [
+    "connStart"
+  ],
   setup() {
     
   },

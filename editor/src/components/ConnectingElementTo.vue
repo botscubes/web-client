@@ -73,6 +73,10 @@ export default {
     },
     
   },
+  emits: [
+    "connEnd",
+
+  ],
   setup() {
     
   },

@@ -63,9 +63,7 @@ export default {
   },
   data() {
     return {
-      elements: [
-        1
-      ],
+      
       relativeX: 0,
       relativeY: 0,
     }

@@ -10,12 +10,14 @@
         :left="0"
         :height="20"
         :width="20"
+        @conn-start="startConnecting"
         />
       <connecting-element-from 
         :top="this.height/2"
         :left="this.width"
         :height="20"
         :width="20"
+        @conn-start="startConnecting"
         />
     
     <button class="jump-btn">{{ text }}</button>
@@ -67,8 +69,16 @@ export default {
       }
     },
   },
-  
-
+  methods: {
+    startConnecting(event) {
+      event.y = event.y + this.top;
+      event.x = event.x + this.left;
+      this.$emit("connStart", event);
+    }
+  },
+  emits: [
+    "connStart"
+  ],
 
 
 

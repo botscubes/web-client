@@ -17,13 +17,13 @@
       <connecting-area v-bind="connectingAreaBottom" />
 
       <jump-button 
-      v-for="(btn, index) in buttons"
-      :key="index" 
-      :text="btn.text"
-      :width="this.width"
-      :height="this.buttonHeight"
-      :top="(this.buttonIndent+this.buttonHeight)*index + this.buttonIndent"
-
+        v-for="(btn, index) in buttons"
+        :key="index" 
+        :text="btn.text"
+        :width="this.width"
+        :height="this.buttonHeight"
+        :top="(this.buttonIndent+this.buttonHeight)*index + this.buttonIndent"
+        @conn-start="startConnecting"
 
       />
 
@@ -38,6 +38,9 @@ import { ref } from 'vue'
 import JumpButton from './JumpButton.vue'
 import ConnectingArea from './ConnectingArea.vue'
 
+const MOVE_STATE = 0;
+const CONN_STATE = 1;
+
 export default {
   props: {
     editorMouseX: {
@@ -49,10 +52,6 @@ export default {
       default: 0,
     },
 
-    move: {
-        type: Boolean,
-        default: false,
-    },
     id: {
       type: Number,
       default: null,
@@ -84,6 +83,7 @@ export default {
       ],
       buttonIndent: 20,
       buttonHeight: 40,
+      state: MOVE_STATE,
       //focus: false,
     }
   },
@@ -154,15 +154,21 @@ export default {
         return false;
     },
     onMouseUp() {
+      this.state = MOVE_STATE;
       this.mouseDown = false;
+      
     },
     onMouseDown() {
-      
+      if(this.state == MOVE_STATE) {
+        
+        this.shiftX = this.editorMouseX - this.left;
+        this.shiftY = this.editorMouseY - this.top;
+
+
+      }
       
       this.mouseDown = true;
       
-      this.shiftX = this.editorMouseX - this.left;
-      this.shiftY = this.editorMouseY - this.top;
       
       
       
@@ -171,28 +177,30 @@ export default {
       
     },
     onMouseLeave() {
-      this.mouseDown = false;
+      
       
     },
     deleteComponent() {
       
       this.$emit('deleteComponent', this.id)
+    },
+    startConnecting(event) {
+      
+      this.state = CONN_STATE;
+      event.x = event.x + this.left;
+      event.y = event.y + this.top;
+      this.$emit("connStart", event);
     }
   },
   watch: {
     
-    move(val) {
-      if(!val) {
-        this.mouseDown = false;
-      }
-    },
     editorMouseX(val) {
-      if(this.mouseDown) {
+      if(this.state == MOVE_STATE && this.mouseDown) {
           this.left = val - this.shiftX;
         }
     },
     editorMouseY(val) {
-      if(this.mouseDown) {
+      if(this.state == MOVE_STATE && this.mouseDown) {
         this.top = val - this.shiftY;
       }
     }
@@ -207,6 +215,7 @@ export default {
       }
       return true;
     },
+    connStart: null,
   
   },
   setup() {
