@@ -148,41 +148,49 @@ export default {
       let h = this.absoluteY2 - this.absoluteY1;
       let w = Math.abs(this.absoluteX2 - this.absoluteX1);
       let m = this.arrowLength * Math.tan(this.arrowAngle/2);
-      if(h >= 0) {
+      if(h > 0) {
         return Math.round(this.arrowPointX + Math.sin(Math.atan(h/w)) * m);
+      } else if(h < 0) {
+        h = Math.abs(h);
+        return Math.round(this.arrowPointX - Math.sin(Math.atan(h/w)) * m);
       }
-      h = Math.abs(h);
-      return Math.round(this.arrowPointX - Math.sin(Math.atan(h/w)) * m);
+      return null;
     },
     arrowLine1Y2() {
       let h = Math.abs(this.absoluteY2 - this.absoluteY1);
       let w = this.absoluteX2 - this.absoluteX1;
       let m = this.arrowLength * Math.tan(this.arrowAngle/2);
-      if(w >= 0) {
+      if(w > 0) {
         return Math.round(this.arrowPointY - Math.cos(Math.atan(h/w)) * m);
+      } else if(w < 0) {
+        w = Math.abs(w);
+        return Math.round(this.arrowPointY + Math.cos(Math.atan(h/w)) * m);
       }
-      w = Math.abs(w);
-      return Math.round(this.arrowPointY + Math.cos(Math.atan(h/w)) * m);
+      return null;
     },
     arrowLine2X2() {
       let h = this.absoluteY2 - this.absoluteY1;
       let w = Math.abs(this.absoluteX2 - this.absoluteX1);
       let m = this.arrowLength * Math.tan(this.arrowAngle/2);
-      if(h >= 0) {
+      if(h > 0) {
         return Math.round(this.arrowPointX - Math.sin(Math.atan(h/w)) * m);
+      } else if (h < 0) {
+        h = Math.abs(h);
+        return Math.round(this.arrowPointX + Math.sin(Math.atan(h/w)) * m);
       }
-      h = Math.abs(h);
-      return Math.round(this.arrowPointX + Math.sin(Math.atan(h/w)) * m);
+      return null;
     },
     arrowLine2Y2() {
       let h = Math.abs(this.absoluteY2 - this.absoluteY1);
       let w = this.absoluteX2 - this.absoluteX1;
       let m = this.arrowLength * Math.tan(this.arrowAngle/2);
-      if(w >= 0) {
+      if(w > 0) {
         return Math.round(this.arrowPointY + Math.cos(Math.atan(h/w)) * m);
+      } else if(w < 0) {
+        w = Math.abs(w);
+        return Math.round(this.arrowPointY - Math.cos(Math.atan(h/w)) * m);
       }
-      w = Math.abs(w);
-      return Math.round(this.arrowPointY - Math.cos(Math.atan(h/w)) * m);
+      return null;
     },
 
   },
