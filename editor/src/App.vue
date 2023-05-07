@@ -26,11 +26,19 @@
       />
     
     <connecting-line 
-    :absolute-x1="this.mouseLineStartX"
-    :absolute-x2="this.mouseLineEndX"
-    :absolute-y1="this.mouseLineStartY"
-    :absolute-y2="this.mouseLineEndY"/>
+    v-for="(line, index) in lines"
+    :key="index"
+    :absolute-x1="line.x1"
+    :absolute-x2="line.x2"
+    :absolute-y1="line.y1"
+    :absolute-y2="line.y2"/>
 
+    <connecting-line 
+    :absolute-x1="line.x1"
+    :absolute-x2="line.x2"
+    :absolute-y1="line.y1"
+    :absolute-y2="line.y2"
+    :style="lineStyle"/>
 
     <div class="delete-btn-location">
       <button @click="addComponent" id="btn-add">Add component</button>
@@ -47,6 +55,9 @@ import { EditorController } from './EditorController.js'
 import EditorComponent from './components/EditorComponent.vue'
 import ConnectingLine from './components/ConnectingLine.vue'
 
+
+
+
 export default {
   data() {
     return {
@@ -56,11 +67,16 @@ export default {
       
       mouseX: 0,
       mouseY: 0,
-      mouseLineStartX: 0,
-      mouseLineStartY: 0,
-      mouseLineEndX: 0,
-      mouseLineEndY: 0,
+      line: {
+        x1: 0,
+        y1: 0,
+        x2: 0,
+        y2: 0,
+      },
+      lines: [
+      ],
       editorController: new EditorController(),
+      conn: false,
       
     }
   },
@@ -82,9 +98,14 @@ export default {
       return {
         editorMouseX: this.mouseX,
         editorMouseY: this.mouseY,
-        
+        editorMouseDown: this.mouseDown,
       }
     },
+    lineStyle() {
+      return {
+        visibility: this.conn ? "visible" : "hidden",
+      }
+    }
     
     
 
@@ -92,11 +113,11 @@ export default {
   methods: {
     onMouseDown() {
       this.mouseDown = true;
-      this.mouseLineStartX = this.mouseX;
-      this.mouseLineStartY = this.mouseY;
+      
+      
     },
     onMouseUp() {
-      
+      this.conn = false;
       this.mouseDown = false;
     },
     onMouseMove(event) {
@@ -104,9 +125,9 @@ export default {
       this.mouseX = this.editor.scrollLeft + event.clientX - rect.left;
       this.mouseY = this.editor.scrollTop + event.clientY - rect.top;
       
-      if(this.mouseDown) {
-        this.mouseLineEndX = this.mouseX;
-        this.mouseLineEndY = this.mouseY;
+      if(this.conn) {
+        this.line.x2 = this.mouseX;
+        this.line.y2 = this.mouseY;
       }
       
     },
@@ -124,8 +145,12 @@ export default {
       this.editorController.deleteComponentById(id)
     },
     startConnecting(event) {
+      this.conn = true;
       console.log(event)
-     
+      this.line.x1 = event.x;
+      this.line.y1 = event.y;
+      this.line.x2 = event.x;
+      this.line.y2 = event.y;
     }
   },
   setup() {

@@ -1,9 +1,10 @@
 <template>
     <div
         @dragstart.prevent="onDragStart($event)"
-        @mousedown="onMouseDown()"
+        @mousedown="onMouseDown"
         @mouseup="onMouseUp"
-        @mousemove="onMouseMove()"
+        @mousemove="onMouseMove"
+        @mouseleave="onMouseLeave"
         
         :style="componentStyle" 
         ref="component"
@@ -56,6 +57,14 @@ export default {
       type: Number,
       default: null,
     },
+    connectingAreaVisible: {
+      type: Boolean,
+      default: false,
+    },
+    editorMouseDown: {
+      type: Boolean,
+      default: false,
+    }
   },
   components: {
     JumpButton,
@@ -111,6 +120,7 @@ export default {
         left: -w/2,
         mouseX: this.editorMouseX - this.left,
         mouseY: this.editorMouseY - this.top,
+        visible: this.connectingAreaVisible && this.state != CONN_STATE,
       };
     },
     connectingAreaRight() {
@@ -122,6 +132,7 @@ export default {
         right: -w/2,
         mouseX: this.editorMouseX - this.left,
         mouseY: this.editorMouseY - this.top,
+        visible: this.connectingAreaVisible && this.state != CONN_STATE,
       };
     },
     connectingAreaTop() {
@@ -133,6 +144,7 @@ export default {
         top: -h/2,
         mouseX: this.editorMouseX - this.left,
         mouseY: this.editorMouseY - this.top,
+        visible: this.connectingAreaVisible && this.state != CONN_STATE,
       };
     },
     connectingAreaBottom() {
@@ -144,6 +156,7 @@ export default {
         bottom: -h/2,
         mouseX: this.editorMouseX - this.left,
         mouseY: this.editorMouseY - this.top,
+        visible: this.connectingAreaVisible && this.state != CONN_STATE,
       };
     },
 
@@ -202,6 +215,12 @@ export default {
     editorMouseY(val) {
       if(this.state == MOVE_STATE && this.mouseDown) {
         this.top = val - this.shiftY;
+      }
+    },
+    editorMouseDown(val) {
+      if(!val) {
+        this.state = MOVE_STATE;
+        this.mouseDown = false;
       }
     }
      
