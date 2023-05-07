@@ -1,10 +1,9 @@
 <template>
     <div 
       @mouseenter="onMouseEnter"
-      @mousemove="onMouseMove"
       @mouseleave="onMouseLeave"
       :style="styleObject"
-      class="bind-el"
+      class="conn-el-to"
       
       
       ></div>
@@ -28,11 +27,11 @@ export default {
     },
     top: {
       type: Number,
-      default: 0,
+      default: null,
     },
     left: {
       type: Number,
-      default: 0,
+      default: null,
     },
     
   },
@@ -45,12 +44,20 @@ export default {
   },
   computed: {
     styleObject() {
+      let top = 0;
+      let left = 0;
+      if(this.top) {
+        top = this.top-this.height/2;
+      }
+      if(this.left) {
+        left = this.left-this.width/2;
+      }
       return { 
         opacity: this.focus ? 0.5 : 0,
         width: this.width + "px" ,
         height: this.height + "px",
-        top: this.top - this.height/2 + "px",
-        left: this.left - this.width/2 + "px",
+        top: top + "px",
+        left: left + "px",
       }
     }
   },
@@ -62,9 +69,6 @@ export default {
     onMouseLeave() {
       this.focus = false;
     },
-    onMouseMove() {
-
-    }
     
   },
   setup() {
@@ -75,12 +79,12 @@ export default {
 
 
 <style>
-  .bind-el {
+  .conn-el-to {
     position: absolute;
     padding: 0;
     margin: 0;
     border-radius: 50%;
-    background-color: blue;
+    background-color: green;
     
   }
 </style>

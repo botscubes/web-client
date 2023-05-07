@@ -5,13 +5,13 @@
 
       
       >
-      <binding-element-from 
+      <connecting-element-from 
         :top="this.height/2"
         :left="0"
         :height="20"
         :width="20"
         />
-      <binding-element-from 
+      <connecting-element-from 
         :top="this.height/2"
         :left="this.width"
         :height="20"
@@ -25,7 +25,7 @@
 
 
 <script>
-import BindingElementFrom from './BindingElementFrom.vue'
+import ConnectingElementFrom from './ConnectingElementFrom.vue'
 
 export default {
   props: {
@@ -55,7 +55,7 @@ export default {
 
   },
   components: {
-    BindingElementFrom
+    ConnectingElementFrom
   },
   computed: {
     buttonStyle() {

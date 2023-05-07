@@ -1,11 +1,11 @@
 <template>
-    <div class="binding-area"
+    <div class="conn-area"
     ref="bindingArea"
     :style="styleObject"
     @mousedown="onMouseDown"
     @mousemove="onMouseMove">
       
-      <binding-element-to
+      <connecting-element-to
         v-for="(el, index) in elements"
         :key="index"
         v-bind="bindingElement"
@@ -19,7 +19,7 @@
 <script>
 
 
-import BindingElementTo from './BindingElementTo.vue'
+import ConnectingElementTo from './ConnectingElementTo.vue'
 
 export default {
   props: {
@@ -130,7 +130,7 @@ export default {
   },
 
   components: {
-    BindingElementTo ,
+    ConnectingElementTo ,
   },
   setup() {
     
@@ -143,7 +143,7 @@ export default {
 
 
 <style>
-.binding-area {
+.conn-area {
   position: absolute;
   background-color: rgba(255, 255, 255, 0);
   z-index: -1;

@@ -11,10 +11,10 @@
     >
       <button @click="deleteComponent" class="btn-delete">&#10006;</button>
 
-      <binding-area v-bind="bindingAreaLeft" />
-      <binding-area v-bind="bindingAreaRight" />
-      <binding-area v-bind="bindingAreaTop" />
-      <binding-area v-bind="bindingAreaBottom" />
+      <connecting-area v-bind="bindingAreaLeft" />
+      <connecting-area v-bind="bindingAreaRight" />
+      <connecting-area v-bind="bindingAreaTop" />
+      <connecting-area v-bind="bindingAreaBottom" />
 
       <jump-button 
       v-for="(btn, index) in buttons"
@@ -36,7 +36,7 @@
 
 import { ref } from 'vue'
 import JumpButton from './JumpButton.vue'
-import BindingArea from './BindingArea.vue'
+import ConnectingArea from './ConnectingArea.vue'
 
 export default {
   props: {
@@ -60,7 +60,7 @@ export default {
   },
   components: {
     JumpButton,
-    BindingArea
+    ConnectingArea
   },
   data() {
     return {
