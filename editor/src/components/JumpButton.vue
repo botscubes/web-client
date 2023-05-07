@@ -79,9 +79,9 @@ export default {
 <style>
 .jump-btn-area {
   position: absolute;
-  background-color: yellow;
   display: flex;
   justify-content: center;
+  background-color: rgba(255, 255, 255, 0);
   
 }
 .jump-btn {

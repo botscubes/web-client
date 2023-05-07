@@ -2,6 +2,7 @@
     <div 
       @mouseenter="onMouseEnter"
       @mouseleave="onMouseLeave"
+      
       :style="styleObject"
       class="conn-el-to"
       
@@ -33,6 +34,7 @@ export default {
       type: Number,
       default: null,
     },
+    
     
   },
   

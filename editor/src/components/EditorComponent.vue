@@ -11,10 +11,10 @@
     >
       <button @click="deleteComponent" class="btn-delete">&#10006;</button>
 
-      <connecting-area v-bind="bindingAreaLeft" />
-      <connecting-area v-bind="bindingAreaRight" />
-      <connecting-area v-bind="bindingAreaTop" />
-      <connecting-area v-bind="bindingAreaBottom" />
+      <connecting-area v-bind="connectingAreaLeft" />
+      <connecting-area v-bind="connectingAreaRight" />
+      <connecting-area v-bind="connectingAreaTop" />
+      <connecting-area v-bind="connectingAreaBottom" />
 
       <jump-button 
       v-for="(btn, index) in buttons"
@@ -102,7 +102,7 @@ export default {
         height: this.height + "px"
       }
     },
-    bindingAreaLeft() {
+    connectingAreaLeft() {
       const w = this.width/5;
 
       return {
@@ -113,7 +113,7 @@ export default {
         mouseY: this.editorMouseY - this.top,
       };
     },
-    bindingAreaRight() {
+    connectingAreaRight() {
       const w = this.width/5;
 
       return {
@@ -124,7 +124,7 @@ export default {
         mouseY: this.editorMouseY - this.top,
       };
     },
-    bindingAreaTop() {
+    connectingAreaTop() {
       const h = this.width/5;
 
       return {
@@ -135,7 +135,7 @@ export default {
         mouseY: this.editorMouseY - this.top,
       };
     },
-    bindingAreaBottom() {
+    connectingAreaBottom() {
       const h = this.width/5;
 
       return {

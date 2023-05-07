@@ -6,9 +6,7 @@
     @mousemove="onMouseMove">
       
       <connecting-element-to
-        v-for="(el, index) in elements"
-        :key="index"
-        v-bind="bindingElement"
+        v-bind="connectingElement"
         />
 
     </div>
@@ -55,6 +53,10 @@ export default {
       type: Number,
       default: 0,
     },
+    visible: {
+      type: Boolean,
+      default: false,
+    }
 
     
 
@@ -77,15 +79,16 @@ export default {
     }
   },
   computed: {
-    bindingElement() {
+    connectingElement() {
       
       const min = Math.min(this.width, this.height)
       
       return {
         width: min,
         height: min,
-        left: this.bindingElementLeft,
-        top: this.bindingElementTop,
+        left: this.connectingElementLeft,
+        top: this.connectingElementTop,
+       
       }
     },
     styleObject() {
@@ -96,16 +99,17 @@ export default {
         right: this.right + "px",
         top: this.top + "px",
         bottom: this.bottom + "px",
+        visibility: this.visible ? "visible" : "hidden" 
       };
       
     },
-    bindingElementLeft() {
+    connectingElementLeft() {
       if(this.top || this.bottom){
         return this.relativeX;
       }
       return null;
     },
-    bindingElementTop() {
+    connectingElementTop() {
       if(this.left || this.right){
         return this.relativeY;
       }
@@ -147,5 +151,6 @@ export default {
   position: absolute;
   background-color: rgba(255, 255, 255, 0);
   z-index: -1;
+  
 }
 </style>
