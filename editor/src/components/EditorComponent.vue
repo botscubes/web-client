@@ -27,6 +27,14 @@
         @conn-start="startConnecting"
 
       />
+      <connecting-element-to 
+        v-for="(item, index) in connectingElementsTo"
+        :key="index"
+        :width="connectingElementSize"
+        :height="connectingElementSize"
+        :top="item.top"
+        :left="item.left"
+      />
 
     </div>
 
@@ -38,6 +46,8 @@
 import { ref } from 'vue'
 import JumpButton from './JumpButton.vue'
 import ConnectingArea from './ConnectingArea.vue'
+import ConnectingElementTo from './ConnectingElementTo.vue';
+
 
 const MOVE_STATE = 0;
 const CONN_STATE = 1;
@@ -64,11 +74,16 @@ export default {
     editorMouseDown: {
       type: Boolean,
       default: false,
+    },
+    connectingElementsTo: {
+      type: Array,
+      default: () => [],
     }
   },
   components: {
     JumpButton,
-    ConnectingArea
+    ConnectingArea,
+    ConnectingElementTo,
   },
   data() {
     return {
@@ -93,12 +108,16 @@ export default {
       buttonIndent: 20,
       buttonHeight: 40,
       state: MOVE_STATE,
+      
       //focus: false,
     }
   },
   computed: {
     height() {
       return this.buttons.length * (this.buttonHeight+this.buttonIndent) + this.buttonIndent;
+    },
+    connectingElementSize() {
+      return this.width/5;
     },
     componentStyle() {
       
@@ -112,7 +131,7 @@ export default {
       }
     },
     connectingAreaLeft() {
-      const w = this.width/5;
+      const w = this.connectingElementSize;
 
       return {
         width: w,
@@ -125,7 +144,7 @@ export default {
       };
     },
     connectingAreaRight() {
-      const w = this.width/5;
+      const w = this.connectingElementSize;
 
       return {
         width: w,
@@ -139,7 +158,7 @@ export default {
       };
     },
     connectingAreaTop() {
-      const h = this.width/5;
+      const h = this.connectingElementSize;
 
       return {
         width: this.width,
@@ -152,7 +171,7 @@ export default {
       };
     },
     connectingAreaBottom() {
-      const h = this.width/5;
+      const h = this.connectingElementSize;
 
       return {
         width: this.width,
@@ -211,9 +230,12 @@ export default {
       this.$emit("connStart", event);
     },
     connectComponents(event) {
+      event.connectingElement = {
+        x: event.x,
+        y: event.y,
+      }
       event.x = event.x + this.left;
       event.y = event.y + this.top;
-      console.log(event);
       this.$emit("connEnd", event)
 
     }
