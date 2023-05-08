@@ -12,10 +12,10 @@
     >
       <button @click="deleteComponent" class="btn-delete">&#10006;</button>
 
-      <connecting-area v-bind="connectingAreaLeft" />
-      <connecting-area v-bind="connectingAreaRight" />
-      <connecting-area v-bind="connectingAreaTop" />
-      <connecting-area v-bind="connectingAreaBottom" />
+      <connecting-area v-bind="connectingAreaLeft" @conn-end="connectComponents"/>
+      <connecting-area v-bind="connectingAreaRight" @conn-end="connectComponents" />
+      <connecting-area v-bind="connectingAreaTop" @conn-end="connectComponents"/>
+      <connecting-area v-bind="connectingAreaBottom" @conn-end="connectComponents" />
 
       <jump-button 
         v-for="(btn, index) in buttons"
@@ -117,6 +117,7 @@ export default {
       return {
         width: w,
         height: this.height,
+        top: 0,
         left: -w/2,
         mouseX: this.editorMouseX - this.left,
         mouseY: this.editorMouseY - this.top,
@@ -129,7 +130,9 @@ export default {
       return {
         width: w,
         height: this.height,
-        right: -w/2,
+        //right: -w/2,
+        top: 0,
+        left: this.width - w/2,
         mouseX: this.editorMouseX - this.left,
         mouseY: this.editorMouseY - this.top,
         visible: this.connectingAreaVisible && this.state != CONN_STATE,
@@ -142,6 +145,7 @@ export default {
         width: this.width,
         height: h,
         top: -h/2,
+        left: 0,
         mouseX: this.editorMouseX - this.left,
         mouseY: this.editorMouseY - this.top,
         visible: this.connectingAreaVisible && this.state != CONN_STATE,
@@ -153,7 +157,9 @@ export default {
       return {
         width: this.width,
         height: h,
-        bottom: -h/2,
+        top: this.height - h/2,
+        left: 0,
+        //bottom: -h/2,
         mouseX: this.editorMouseX - this.left,
         mouseY: this.editorMouseY - this.top,
         visible: this.connectingAreaVisible && this.state != CONN_STATE,
@@ -203,6 +209,13 @@ export default {
       event.x = event.x + this.left;
       event.y = event.y + this.top;
       this.$emit("connStart", event);
+    },
+    connectComponents(event) {
+      event.x = event.x + this.left;
+      event.y = event.y + this.top;
+      console.log(event);
+      this.$emit("connEnd", event)
+
     }
   },
   watch: {
@@ -235,7 +248,7 @@ export default {
       return true;
     },
     connStart: null,
-  
+    connEnd: null,
   },
   setup() {
     const component = ref(null)

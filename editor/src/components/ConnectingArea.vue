@@ -7,6 +7,7 @@
       
       <connecting-element-to
         v-bind="connectingElement"
+        @conn-end="connectComponents"
         />
 
     </div>
@@ -33,14 +34,14 @@ export default {
       type: Number,
       default: null,
     },
-    right: {
-      type: Number,
-      default: null,
-    },
-    bottom: {
-      type: Number,
-      default: null,
-    },
+    // right: {
+    //   type: Number,
+    //   default: null,
+    // },
+    // bottom: {
+    //   type: Number,
+    //   default: null,
+    // },
     left: {
       type: Number,
       default: null,
@@ -63,7 +64,6 @@ export default {
   },
   data() {
     return {
-      
       relativeX: 0,
       relativeY: 0,
     }
@@ -74,6 +74,11 @@ export default {
     },
     onMouseMove() {
 
+    },
+    connectComponents(event) {
+      event.x = event.x + this.left;
+      event.y = event.y + this.top;
+      this.$emit("connEnd", event);
     }
   },
   computed: {
@@ -84,8 +89,8 @@ export default {
       return {
         width: min,
         height: min,
-        left: this.connectingElementLeft,
-        top: this.connectingElementTop,
+        left: this.relativeX,
+        top: this.relativeY,
        
       }
     },
@@ -94,24 +99,22 @@ export default {
         width:this.width + "px",
         height:this.height + "px",
         left: this.left + "px",
-        right: this.right + "px",
         top: this.top + "px",
-        bottom: this.bottom + "px",
         visibility: this.visible ? "visible" : "hidden" 
       };
       
     },
     connectingElementLeft() {
-      if(this.top || this.bottom){
-        return this.relativeX;
-      }
-      return null;
+      
+      return this.relativeX;
+      
+      
     },
     connectingElementTop() {
-      if(this.left || this.right){
-        return this.relativeY;
-      }
-      return null;
+      
+      return this.relativeY;
+      
+      
     },
 
     
@@ -119,13 +122,19 @@ export default {
   },
   watch: {
     mouseX() {
-      if(this.mouseX > 0 && this.mouseX < this.width) {
+      const allow = this.width > this.height;
+      if(!allow) {
+        this.relativeX = this.width / 2;
+      } else if (this.mouseX > 0 && this.mouseX < this.width) {
         this.relativeX = this.mouseX;
-      }
+      } 
       
     },
     mouseY() {
-      if(this.mouseY > 0 && this.mouseY < this.height) {
+      const allow = this.width < this.height;
+      if(!allow) {
+        this.relativeY = this.height / 2;
+      } else if(this.mouseY > 0 && this.mouseY < this.height) {
         this.relativeY = this.mouseY;
       }
     },
@@ -134,6 +143,10 @@ export default {
   components: {
     ConnectingElementTo ,
   },
+  emits: [
+    "connEnd",
+
+  ],
   setup() {
     
   },

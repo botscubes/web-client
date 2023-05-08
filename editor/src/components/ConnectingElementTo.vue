@@ -2,6 +2,7 @@
     <div 
       @mouseenter="onMouseEnter"
       @mouseleave="onMouseLeave"
+      @mouseup="onMouseUp"
       
       :style="styleObject"
       class="conn-el-to"
@@ -46,20 +47,16 @@ export default {
   },
   computed: {
     styleObject() {
-      let top = 0;
-      let left = 0;
-      if(this.top) {
-        top = this.top-this.height/2;
-      }
-      if(this.left) {
-        left = this.left-this.width/2;
-      }
+      
+      
+     
+      
       return { 
         opacity: this.focus ? 0.5 : 0,
         width: this.width + "px" ,
         height: this.height + "px",
-        top: top + "px",
-        left: left + "px",
+        top: this.top - this.height/2 + "px",
+        left: this.left - this.width/2 + "px",
       }
     }
   },
@@ -71,6 +68,12 @@ export default {
     onMouseLeave() {
       this.focus = false;
     },
+    onMouseUp() {
+      this.$emit("connEnd", {
+        x: this.left,
+        y: this.top,
+      })
+    }
     
   },
   emits: [

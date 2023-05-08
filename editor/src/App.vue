@@ -23,6 +23,7 @@
       v-bind="editorComponent" 
       @delete-component="deleteComponent"
       @conn-start="startConnecting"
+      @conn-end="connectComponents"
       />
     
     <connecting-line 
@@ -99,6 +100,7 @@ export default {
         editorMouseX: this.mouseX,
         editorMouseY: this.mouseY,
         editorMouseDown: this.mouseDown,
+        connectingAreaVisible: this.conn,
       }
     },
     lineStyle() {
@@ -151,6 +153,15 @@ export default {
       this.line.y1 = event.y;
       this.line.x2 = event.x;
       this.line.y2 = event.y;
+    },
+    connectComponents(event) {
+      let line = {
+        x1: this.line.x1,
+        y1: this.line.y1,
+        x2: event.x,
+        y2: event.y,
+      }
+      this.lines.push(line);
     }
   },
   setup() {
