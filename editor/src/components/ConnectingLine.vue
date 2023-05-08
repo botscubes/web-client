@@ -154,7 +154,7 @@ export default {
         h = Math.abs(h);
         return Math.round(this.arrowPointX - Math.sin(Math.atan(h/w)) * m);
       }
-      return null;
+      return Math.round(this.arrowPointX);
     },
     arrowLine1Y2() {
       let h = Math.abs(this.absoluteY2 - this.absoluteY1);
@@ -166,7 +166,7 @@ export default {
         w = Math.abs(w);
         return Math.round(this.arrowPointY + Math.cos(Math.atan(h/w)) * m);
       }
-      return null;
+      return Math.round(this.arrowPointY);
     },
     arrowLine2X2() {
       let h = this.absoluteY2 - this.absoluteY1;
@@ -177,8 +177,8 @@ export default {
       } else if (h < 0) {
         h = Math.abs(h);
         return Math.round(this.arrowPointX + Math.sin(Math.atan(h/w)) * m);
-      }
-      return null;
+      } 
+      return Math.round(this.arrowPointX);
     },
     arrowLine2Y2() {
       let h = Math.abs(this.absoluteY2 - this.absoluteY1);
@@ -190,7 +190,7 @@ export default {
         w = Math.abs(w);
         return Math.round(this.arrowPointY - Math.cos(Math.atan(h/w)) * m);
       }
-      return null;
+      return Math.round(this.arrowPointY);
     },
 
   },
