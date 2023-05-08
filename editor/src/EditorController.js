@@ -1,9 +1,24 @@
 
-function Component(id) {
+
+export function Command(id, type = "text", data = "", componentId = null, nextStepId = null) {
     this.id = id;
-    this.next_id = null;
-    this.position = {
-    };
+    this.type = type;
+    this.data = data;
+    this.componentId = componentId;
+    this.nextStepId = nextStepId;
+}
+
+export function ComponentData(type, content = []) {
+    this.type = type;
+    this.content = content
+}
+
+
+function Component(id, data = null, commands = [], isMain = false) {
+    this.id = id;
+    this.data = data;
+    this.commands = commands;
+    this.isMain = isMain;
 }
 
 
