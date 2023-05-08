@@ -121,11 +121,13 @@ export default {
       let px = 0;
       let h = Math.abs(this.absoluteY2 - this.absoluteY1);
       let w = this.absoluteX2 - this.absoluteX1;
-      if(w >= 0) {
+      if(w > 0) {
         px = this.padding + w - Math.cos(Math.atan(h/w)) * this.arrowLength;
-      } else {
+      } else if(w < 0) {
         w = Math.abs(w);
         px = this.padding + Math.cos(Math.atan(h/w)) * this.arrowLength;
+      } else {
+        px = this.padding + this.arrowLength;
       }
       
 
@@ -135,11 +137,13 @@ export default {
       let py = 0;
       let h = this.absoluteY2 - this.absoluteY1;
       const w = Math.abs(this.absoluteX2 - this.absoluteX1);
-      if(h >= 0) {
+      if(h > 0) {
         py = this.padding + h - Math.sin(Math.atan(h/w)) * this.arrowLength;
-      } else {
+      } else if(h < 0) {
         h = Math.abs(h);
         py = this.padding + Math.sin(Math.atan(h/w)) * this.arrowLength;
+      } else {
+        py = this.padding;
       }
       return py;
     },
