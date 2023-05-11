@@ -10,6 +10,7 @@
         :left="0"
         :height="20"
         :width="20"
+        :nextComponentId="this.nextComponentId"
         @conn-start="startConnecting"
         />
       <connecting-element-from 
@@ -17,6 +18,7 @@
         :left="this.width"
         :height="20"
         :width="20"
+        :nextComponentId="this.nextComponentId"
         @conn-start="startConnecting"
         />
     
@@ -31,7 +33,14 @@ import ConnectingElementFrom from './ConnectingElementFrom.vue'
 
 export default {
   props: {
-
+    id: {
+      type: Number,
+      default: null,
+    },
+    nextComponentId: {
+      type: Number,
+      default: null,
+    },
     width: {
       type: Number,
       default: 0,

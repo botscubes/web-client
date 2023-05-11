@@ -19,6 +19,10 @@
 
 export default {
   props: {
+    nextComponentId: {
+      type: Number,
+      default: null,
+    },
     width: {
       type: Number,
       default: 0,

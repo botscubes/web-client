@@ -17,9 +17,10 @@
 
     </div> -->
     <editor-component 
-      v-for="component in editorController.getComponents()"
-      :key="component.id"
+      v-for="(component, index) in editorController.getComponents()"
+      :key="index"
       :id="component.id"
+      :buttons="component.commands"
       v-bind="editorComponent" 
       @delete-component="deleteComponent"
       @conn-start="startConnecting"
@@ -27,8 +28,8 @@
       />
     
     <connecting-line 
-    v-for="(line, index) in lines"
-    :key="index"
+    v-for="[key, line] in lines"
+    :key="key"
     :absolute-x1="line.x1"
     :absolute-x2="line.x2"
     :absolute-y1="line.y1"
@@ -68,14 +69,14 @@ export default {
       
       mouseX: 0,
       mouseY: 0,
+      buttonId: null,
       line: {
         x1: 0,
         y1: 0,
         x2: 0,
         y2: 0,
       },
-      lines: [
-      ],
+      lines: new Map(),
       editorController: new EditorController(),
       conn: false,
       
@@ -148,7 +149,6 @@ export default {
     },
     startConnecting(event) {
       this.conn = true;
-      console.log(event)
       this.line.x1 = event.x;
       this.line.y1 = event.y;
       this.line.x2 = event.x;
@@ -161,7 +161,14 @@ export default {
         x2: event.x,
         y2: event.y,
       }
-      this.lines.push(line);
+      if(this.commandId) {
+        this.lines.set(this.commandId, line);
+      } else {
+        console.debug("App.vue: commandId is null")
+      }
+      
+
+      
     }
   },
   setup() {

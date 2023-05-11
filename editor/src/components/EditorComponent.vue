@@ -20,10 +20,12 @@
       <jump-button 
         v-for="(btn, index) in buttons"
         :key="index" 
-        :text="btn.text"
+        :id="btn.id"
+        :text="btn.data"
         :width="this.width"
         :height="this.buttonHeight"
         :top="(this.buttonIndent+this.buttonHeight)*index + this.buttonIndent"
+        :nextComponentId="btn.nextStepId"
         @conn-start="startConnecting"
 
       />
@@ -78,7 +80,11 @@ export default {
     connectingElementsTo: {
       type: Array,
       default: () => [],
-    }
+    },
+    buttons: {
+      type: Array,
+      default: () => [],
+    },
   },
   components: {
     JumpButton,
@@ -96,15 +102,7 @@ export default {
       shiftY: 0,
       width: 100,
     
-      buttons: [
-        {
-          text: "Test",
-        },
-        {
-          text: "Test",
-        },
-        
-      ],
+      
       buttonIndent: 20,
       buttonHeight: 40,
       state: MOVE_STATE,

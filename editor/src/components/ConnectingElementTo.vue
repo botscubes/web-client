@@ -19,6 +19,10 @@
 
 export default {
   props: {
+    buttonId: {
+      type: Number,
+      default: null,
+    },
     width: {
       type: Number,
       default: 0,

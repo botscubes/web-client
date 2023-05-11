@@ -24,11 +24,14 @@ function Component(id, data = null, commands = [], isMain = false) {
 
 export function EditorController() {
     this._new_id = 0;
+    this._new_command = 0;
     this.components = [];
     this.addComponent = function() {
-        this.components.push(new Component(this._new_id));
-        this._new_id++;
-
+        const commands = [
+            new Command(this._new_command++, "text", "test1"), 
+            new Command(this._new_command++, "text", "test2")
+        ];
+        this.components.push(new Component(this._new_id, null, commands));
     };
     this.getComponents = function() {
         return this.components;
