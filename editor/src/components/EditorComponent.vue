@@ -85,6 +85,14 @@ export default {
       type: Array,
       default: () => [],
     },
+    ptop: {
+      type: Number,
+      default: 0,
+    }, 
+    pleft: {
+      type: Number,
+      default: 0,
+    }
   },
   components: {
     JumpButton,
@@ -109,6 +117,10 @@ export default {
       
       //focus: false,
     }
+  },
+  mounted() {
+    this.left = this.pleft;
+    this.top = this.ptop;
   },
   computed: {
     height() {

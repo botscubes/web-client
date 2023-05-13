@@ -21,6 +21,8 @@
       :key="index"
       :id="component.id"
       :buttons="component.commands"
+      :pleft="editor.offsetWidth/3"
+      :ptop="editor.offsetHeight/3"
       v-bind="editorComponent" 
       @delete-component="deleteComponent"
       @conn-start="startConnecting"
@@ -42,8 +44,11 @@
     :absolute-y2="line.y2"
     :style="lineStyle"/>
 
-    <div class="delete-btn-location">
-      <button @click="addComponent" id="btn-add">Add component</button>
+    <div class="fixed-btns-location">
+      <div class="fixed-btns">
+        <button @click="addComponent" id="add-btn">Add component</button>
+        <button @click="saveBot" id="save-btn">Save Bot</button>
+      </div>
     </div>
     
   </div>
@@ -169,6 +174,9 @@ export default {
       
 
       
+    },
+    saveBot() {
+
     }
   },
   setup() {
@@ -196,18 +204,22 @@ export default {
 
 
 
-  #btn-add {
-    position: fixed;
-    z-index: 1000;
-    padding:0;
+  #add-btn {
+    padding: 0;
     
   }
+  #save-btn {
+    padding: 0;
+    
+  }
+  .fixed-btns {
+    position: fixed;
+    padding: 10px;
+  }
 
-  .delete-btn-location {
+  .fixed-btns-location {
+  
     position: absolute;
-    left: 5%;
-    bottom: 5%;
-    margin: 0;
     
   }
   

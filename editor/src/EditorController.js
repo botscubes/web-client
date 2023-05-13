@@ -31,7 +31,7 @@ export function EditorController() {
             new Command(this._new_command++, "text", "test1"), 
             new Command(this._new_command++, "text", "test2")
         ];
-        this.components.push(new Component(this._new_id, null, commands));
+        this.components.push(new Component(this._new_id++, null, commands));
     };
     this.getComponents = function() {
         return this.components;
