@@ -27,6 +27,7 @@
       @delete-component="deleteComponent"
       @conn-start="startConnecting"
       @conn-end="connectComponents"
+      @open="openComponentContent"
       />
     
     <connecting-line 
@@ -44,12 +45,18 @@
     :absolute-y2="line.y2"
     :style="lineStyle"/>
 
-    <div class="fixed-btns-location">
+    
+    <div class="fixed-area">
       <div class="fixed-btns">
         <button @click="addComponent" id="add-btn">Add component</button>
         <button @click="saveBot" id="save-btn">Save Bot</button>
       </div>
+      <component-content
+        @close="closeComponentContent"
+        :is-open="componentContentIsOpen"
+        class="component-content"/>
     </div>
+    
     
   </div>
 </template>
@@ -61,6 +68,7 @@ import { EditorController } from './EditorController.js'
 
 import EditorComponent from './components/EditorComponent.vue'
 import ConnectingLine from './components/ConnectingLine.vue'
+import ComponentContent from './components/ComponentContent.vue'
 
 
 
@@ -84,6 +92,7 @@ export default {
       lines: new Map(),
       editorController: new EditorController(),
       conn: false,
+      componentContentIsOpen: false,
       
     }
   },
@@ -91,6 +100,7 @@ export default {
   components: {
     EditorComponent,
     ConnectingLine,
+    ComponentContent
   },
 
   computed: {
@@ -177,6 +187,12 @@ export default {
     },
     saveBot() {
 
+    },
+    openComponentContent() {
+      this.componentContentIsOpen = true;
+    },
+    closeComponentContent() {
+      this.componentContentIsOpen = false;
     }
   },
   setup() {
@@ -213,13 +229,26 @@ export default {
     
   }
   .fixed-btns {
-    position: fixed;
     padding: 10px;
+    
   }
 
-  .fixed-btns-location {
-  
+  .fixed-area {
+    padding: 0;
+    margin: 0;
+    position: sticky;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    
+  }
+  .component-content {
     position: absolute;
+    right: 0;
+    height: 500px;
+    background-color: rgb(218, 217, 217);
+    width: 60%;
     
   }
   

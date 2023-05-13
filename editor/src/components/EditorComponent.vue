@@ -5,6 +5,8 @@
         @mouseup="onMouseUp"
         @mousemove="onMouseMove"
         @mouseleave="onMouseLeave"
+        @dblclick="open"
+
         
         :style="componentStyle" 
         ref="component"
@@ -27,7 +29,7 @@
         :top="(this.buttonIndent+this.buttonHeight)*index + this.buttonIndent"
         :nextComponentId="btn.nextStepId"
         @conn-start="startConnecting"
-
+        @click="open"
       />
       <connecting-element-to 
         v-for="(item, index) in connectingElementsTo"
@@ -248,6 +250,9 @@ export default {
       event.y = event.y + this.top;
       this.$emit("connEnd", event)
 
+    },
+    open() {
+      this.$emit("open", this.id)
     }
   },
   watch: {
@@ -281,6 +286,12 @@ export default {
     },
     connStart: null,
     connEnd: null,
+    open: (id) => {
+      if(id===null) {
+        return false;
+      }
+      return true;
+    },
   },
   setup() {
     const component = ref(null)
