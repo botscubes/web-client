@@ -7,8 +7,28 @@
       @click="close"
       >&#10006;</button>
     <p>Text: {{ text }}</p>
-    <input />
+    <input v-model="text" />
 
+    <br />
+    <br />
+    <label>Add button: </label>
+    <input v-model="textButton" />
+    <button @click="addButton">Add</button>
+    <br />
+    <br />
+    <label>Commands: </label>
+    <div 
+      v-for="(item, index) in buttons"
+      :key="index"
+      >
+      <br />
+      <button disabled>{{ item }}</button>
+      <button>&#10006;</button>
+    </div>
+    <br />
+    <br />
+    <button>Apply</button>
+    <div class="error">{{ error }}</div>
 
   </div>
 </template>
@@ -23,19 +43,40 @@ export default {
       type: Boolean,
       default: false,
     },
-    text: {
+    ptext: {
       type: String,
       default: "",
     },
+    pbuttons: {
+      type: Array,
+      default: () => [
+        1,
+        2,
+        3,
+      ]
+    }
   },
   data() {
     return {
-      
+      text: this.ptext,
+      textButton: "",
+      buttons: this.pbuttons,
+      error: "",
     }
   },
   methods: {
     close() {
       this.$emit("close");
+    },
+    addButton() {
+      if(this.textButton) {
+        this.error = "";
+        this.buttons.push(this.textButton);
+        this.textButton = "";
+      } else {
+        this.error = "Button text is empty"
+      }
+      
     }
   },
   computed: {
@@ -52,8 +93,13 @@ export default {
 
 
 <style>
+.error {
+  color: red;
+}
+
 .component-content {
   padding: 1%;
+  overflow-y: scroll;
 }
 
 .component-content-close-btn {

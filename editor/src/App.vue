@@ -248,7 +248,7 @@ export default {
     right: 0;
     height: 500px;
     background-color: rgb(218, 217, 217);
-    width: 60%;
+    width: 30%;
     
   }
   
