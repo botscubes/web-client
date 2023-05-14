@@ -18,12 +18,14 @@
     <br />
     <label>Commands: </label>
     <div 
-      v-for="(item, index) in buttons"
-      :key="index"
+      v-for="[key, item] in buttons"
+      :key="key"
       >
       <br />
-      <button disabled>{{ item }}</button>
-      <button>&#10006;</button>
+      <button disabled>{{ item.data }}</button>
+      <button 
+        @click="deleteButton($event)"
+        :data-key="key">&#10006;</button>
     </div>
     <br />
     <br />
@@ -35,7 +37,8 @@
 
 <script>
 
-
+import _ from 'lodash';
+import { Command } from '../EditorController';
 
 export default {
   props: {
@@ -48,20 +51,17 @@ export default {
       default: "",
     },
     pbuttons: {
-      type: Array,
-      default: () => [
-        1,
-        2,
-        3,
-      ]
+      type: Map,
+      default: () => new Map()
     }
   },
   data() {
     return {
       text: this.ptext,
       textButton: "",
-      buttons: this.pbuttons,
+      buttons: new Map(),
       error: "",
+      buttonId: 0,
     }
   },
   methods: {
@@ -69,20 +69,39 @@ export default {
       this.$emit("close");
     },
     addButton() {
+      
       if(this.textButton) {
         this.error = "";
-        this.buttons.push(this.textButton);
+        this.buttons.set("t"+this.buttonId++, new Command(this.buttonId, "text", this.textButton));
         this.textButton = "";
       } else {
         this.error = "Button text is empty"
       }
       
+    },
+    deleteButton(event) {
+      const key = Number(event.currentTarget.dataset.key);
+      this.buttons.delete(key);
+      console.log(key);
+      console.log(this.buttons);
     }
   },
   computed: {
     styleObject() {
       return {
         visibility: this.isOpen ? "visible" : "hidden",
+      }
+    }
+  },
+  mounted() {
+    
+  },
+  watch: {
+    pbuttons: {
+
+      immediate: true,
+      handler(val) {
+        this.buttons = _.cloneDeep(val);
       }
     }
   },

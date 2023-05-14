@@ -20,8 +20,8 @@
       <connecting-area v-bind="connectingAreaBottom" @conn-end="connectComponents" />
 
       <jump-button 
-        v-for="(btn, index) in buttons"
-        :key="index" 
+        v-for="([key, btn], index) in buttons"
+        :key="key" 
         :id="btn.id"
         :text="btn.data"
         :width="this.width"
@@ -46,6 +46,7 @@
 
 
 <script>
+
 
 import { ref } from 'vue'
 import JumpButton from './JumpButton.vue'
@@ -84,8 +85,8 @@ export default {
       default: () => [],
     },
     buttons: {
-      type: Array,
-      default: () => [],
+      type: Map,
+      default: () => new Map(),
     },
     ptop: {
       type: Number,
@@ -126,7 +127,7 @@ export default {
   },
   computed: {
     height() {
-      return this.buttons.length * (this.buttonHeight+this.buttonIndent) + this.buttonIndent;
+      return this.buttons.size * (this.buttonHeight+this.buttonIndent) + this.buttonIndent;
     },
     connectingElementSize() {
       return this.width/5;

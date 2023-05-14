@@ -17,8 +17,8 @@
 
     </div> -->
     <editor-component 
-      v-for="(component, index) in editorController.getComponents()"
-      :key="index"
+      v-for="[key, component] in editorController.getComponents()"
+      :key="key"
       :id="component.id"
       :buttons="component.commands"
       :pleft="editor.offsetWidth/3"
@@ -54,6 +54,7 @@
       <component-content
         @close="closeComponentContent"
         :is-open="componentContentIsOpen"
+        :pbuttons="contentButtons"
         class="component-content"/>
     </div>
     
@@ -82,7 +83,7 @@ export default {
       
       mouseX: 0,
       mouseY: 0,
-      buttonId: null,
+      componentId: null,
       line: {
         x1: 0,
         y1: 0,
@@ -104,7 +105,11 @@ export default {
   },
 
   computed: {
-    
+    contentButtons() {
+      //console.log( this.componentId !== null ? this.editorController.getComponents().get(this.componentId).getCommandClones() : 1 );
+
+      return this.componentId !== null ? this.editorController.getComponents().get(this.componentId).commands : new Map();
+    },
     editorStyle() {
       return {
         left: this.editorLeft + "px",
@@ -179,7 +184,7 @@ export default {
       if(this.commandId) {
         this.lines.set(this.commandId, line);
       } else {
-        console.debug("App.vue: commandId is null")
+        console.debug("Debug: CommandId is null")
       }
       
 
@@ -188,11 +193,13 @@ export default {
     saveBot() {
 
     },
-    openComponentContent() {
+    openComponentContent(id) {
       this.componentContentIsOpen = true;
+      this.componentId = id;
     },
     closeComponentContent() {
       this.componentContentIsOpen = false;
+      this.componentId = null;
     }
   },
   setup() {
