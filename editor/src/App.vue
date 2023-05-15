@@ -50,6 +50,8 @@
       <div class="fixed-btns">
         <button @click="addComponent" id="add-btn">Add component</button>
         <button @click="saveBot" id="save-btn">Save Bot</button>
+        <input v-model="botName"/>
+        <button @click="createBot" id="save-btn">Create Bot</button>
       </div>
       <component-content
         @close="closeComponentContent"
@@ -66,6 +68,8 @@
 
 import { ref } from 'vue'
 import { EditorController } from './EditorController.js'
+import { createBot } from './api.js'
+
 
 import EditorComponent from './components/EditorComponent.vue'
 import ConnectingLine from './components/ConnectingLine.vue'
@@ -81,6 +85,10 @@ export default {
       editorLeft: 100,
       editorTop: 100,
       
+      botId: null,
+      botName: "",
+      startComponent: null,
+
       mouseX: 0,
       mouseY: 0,
       componentId: null,
@@ -200,7 +208,12 @@ export default {
     closeComponentContent() {
       this.componentContentIsOpen = false;
       this.componentId = null;
-    }
+    },
+    createBot() {
+      const bot = createBot(this.botName);
+      this.botId = bot.botId;
+      this.startComponent = bot.component;
+    },
   },
   setup() {
     const editor = ref(null)
