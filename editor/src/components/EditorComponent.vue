@@ -12,7 +12,7 @@
         ref="component"
         class="component"
     >
-      <button @click="deleteComponent" class="btn-delete">&#10006;</button>
+      <button v-if="!isMain" @click="deleteComponent" class="btn-delete">&#10006;</button>
 
       <connecting-area v-bind="connectingAreaLeft" @conn-end="connectComponents"/>
       <connecting-area v-bind="connectingAreaRight" @conn-end="connectComponents" />
@@ -95,6 +95,10 @@ export default {
     pleft: {
       type: Number,
       default: 0,
+    },
+    isMain: {
+      type: Boolean,
+      default: false,
     }
   },
   components: {
@@ -121,7 +125,8 @@ export default {
       //focus: false,
     }
   },
-  mounted() {
+  created() {
+    
     this.left = this.pleft;
     this.top = this.ptop;
   },
@@ -253,7 +258,10 @@ export default {
 
     },
     open() {
-      this.$emit("open", this.id)
+      if(!this.isMain) {
+        this.$emit("open", this.id);
+      }
+      
     }
   },
   watch: {
@@ -280,7 +288,7 @@ export default {
   emits: {
     
     deleteComponent: (id) => {
-      if(id===null) {
+      if(id === null) {
         return false;
       }
       return true;
@@ -288,7 +296,7 @@ export default {
     connStart: null,
     connEnd: null,
     open: (id) => {
-      if(id===null) {
+      if(id === null) {
         return false;
       }
       return true;
@@ -309,6 +317,7 @@ export default {
   background-color: aqua;
   position: absolute;
   z-index: 1;
+  min-height: 100px;
 }
 
 .conn-el {

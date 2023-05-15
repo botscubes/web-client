@@ -4,7 +4,7 @@ import { domain, user_token, bot_token } from './conf.js'
 
 const site_url = "https://" + domain;
 const headers = {
-    Authentication: 'Bearer ' + user_token,
+    Authorization: 'Bearer ' + user_token,
     'Content-Type': 'application/json;charset=utf-8',
     
 };
@@ -20,7 +20,7 @@ export async function createBot(bot_name) {
         body: JSON.stringify(bot),
     });
     if(response.ok) {
-        const json = response.json();
+        const json = await response.json();
         if(json.ok) {
             return json.data;
         } else {
@@ -45,7 +45,7 @@ export async function setBotToken(id) {
         body: JSON.stringify(token),
     });
     if(response.ok) {
-        const json = response.json();
+        const json = await response.json();
         if(!json.ok) {
             console.error("set bot token error: " + json.error.message);
         } 
@@ -64,7 +64,7 @@ export async function startBot(id) {
         headers: headers,
     });
     if(response.ok) {
-        const json = response.json();
+        const json = await response.json();
         if(!json.ok) {
             console.error("start bot error: " + json.error.message);
         } 
@@ -82,7 +82,7 @@ export async function stopBot(id) {
         headers: headers,
     });
     if(response.ok) {
-        const json = response.json();
+        const json = await response.json();
         if(!json.ok) {
             console.error("stop bot error: " + json.error.message);
         } 

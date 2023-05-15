@@ -6,43 +6,37 @@ export function Command(id, type = "text", data = "", componentId = null, nextSt
     this.data = data;
     this.componentId = componentId;
     this.nextStepId = nextStepId;
-    this.clone = function() {
-        return new Command(this.id, this.type, this.data, this.componentId, this.nextStepId);
-    }
+    
 }
+
+
 
 export function ComponentData(type, content = []) {
     this.type = type;
     this.content = content;
-    this.clone = function() {
-
-        return new ComponentData(this.type, this.content.slice(0))
-    }
+    
 }
 
 
-function Component(id, data = null, commands = new Map(), isMain = false) {
+export function Component(id, data = null, commands = new Map(), nextStepId = null, isMain = false) {
     this.id = id;
     this.data = data;
     this.commands = commands;
+    this.nextStepId = nextStepId;
     this.isMain = isMain;
-    this.clone = function() {
-        let commands = this.getCommandClones();
-        let data = null;
-        
-        if(this.data) {
-            data = this.data.clone();
+    
+    
+}
+export function NewComponentFromAPIJSON(APIComponent) {
+    const commands = new Map();
+    if(APIComponent.commands) {
+        for(let item of APIComponent.commands) {
+            commands.set(item.id, item);
         }
+    }
+    
 
-        return new Component(this.id, data, commands, isMain);
-    };
-    this.getCommandClones = function() {
-        let commands = new Map();
-        for(let [key, value] of this.commands) {
-            commands.set(key, value.clone());
-        }
-        return commands;
-    };
+    return new Component(APIComponent.id, APIComponent.data, commands, APIComponent.nextStepId ,APIComponent.isMain);
 }
 
 

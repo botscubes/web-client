@@ -23,6 +23,7 @@
       :buttons="component.commands"
       :pleft="editor.offsetWidth/3"
       :ptop="editor.offsetHeight/3"
+      :is-main="component.isMain"
       v-bind="editorComponent" 
       @delete-component="deleteComponent"
       @conn-start="startConnecting"
@@ -67,7 +68,7 @@
 <script>
 
 import { ref } from 'vue'
-import { EditorController } from './EditorController.js'
+import { EditorController, NewComponentFromAPIJSON, Command } from './EditorController.js'
 import { createBot } from './api.js'
 
 
@@ -87,11 +88,11 @@ export default {
       
       botId: null,
       botName: "",
-      startComponent: null,
 
       mouseX: 0,
       mouseY: 0,
       componentId: null,
+      commandId: null,
       line: {
         x1: 0,
         y1: 0,
@@ -192,7 +193,7 @@ export default {
       if(this.commandId) {
         this.lines.set(this.commandId, line);
       } else {
-        console.debug("Debug: CommandId is null")
+        console.error("CommandId is null")
       }
       
 
@@ -209,10 +210,15 @@ export default {
       this.componentContentIsOpen = false;
       this.componentId = null;
     },
-    createBot() {
-      const bot = createBot(this.botName);
+    async createBot() {
+      const bot = await createBot(this.botName);
       this.botId = bot.botId;
-      this.startComponent = bot.component;
+      
+
+      let component = NewComponentFromAPIJSON(bot.component);
+      component.commands.set(0, new Command(0, "text", "Start"));
+      this.editorController.getComponents().set(bot.component.id, component);
+
     },
   },
   setup() {
