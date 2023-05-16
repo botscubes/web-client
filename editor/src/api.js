@@ -56,6 +56,24 @@ export async function setBotToken(id) {
     return null;
 }
 
+export async function deleteBotToken(id) {
+    const url = site_url + "/api/bots/" + id + "/token"
+    const response = await fetch(url, {
+        method: 'DELETE',
+        headers: headers,
+    });
+    if(response.ok) {
+        const json = await response.json();
+        if(!json.ok) {
+            console.error("delete bot token error: " + json.error.message);
+        } 
+    } else {
+        console.error("delete bot token error: " + response.status);
+        
+    }
+    return null;
+}
+
 
 export async function startBot(id) {
     const url = site_url + "/api/bots/"+ id + "/start"
@@ -92,5 +110,28 @@ export async function stopBot(id) {
     }
     return null;
 }
+
+
+export async function resetBot(id) {
+    const url = site_url + "/api/bots/"+ id + "/wope"
+    const response = await fetch(url, {
+        method: 'PATCH',
+        headers: headers,
+    });
+    if(response.ok) {
+        const json = await response.json();
+        if(!json.ok) {
+            console.error("reset bot error: " + json.error.message);
+        } 
+    } else {
+        console.error("teset bot error: " + response.status);
+        
+    }
+    return null;
+}
+
+
+
+
 
 
