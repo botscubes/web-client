@@ -283,3 +283,54 @@ export async function deleteNextStepForCommand(botId, compId, commandId) {
 }
 
 
+export async function addCommand(botId, compId, type, data) {
+    const url = site_url + "/api/bots/"+ botId + "/components/" + compId + "/commands";
+    
+    const body = {
+        type: type,
+        data: data,
+    }
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(body),
+    });
+    if(response.ok) {
+        const json = await response.json();
+        if(!json.ok) {
+            console.error("Error: " + json.error.message);
+        } else {
+            return json.data.id;
+        }
+    } else {
+        console.error("Error: " + response.status);
+        
+    }
+    return null;
+}
+
+
+export async function deleteCommand(botId, compId, commandId) {
+    const url = site_url + "/api/bots/"+ botId + "/components/" + compId + "/commands/" + commandId;
+    
+    
+    const response = await fetch(url, {
+        method: 'DELETE',
+        headers: headers,
+        
+    });
+    if(response.ok) {
+        const json = await response.json();
+        if(!json.ok) {
+            console.error("Error: " + json.error.message);
+        }
+    } else {
+        console.error("Error: " + response.status);
+        
+    }
+    return null;
+}
+
+
+
+
