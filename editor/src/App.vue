@@ -51,8 +51,9 @@
       <div class="fixed-btns">
         <button @click="addComponent" id="add-btn">Add component</button>
         <button @click="saveBot" id="save-btn">Save Bot</button>
-        <input v-model="botName"/>
-        <button @click="createBot" id="save-btn">Create Bot</button>
+        <!-- <input v-model="botName"/>
+        <button @click="createBot" id="save-btn">Create Bot</button> -->
+        <button @click="getBot" id="save-btn">Get Bot</button>
       </div>
       <component-content
         @close="closeComponentContent"
@@ -69,7 +70,7 @@
 
 import { ref } from 'vue'
 import { EditorController, NewComponentFromAPIJSON, Command } from './EditorController.js'
-import { createBot } from './api.js'
+import * as api from './api.js'
 
 
 import EditorComponent from './components/EditorComponent.vue'
@@ -86,7 +87,7 @@ export default {
       editorLeft: 100,
       editorTop: 100,
       
-      botId: null,
+      botId: 126,
       botName: "",
 
       mouseX: 0,
@@ -212,13 +213,21 @@ export default {
       this.componentId = null;
     },
     async createBot() {
-      const bot = await createBot(this.botName);
+      const bot = await api.createBot(this.botName);
       this.botId = bot.botId;
       
 
       let component = NewComponentFromAPIJSON(bot.component);
       component.commands.set(0, new Command(0, "text", "Start"));
       this.editorController.getComponents().set(bot.component.id, component);
+
+    },
+    async getBot() {
+      await api.resetBot(this.botId);
+      const startComponent = await api.getStartComponent(this.botId);
+      let component = NewComponentFromAPIJSON(startComponent);
+      component.commands.set(0, new Command(0, "text", "Start"));
+      this.editorController.getComponents().set(component.id, component);
 
     },
   },

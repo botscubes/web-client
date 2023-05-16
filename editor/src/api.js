@@ -130,6 +130,25 @@ export async function resetBot(id) {
     return null;
 }
 
+export async function getStartComponent(botId) {
+    const url = site_url + "/api/bots/"+ botId + "/components";
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: headers,
+    });
+    if(response.ok) {
+        const json = await response.json();
+        if(!json.ok) {
+            console.error("add component error: " + json.error.message);
+        } else {
+            return json.data[0];
+        }
+    } else {
+        console.error("add component error: " + response.status);
+        
+    }
+    return null;
+}
 
 
 export async function addComponent(botId, componentAPIJSON) {
