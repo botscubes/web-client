@@ -10,7 +10,7 @@ const headers = {
 };
 
 export async function createBot(bot_name) {
-    const url = site_url + "/api/bots"
+    const url = site_url + "/api/bots";
     const bot = {
         title: bot_name
     }
@@ -35,7 +35,7 @@ export async function createBot(bot_name) {
 }
 
 export async function setBotToken(id) {
-    const url = site_url + "/api/bots/" + id + "/token"
+    const url = site_url + "/api/bots/" + id + "/token";
     const token = {
         token: bot_token,
     }
@@ -57,7 +57,7 @@ export async function setBotToken(id) {
 }
 
 export async function deleteBotToken(id) {
-    const url = site_url + "/api/bots/" + id + "/token"
+    const url = site_url + "/api/bots/" + id + "/token";
     const response = await fetch(url, {
         method: 'DELETE',
         headers: headers,
@@ -76,7 +76,7 @@ export async function deleteBotToken(id) {
 
 
 export async function startBot(id) {
-    const url = site_url + "/api/bots/"+ id + "/start"
+    const url = site_url + "/api/bots/"+ id + "/start";
     const response = await fetch(url, {
         method: 'PATCH',
         headers: headers,
@@ -94,7 +94,7 @@ export async function startBot(id) {
 }
 
 export async function stopBot(id) {
-    const url = site_url + "/api/bots/"+ id + "/stop"
+    const url = site_url + "/api/bots/"+ id + "/stop";
     const response = await fetch(url, {
         method: 'PATCH',
         headers: headers,
@@ -113,7 +113,7 @@ export async function stopBot(id) {
 
 
 export async function resetBot(id) {
-    const url = site_url + "/api/bots/"+ id + "/wope"
+    const url = site_url + "/api/bots/"+ id + "/wipe";
     const response = await fetch(url, {
         method: 'PATCH',
         headers: headers,
@@ -130,6 +130,70 @@ export async function resetBot(id) {
     return null;
 }
 
+
+
+export async function addComponent(botId, componentAPIJSON) {
+    const url = site_url + "/api/bots/"+ botId + "/components";
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(componentAPIJSON),
+    });
+    if(response.ok) {
+        const json = await response.json();
+        if(!json.ok) {
+            console.error("add component error: " + json.error.message);
+        } else {
+            return json.data.id;
+        }
+    } else {
+        console.error("add component error: " + response.status);
+        
+    }
+    return null;
+}
+
+
+export async function deleteComponent(botId, compId) {
+    const url = site_url + "/api/bots/"+ botId + "/components/" + compId;
+    const response = await fetch(url, {
+        method: 'DELETE',
+        headers: headers,
+    });
+    if(response.ok) {
+        const json = await response.json();
+        if(!json.ok) {
+            console.error("delete component error: " + json.error.message);
+        }
+    } else {
+        console.error("delete component error: " + response.status);
+        
+    }
+    return null;
+}
+
+
+export async function updateComponent(botId, compId, componentData) {
+    const url = site_url + "/api/bots/"+ botId + "/components/" + compId;
+    const body = {
+        data: componentData,
+    };
+    const response = await fetch(url, {
+        method: 'PATCH',
+        headers: headers,
+        body: JSON.stringify(body),
+    });
+    if(response.ok) {
+        const json = await response.json();
+        if(!json.ok) {
+            console.error("delete component error: " + json.error.message);
+        }
+    } else {
+        console.error("delete component error: " + response.status);
+        
+    }
+    return null;
+}
 
 
 
