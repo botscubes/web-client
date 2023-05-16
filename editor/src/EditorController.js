@@ -24,9 +24,26 @@ export function Component(id, data = null, commands = new Map(), nextStepId = nu
     this.commands = commands;
     this.nextStepId = nextStepId;
     this.isMain = isMain;
-    
+    this.intoComponentAPIJSON = function() {
+        const commands = [];
+        for(let command of this.commands) {
+            commands.push(command);
+        }
+
+        return ComponentAPIJSON(this.id, this.data, commands, nextStepId, isMain);
+    }
     
 }
+
+export function ComponentAPIJSON(id, data = null, commands = [], nextStepId = null, isMain = false) {
+    this.id = id;
+    this.data = data;
+    this.commands = commands;
+    this.nextStepId = nextStepId;
+    this.isMain = isMain;
+    
+}
+
 export function NewComponentFromAPIJSON(APIComponent) {
     const commands = new Map();
     if(APIComponent.commands) {

@@ -190,6 +190,7 @@ export default {
         x2: event.x,
         y2: event.y,
       }
+      
       if(this.commandId) {
         this.lines.set(this.commandId, line);
       } else {
