@@ -186,16 +186,100 @@ export async function updateComponent(botId, compId, componentData) {
     if(response.ok) {
         const json = await response.json();
         if(!json.ok) {
-            console.error("delete component error: " + json.error.message);
+            console.error("update component error: " + json.error.message);
         }
     } else {
-        console.error("delete component error: " + response.status);
+        console.error("update component error: " + response.status);
         
     }
     return null;
 }
 
 
+export async function setNextStepForComponent(botId, compId, nextStepId) {
+    const url = site_url + "/api/bots/"+ botId + "/components/" + compId + "/next";
+    const body = {
+        nextStepId: nextStepId,
+    };
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(body),
+    });
+    if(response.ok) {
+        const json = await response.json();
+        if(!json.ok) {
+            console.error("Error: " + json.error.message);
+        }
+    } else {
+        console.error("Error: " + response.status);
+        
+    }
+    return null;
+}
 
+export async function deleteNextStepForComponent(botId, compId) {
+    const url = site_url + "/api/bots/"+ botId + "/components/" + compId + "/next";
+    
+    const response = await fetch(url, {
+        method: 'DELETE',
+        headers: headers,
+    });
+    if(response.ok) {
+        const json = await response.json();
+        if(!json.ok) {
+            console.error("Error: " + json.error.message);
+        }
+    } else {
+        console.error("Error: " + response.status);
+        
+    }
+    return null;
+}
+
+
+export async function setNextStepForCommand(botId, compId, commandId, nextStepId) {
+    const url = site_url + "/api/bots/"+ botId + "/components/" + compId + "/commands/" + commandId + "/next";
+    
+    const body = {
+        nextStepId: nextStepId,
+    };
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(body),
+    });
+    if(response.ok) {
+        const json = await response.json();
+        if(!json.ok) {
+            console.error("Error: " + json.error.message);
+        }
+    } else {
+        console.error("Error: " + response.status);
+        
+    }
+    return null;
+}
+
+export async function deleteNextStepForCommand(botId, compId, commandId) {
+    const url = site_url + "/api/bots/"+ botId + "/components/" + compId + "/commands/" + commandId + "/next";
+    
+    
+    const response = await fetch(url, {
+        method: 'DELETE',
+        headers: headers,
+        
+    });
+    if(response.ok) {
+        const json = await response.json();
+        if(!json.ok) {
+            console.error("Error: " + json.error.message);
+        }
+    } else {
+        console.error("Error: " + response.status);
+        
+    }
+    return null;
+}
 
 
