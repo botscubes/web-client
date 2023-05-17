@@ -59,6 +59,8 @@ import ConnectingElementTo from './ConnectingElementTo.vue';
 
 const MOVE_STATE = 0;
 const CONN_STATE = 1;
+const DETACH_STATE = 2;
+
 
 export default {
   props: {
@@ -75,6 +77,7 @@ export default {
       type: Number,
       default: null,
     },
+    
     connectingAreaVisible: {
       type: Boolean,
       default: false,
@@ -135,7 +138,7 @@ export default {
   },
   computed: {
     height() {
-      return this.buttons.size > 0 ? this.buttons.size * (this.buttonHeight+this.buttonIndent) + this.buttonIndent : 100;
+      return this.buttons.size > 0 ? this.buttons.size * (this.buttonHeight+this.buttonIndent) + this.buttonIndent : 80;
     },
     connectingElementSize() {
       return this.width/5;
@@ -161,7 +164,7 @@ export default {
         left: -w/2,
         mouseX: this.editorMouseX - this.left,
         mouseY: this.editorMouseY - this.top,
-        visible: this.connectingAreaVisible && this.state != CONN_STATE,
+        visible: this.connectingAreaVisible && this.state !== CONN_STATE && !this.isMain,
       };
     },
     connectingAreaRight() {
@@ -175,7 +178,7 @@ export default {
         left: this.width - w/2,
         mouseX: this.editorMouseX - this.left,
         mouseY: this.editorMouseY - this.top,
-        visible: this.connectingAreaVisible && this.state != CONN_STATE,
+        visible: this.connectingAreaVisible && this.state !== CONN_STATE && !this.isMain,
       };
     },
     connectingAreaTop() {
@@ -188,7 +191,7 @@ export default {
         left: 0,
         mouseX: this.editorMouseX - this.left,
         mouseY: this.editorMouseY - this.top,
-        visible: this.connectingAreaVisible && this.state != CONN_STATE,
+        visible: this.connectingAreaVisible && this.state !== CONN_STATE  && !this.isMain,
       };
     },
     connectingAreaBottom() {
@@ -202,7 +205,7 @@ export default {
         //bottom: -h/2,
         mouseX: this.editorMouseX - this.left,
         mouseY: this.editorMouseY - this.top,
-        visible: this.connectingAreaVisible && this.state != CONN_STATE,
+        visible: this.connectingAreaVisible && this.state !== CONN_STATE  && !this.isMain,
       };
     },
 
@@ -272,7 +275,7 @@ export default {
       
     }, 
     detach(event) {
-      this.state = CONN_STATE;
+      this.state = DETACH_STATE;
       event.componentId = this.id;
       this.$emit("detach", event);
     }
@@ -331,7 +334,7 @@ export default {
   background-color: aqua;
   position: absolute;
   z-index: 1;
-  min-height: 100px;
+  min-height: 50px;
 }
 
 .conn-el {

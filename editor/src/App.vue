@@ -143,6 +143,7 @@ export default {
         editorMouseY: this.mouseY,
         editorMouseDown: this.mouseDown,
         connectingAreaVisible: this.conn,
+        
       }
     },
     lineStyle() {
@@ -188,7 +189,7 @@ export default {
     async deleteComponent(id) {
       await this.editorController.deleteComponentById(id);
     },
-    startConnecting(event) {
+    async startConnecting(event) {
       this.conn = true;
       this.line.x1 = event.x;
       this.line.y1 = event.y;
@@ -197,6 +198,15 @@ export default {
       this.commandId = event.commandId;
       this.commandIsMain = event.isMain;
       this.componentId = event.componentId;
+      if(this.lines.has(this.commandId)) {
+        this.lines.delete(this.commandId);
+        if(event.isMain) {
+          await api.deleteNextStepForComponent(this.botId, 1);
+        } else {
+          await api.deleteNextStepForCommand(this.botId, event.componentId, event.commandId);
+        }
+        
+      }
     },
     async connectComponents(event) {
       let line = {

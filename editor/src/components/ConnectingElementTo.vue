@@ -84,7 +84,10 @@ export default {
       })
     },
     onMouseDown() {
-      this.$emit("detach", {commandId: this.commandId});
+      this.$emit("detach", {
+        commandId: this.commandId,
+        commandComponentId: this.commandComponentId,
+      });
     }
     
   },
