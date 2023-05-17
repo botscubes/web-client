@@ -187,9 +187,25 @@ export default {
       await this.editorController.addComponent()
     },
     async deleteComponent(id) {
+      const commands = this.editorController.getComponents().get(id).commands;
+      
+      for(let [, command] of commands) {
+        if(command.nextStepId !== null && command.nextStepId !== undefined) {
+
+          if(this.editorController.getComponents().has(command.nextStepId)) {
+            this.editorController.getComponents().get(command.nextStepId).connectingElementsTo.delete(command.id);
+          }
+          
+          this.lines.delete(command.id);
+        }
+        
+
+      }
       await this.editorController.deleteComponentById(id);
+      
     },
     async startConnecting(event) {
+      
       this.conn = true;
       this.line.x1 = event.x;
       this.line.y1 = event.y;
@@ -198,6 +214,12 @@ export default {
       this.commandId = event.commandId;
       this.commandIsMain = event.isMain;
       this.componentId = event.componentId;
+
+      if(event.nextComponentId) {
+        this.editorController.getComponents().get(event.nextComponentId).connectingElementsTo.delete(event.commandId);
+        this.editorController.getComponents().get(this.componentId).commands.get(this.commandId).nextStepId = null;
+      }
+
       if(this.lines.has(this.commandId)) {
         this.lines.delete(this.commandId);
         if(event.isMain) {
@@ -223,10 +245,13 @@ export default {
           y: event.relativeComponentY,
           commandComponentId: this.componentId,
         });
+        
 
         if(this.commandIsMain) {
+          this.editorController.getComponents().get(this.componentId).nextStepId = event.componentId;
           api.setNextStepForComponent(this.botId, 1, event.componentId);
         } else {
+          this.editorController.getComponents().get(this.componentId).commands.get(this.commandId).nextStepId = event.componentId;
           api.setNextStepForCommand(this.botId, this.componentId, this.commandId, event.componentId);
         }
       } else {
@@ -304,11 +329,14 @@ export default {
       this.componentId = event.commandComponentId;
 
       this.editorController.getComponents().get(event.componentId).connectingElementsTo.delete(event.commandId);
+      
       this.lines.delete(event.commandId);
       if(event.commandId === 0) {
         this.commandIsMain = true;
         await api.deleteNextStepForComponent(this.botId, 1);
+        this.editorController.getComponents().get(this.componentId).nextStepId = null;
       } else {
+        this.editorController.getComponents().get(this.componentId).commands.get(this.commandId).nextStepId = null;
         await api.deleteNextStepForCommand(this.botId, event.commandComponentId, event.commandId);
       }
      

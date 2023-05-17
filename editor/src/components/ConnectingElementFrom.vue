@@ -76,6 +76,7 @@ export default {
       this.$emit("connStart", {
         x: left,
         y: top,
+        nextComponentId: this.nextComponentId,
       })
     }
     
