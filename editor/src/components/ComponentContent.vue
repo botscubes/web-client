@@ -104,6 +104,7 @@ export default {
       //console.log(this.buttons);
     },
     apply() {
+      this.changes.text = this.text;
       this.$emit("apply", this.changes);
     }
   },

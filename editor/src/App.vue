@@ -74,7 +74,7 @@
 <script>
 
 import { ref } from 'vue'
-import { EditorController, NewComponentFromAPIJSON, Command } from './EditorController.js'
+import { EditorController, NewComponentFromAPIJSON, Command, ComponentData } from './EditorController.js'
 import * as api from './api.js'
 
 
@@ -182,8 +182,8 @@ export default {
       //this.components.push(3)
       await this.editorController.addComponent()
     },
-    deleteComponent(id) {
-      this.editorController.deleteComponentById(id)
+    async deleteComponent(id) {
+      await this.editorController.deleteComponentById(id);
     },
     startConnecting(event) {
       this.conn = true;
@@ -256,6 +256,12 @@ export default {
           this.editorController.getComponents().get(this.componentId).commands.delete(key);
         }
       }
+
+      await api.updateComponent(this.botId, this.componentId, new ComponentData("text", [
+        {
+          text: changes.text
+        }
+      ]))
 
       this.componentContentIsOpen = false;
       this.componentId = null;
