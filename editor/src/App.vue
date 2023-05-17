@@ -189,7 +189,7 @@ export default {
     async deleteComponent(id) {
       const commands = this.editorController.getComponents().get(id).commands;
       
-      for(let [, command] of commands) {
+      for(let command of commands.values()) {
         if(command.nextStepId !== null && command.nextStepId !== undefined) {
 
           if(this.editorController.getComponents().has(command.nextStepId)) {
@@ -200,6 +200,10 @@ export default {
         }
         
 
+      }
+      const connectingElementsTo = this.editorController.getComponents().get(id).connectingElementsTo;
+      for(let key of connectingElementsTo.keys()) {
+        this.lines.delete(key);
       }
       await this.editorController.deleteComponentById(id);
       
