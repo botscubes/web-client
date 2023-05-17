@@ -1,4 +1,4 @@
-
+import * as api from "./api.js"
 
 export function Command(id, type = "text", data = "", componentId = null, nextStepId = null) {
     this.id = id;
@@ -61,12 +61,20 @@ export function EditorController() {
     this._new_id = 0;
     this._new_command = 0;
     this.components = new Map();
-    this.addComponent = function() {
-        const commands = new Map([
-            [ this._new_command, new Command(this._new_command++, "text", "test1") ], 
-            [ this._new_command, new Command(this._new_command++, "text", "test2") ], 
+    this.botId = 126;
+    this.addComponent = async function() {
+        const data = new ComponentData("text", [
+            {
+                text: "Text",
+            }
         ]);
-        this.components.set(this._new_id, new Component(this._new_id++, null, commands));
+        const id = await api.addComponent(this.botId, {
+            data: data,
+            commands: [],
+            position: {},
+        });
+        const component = new Component(id, data);
+        this.components.set(id, component);
     };
     this.getComponents = function() {
         return this.components;

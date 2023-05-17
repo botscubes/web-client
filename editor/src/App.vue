@@ -57,10 +57,11 @@
         <button @click="startBot" id="save-btn">Start Bot</button>
         <button @click="stopBot" id="save-btn">Stop Bot</button>
       </div>
-      <component-content
+      <component-content v-if="componentContentIsOpen"
         @close="closeComponentContent"
         :is-open="componentContentIsOpen"
         :pbuttons="contentButtons"
+        :ptext="contentText"
         class="component-content"/>
     </div>
     
@@ -122,6 +123,9 @@ export default {
 
       return this.componentId !== null ? this.editorController.getComponents().get(this.componentId).commands : new Map();
     },
+    contentText() {
+      return this.componentId !== null ? this.editorController.getComponents().get(this.componentId).data.content[0].text : "";
+    },
     editorStyle() {
       return {
         left: this.editorLeft + "px",
@@ -172,9 +176,9 @@ export default {
     onMouseLeave() {
       this.mouseDown = false;
     },
-    addComponent() {
+    async addComponent() {
       //this.components.push(3)
-      this.editorController.addComponent()
+      await this.editorController.addComponent()
     },
     deleteComponent(id) {
       this.editorController.deleteComponentById(id)

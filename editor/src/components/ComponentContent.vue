@@ -57,7 +57,7 @@ export default {
   },
   data() {
     return {
-      text: this.ptext,
+      text: "",
       textButton: "",
       buttons: new Map(),
       error: "",
@@ -89,12 +89,12 @@ export default {
   computed: {
     styleObject() {
       return {
-        visibility: this.isOpen ? "visible" : "hidden",
+        //visibility: this.isOpen ? "visible" : "hidden",
       }
     }
   },
-  mounted() {
-    
+  created() {
+    this.text = this.ptext;
   },
   watch: {
     pbuttons: {
