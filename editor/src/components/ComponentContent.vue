@@ -29,7 +29,7 @@
     </div>
     <br />
     <br />
-    <button>Apply</button>
+    <button @click="apply">Apply</button>
     <div class="error">{{ error }}</div>
 
   </div>
@@ -53,7 +53,8 @@ export default {
     pbuttons: {
       type: Map,
       default: () => new Map()
-    }
+    },
+    
   },
   data() {
     return {
@@ -61,7 +62,8 @@ export default {
       textButton: "",
       buttons: new Map(),
       error: "",
-      buttonId: 0,
+      buttonId: -1,
+      changes: new Map(),
     }
   },
   methods: {
@@ -72,8 +74,15 @@ export default {
       
       if(this.textButton) {
         this.error = "";
-        this.buttons.set("t"+this.buttonId++, new Command(this.buttonId, "text", this.textButton));
+        this.changes.set(this.buttonId, {
+          type: "add",
+          text: this.textButton,
+        });
+        this.buttons.set(this.buttonId, new Command(this.buttonId--, "text", this.textButton));
+        
+        
         this.textButton = "";
+
       } else {
         this.error = "Button text is empty"
       }
@@ -82,8 +91,20 @@ export default {
     deleteButton(event) {
       const key = Number(event.currentTarget.dataset.key);
       this.buttons.delete(key);
-      console.log(key);
-      console.log(this.buttons);
+      if(key >= 0) {
+        this.changes.set(key, {
+          type: "delete",
+          text: "",
+        });
+      } else {
+        this.changes.delete(key);
+      }
+      
+      // console.log(key);
+      //console.log(this.buttons);
+    },
+    apply() {
+      this.$emit("apply", this.changes);
     }
   },
   computed: {
@@ -105,7 +126,7 @@ export default {
       }
     }
   },
-  emits: ["close"],
+  emits: ["close", "apply"],
 }
 
 </script>

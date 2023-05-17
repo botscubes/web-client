@@ -57,8 +57,10 @@
         <button @click="startBot" id="save-btn">Start Bot</button>
         <button @click="stopBot" id="save-btn">Stop Bot</button>
       </div>
-      <component-content v-if="componentContentIsOpen"
+      <component-content 
+        v-if="componentContentIsOpen" 
         @close="closeComponentContent"
+        @apply="componentContentApply"
         :is-open="componentContentIsOpen"
         :pbuttons="contentButtons"
         :ptext="contentText"
@@ -243,6 +245,20 @@ export default {
     async stopBot() {
       await api.stopBot(this.botId);
       await api.deleteBotToken(this.botId);
+    },
+    async componentContentApply(changes) {
+      for(let [key, info] of changes) {
+        if(info.type == "add") {
+          const id = await api.addCommand(this.botId, this.componentId, "text", info.text);
+          this.editorController.getComponents().get(this.componentId).commands.set(id, new Command(id, "text", info.text));
+        } else {
+          await api.deleteCommand(this.botId, this.componentId ,key);
+          this.editorController.getComponents().get(this.componentId).commands.delete(key);
+        }
+      }
+
+      this.componentContentIsOpen = false;
+      this.componentId = null;
     }
   },
   setup() {
