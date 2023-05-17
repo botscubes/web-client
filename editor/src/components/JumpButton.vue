@@ -82,6 +82,7 @@ export default {
     startConnecting(event) {
       event.y = event.y + this.top;
       event.x = event.x + this.left;
+      event.commandId = this.id;
       this.$emit("connStart", event);
     }
   },

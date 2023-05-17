@@ -84,6 +84,9 @@ export function EditorController() {
         this.components.delete(id);
         await api.deleteComponent(this.botId, id);
 
+    },
+    this.clearComponents = function() {
+        this.components.clear();
     }
     
 }

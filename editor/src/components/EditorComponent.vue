@@ -132,7 +132,7 @@ export default {
   },
   computed: {
     height() {
-      return this.buttons.size * (this.buttonHeight+this.buttonIndent) + this.buttonIndent;
+      return this.buttons.size > 0 ? this.buttons.size * (this.buttonHeight+this.buttonIndent) + this.buttonIndent : 100;
     },
     connectingElementSize() {
       return this.width/5;
@@ -245,6 +245,8 @@ export default {
       this.state = CONN_STATE;
       event.x = event.x + this.left;
       event.y = event.y + this.top;
+      event.isMain = this.isMain;
+      event.componentId = this.id;
       this.$emit("connStart", event);
     },
     connectComponents(event) {
@@ -254,7 +256,8 @@ export default {
       }
       event.x = event.x + this.left;
       event.y = event.y + this.top;
-      this.$emit("connEnd", event)
+      event.componentId = this.id;
+      this.$emit("connEnd", event);
 
     },
     open() {

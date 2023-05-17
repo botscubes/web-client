@@ -99,6 +99,7 @@ export default {
       mouseY: 0,
       componentId: null,
       commandId: null,
+      commandIsMain: false,
       line: {
         x1: 0,
         y1: 0,
@@ -191,8 +192,11 @@ export default {
       this.line.y1 = event.y;
       this.line.x2 = event.x;
       this.line.y2 = event.y;
+      this.commandId = event.commandId;
+      this.commandIsMain = event.isMain;
+      this.componentId = event.componentId;
     },
-    connectComponents(event) {
+    async connectComponents(event) {
       let line = {
         x1: this.line.x1,
         y1: this.line.y1,
@@ -202,10 +206,17 @@ export default {
       
       if(this.commandId) {
         this.lines.set(this.commandId, line);
+        if(this.commandIsMain) {
+          api.setNextStepForComponent(this.botId, 1, event.componentId);
+        } else {
+          api.setNextStepForCommand(this.botId, this.componentId, this.commandId, event.componentId);
+        }
       } else {
         console.error("CommandId is null")
       }
-      
+      this.commandId = null;
+      this.componentId = null;
+      this.commandIsMain = false;
 
       
     },
@@ -231,10 +242,11 @@ export default {
 
     },
     async getBot() {
+      this.editorController.clearComponents();
       await api.resetBot(this.botId);
       const startComponent = await api.getStartComponent(this.botId);
       let component = NewComponentFromAPIJSON(startComponent);
-      component.commands.set(0, new Command(0, "text", "Start"));
+      component.commands.set(1, new Command(1, "text", "Start"));
       this.editorController.getComponents().set(component.id, component);
 
     },
