@@ -24,11 +24,13 @@
       :pleft="editor.offsetWidth/3"
       :ptop="editor.offsetHeight/3"
       :is-main="component.isMain"
+      :connecting-elements-to="component.connectingElementsTo"
       v-bind="editorComponent" 
       @delete-component="deleteComponent"
       @conn-start="startConnecting"
       @conn-end="connectComponents"
       @open="openComponentContent"
+      @detach="detachComponent"
       />
     
     <connecting-line 
@@ -204,8 +206,14 @@ export default {
         y2: event.y,
       }
       
-      if(this.commandId) {
+      if(this.commandId !== null) {
         this.lines.set(this.commandId, line);
+        this.editorController.getComponents().get(event.componentId).connectingElementsTo.set(this.commandId, {
+          x: event.relativeComponentX, 
+          y: event.relativeComponentY,
+          commandComponentId: this.componentId,
+        });
+
         if(this.commandIsMain) {
           api.setNextStepForComponent(this.botId, 1, event.componentId);
         } else {
@@ -214,6 +222,7 @@ export default {
       } else {
         console.error("CommandId is null")
       }
+
       this.commandId = null;
       this.componentId = null;
       this.commandIsMain = false;
@@ -246,9 +255,9 @@ export default {
       await api.resetBot(this.botId);
       const startComponent = await api.getStartComponent(this.botId);
       let component = NewComponentFromAPIJSON(startComponent);
-      component.commands.set(1, new Command(1, "text", "Start"));
+      component.commands.set(0, new Command(0, "text", "Start"));
       this.editorController.getComponents().set(component.id, component);
-
+      this.lines.clear();
     },
     async startBot() {
       await api.setBotToken(this.botId);
@@ -262,7 +271,7 @@ export default {
       for(let [key, info] of changes) {
         if(info.type == "add") {
           const id = await api.addCommand(this.botId, this.componentId, "text", info.text);
-          this.editorController.getComponents().get(this.componentId).commands.set(id, new Command(id, "text", info.text));
+          this.editorController.getComponents().get(this.componentId).commands.set(id, new Command(id, "text", info.text, this.componentId));
         } else {
           await api.deleteCommand(this.botId, this.componentId ,key);
           this.editorController.getComponents().get(this.componentId).commands.delete(key);
@@ -277,6 +286,25 @@ export default {
 
       this.componentContentIsOpen = false;
       this.componentId = null;
+    },
+    async detachComponent(event) {
+      this.conn = true;
+      this.line = this.lines.get(event.commandId);
+      this.commandId = event.commandId;
+      this.componentId = event.commandComponentId;
+
+      this.editorController.getComponents().get(event.componentId).connectingElementsTo.delete(event.commandId);
+      this.lines.delete(event.commandId);
+      if(event.commandId === 0) {
+        this.commandIsMain = true;
+        await api.deleteNextStepForComponent(this.botId, 1);
+      } else {
+        await api.deleteNextStepForCommand(this.botId, event.commandComponentId, event.commandId);
+      }
+     
+      
+      
+    
     }
   },
   setup() {

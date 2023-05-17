@@ -24,6 +24,7 @@ export function Component(id, data = null, commands = new Map(), nextStepId = nu
     this.commands = commands;
     this.nextStepId = nextStepId;
     this.isMain = isMain;
+    this.connectingElementsTo = new Map();
     this.intoComponentAPIJSON = function() {
         const commands = [];
         for(let command of this.commands) {

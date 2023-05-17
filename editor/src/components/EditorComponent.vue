@@ -32,12 +32,15 @@
         @click="open"
       />
       <connecting-element-to 
-        v-for="(item, index) in connectingElementsTo"
-        :key="index"
+        v-for="[key, item] in connectingElementsTo"
+        :key="key"
+        :command-id="key"
         :width="connectingElementSize"
         :height="connectingElementSize"
-        :top="item.top"
-        :left="item.left"
+        :top="item.y"
+        :left="item.x"
+        :command-component-id="item.commandComponentId"
+        @detach="detach"
       />
 
     </div>
@@ -81,8 +84,8 @@ export default {
       default: false,
     },
     connectingElementsTo: {
-      type: Array,
-      default: () => [],
+      type: Map,
+      default: () => new Map(),
     },
     buttons: {
       type: Map,
@@ -254,6 +257,8 @@ export default {
         x: event.x,
         y: event.y,
       }
+      event.relativeComponentX = event.x;
+      event.relativeComponentY = event.y;
       event.x = event.x + this.left;
       event.y = event.y + this.top;
       event.componentId = this.id;
@@ -265,6 +270,11 @@ export default {
         this.$emit("open", this.id);
       }
       
+    }, 
+    detach(event) {
+      this.state = CONN_STATE;
+      event.componentId = this.id;
+      this.$emit("detach", event);
     }
   },
   watch: {
@@ -304,6 +314,7 @@ export default {
       }
       return true;
     },
+    detach: null,
   },
   setup() {
     const component = ref(null)

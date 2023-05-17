@@ -3,6 +3,7 @@
       @mouseenter="onMouseEnter"
       @mouseleave="onMouseLeave"
       @mouseup="onMouseUp"
+      @mousedown="onMouseDown"
       
       :style="styleObject"
       class="conn-el-to"
@@ -19,7 +20,11 @@
 
 export default {
   props: {
-    buttonId: {
+    commandId: {
+      type: Number,
+      default: null,
+    },
+    commandComponentId: {
       type: Number,
       default: null,
     },
@@ -77,12 +82,15 @@ export default {
         x: this.left,
         y: this.top,
       })
+    },
+    onMouseDown() {
+      this.$emit("detach", {commandId: this.commandId});
     }
     
   },
   emits: [
     "connEnd",
-
+    "detach",
   ],
   setup() {
     
