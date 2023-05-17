@@ -54,6 +54,8 @@
         <!-- <input v-model="botName"/>
         <button @click="createBot" id="save-btn">Create Bot</button> -->
         <button @click="getBot" id="save-btn">Get Bot</button>
+        <button @click="startBot" id="save-btn">Start Bot</button>
+        <button @click="stopBot" id="save-btn">Stop Bot</button>
       </div>
       <component-content
         @close="closeComponentContent"
@@ -230,6 +232,14 @@ export default {
       this.editorController.getComponents().set(component.id, component);
 
     },
+    async startBot() {
+      await api.setBotToken(this.botId);
+      await api.startBot(this.botId);
+    },
+    async stopBot() {
+      await api.stopBot(this.botId);
+      await api.deleteBotToken(this.botId);
+    }
   },
   setup() {
     const editor = ref(null)
