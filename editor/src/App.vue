@@ -313,21 +313,24 @@ export default {
       await api.deleteBotToken(this.botId);
     },
     async componentContentApply(changes) {
+      const component = this.editorController.getComponents().get(this.componentId);
       for(let [key, info] of changes) {
+        
         if(info.type == "add") {
           const id = await api.addCommand(this.botId, this.componentId, "text", info.text);
-          this.editorController.getComponents().get(this.componentId).commands.set(id, new Command(id, "text", info.text, this.componentId));
+          component.commands.set(id, new Command(id, "text", info.text, this.componentId));
         } else {
           await api.deleteCommand(this.botId, this.componentId ,key);
-          this.editorController.getComponents().get(this.componentId).commands.delete(key);
+          component.commands.delete(key);
         }
       }
-
+      component.data.content[0].text = changes.text;
       await api.updateComponent(this.botId, this.componentId, new ComponentData("text", [
         {
           text: changes.text
         }
-      ]))
+      ]));
+
 
       this.componentContentIsOpen = false;
       this.componentId = null;
