@@ -1,4 +1,5 @@
 import * as api from "./api.js"
+import { bot_id } from "./conf.js";
 
 export function Command(id, type = "text", data = "", componentId = null, nextStepId = null) {
     this.id = id;
@@ -62,7 +63,7 @@ export function EditorController() {
     this._new_id = 0;
     this._new_command = 0;
     this.components = new Map();
-    this.botId = 126;
+    this.botId = bot_id;
     this.addComponent = async function() {
         const data = new ComponentData("text", [
             {

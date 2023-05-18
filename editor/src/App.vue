@@ -96,7 +96,6 @@ export default {
       editorLeft: 100,
       editorTop: 100,
       
-      botId: 126,
       botName: "",
 
       mouseX: 0,
@@ -140,6 +139,9 @@ export default {
         left: this.editorLeft + "px",
         top: this.editorTop + "px",
       }
+    },
+    botId() {
+      return this.editorController.botId;
     },
     editorComponent() {
       return {
