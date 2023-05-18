@@ -223,7 +223,7 @@ export default {
       this.commandIsMain = event.isMain;
       this.componentId = event.componentId;
 
-      console.log(event.nextComponentId);
+      
       if(event.nextComponentId) {
         this.editorController.getComponents().get(event.nextComponentId).connectingElementsTo.delete(event.commandId);
         this.editorController.getComponents().get(this.componentId).commands.get(this.commandId).nextStepId = null;
@@ -258,6 +258,7 @@ export default {
 
         if(this.commandIsMain) {
           this.editorController.getComponents().get(this.componentId).nextStepId = event.componentId;
+          this.editorController.getComponents().get(this.componentId).commands.get(this.commandId).nextStepId = event.componentId;
           api.setNextStepForComponent(this.botId, 1, event.componentId);
         } else {
           this.editorController.getComponents().get(this.componentId).commands.get(this.commandId).nextStepId = event.componentId;
