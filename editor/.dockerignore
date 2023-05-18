@@ -1,0 +1,9 @@
+# git
+.git
+.gitattributes
+.gitignore
+
+#dev
+*.md
+Dockerfile
+dist
