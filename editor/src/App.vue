@@ -223,6 +223,7 @@ export default {
       this.commandIsMain = event.isMain;
       this.componentId = event.componentId;
 
+      console.log(event.nextComponentId);
       if(event.nextComponentId) {
         this.editorController.getComponents().get(event.nextComponentId).connectingElementsTo.delete(event.commandId);
         this.editorController.getComponents().get(this.componentId).commands.get(this.commandId).nextStepId = null;
@@ -389,7 +390,20 @@ export default {
 
     },
     moveComponent() {
-      
+      for(let item of this.linesToComponent) {
+        if(this.lines.has(item.commandId)) {
+          const line = this.lines.get(item.commandId);
+          line.x2 = this.mouseX + item.offsetX; 
+          line.y2 = this.mouseY + item.offsetY;
+        }
+      }
+      for(let item of this.linesFromComponent) {
+        if(this.lines.has(item.commandId)) {
+          const line = this.lines.get(item.commandId);
+          line.x1 = this.mouseX - item.offsetX; 
+          line.y1 = this.mouseY - item.offsetY;
+        }
+      }
     }
   },
   setup() {
