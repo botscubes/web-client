@@ -54,7 +54,7 @@
     <div class="fixed-area">
       <div class="fixed-btns">
         <button @click="addComponent" id="add-btn">Add component</button>
-        <button @click="saveBot" id="save-btn">Save Bot</button>
+        <!-- <button @click="saveBot" id="save-btn">Save Bot</button> -->
         <!-- <input v-model="botName"/>
         <button @click="createBot" id="save-btn">Create Bot</button> -->
         <button @click="getBot" id="save-btn">Get Bot</button>
