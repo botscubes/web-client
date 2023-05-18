@@ -31,6 +31,8 @@
       @conn-end="connectComponents"
       @open="openComponentContent"
       @detach="detachComponent"
+      @start-move="startMoveComponent"
+      @move="moveComponent"
       />
     
     <connecting-line 
@@ -113,6 +115,8 @@ export default {
       conn: false,
       componentContentIsOpen: false,
       
+      linesFromComponent: [],
+      linesToComponent: [],
     }
   },
 
@@ -347,6 +351,45 @@ export default {
       
       
     
+    },
+    startMoveComponent(event) {
+      this.linesFromComponent = [];
+      this.linesToComponent = [];
+
+      this.componentId = event.componentId;
+
+      const component = this.editorController.components.get(this.componentId);
+      const commands = component.commands;
+      const conns = component.connectingElementsTo;
+
+      for(let id of commands.keys()) {
+        if(this.lines.has(id)) {
+          const x = this.lines.get(id).x1;
+          const y = this.lines.get(id).y1;
+          this.linesFromComponent.push({
+            commandId: id,
+            offsetX: this.mouseX - x, 
+            offsetY: this.mouseY - y,
+          });
+        }
+      }
+      for(let id of conns.keys()) {
+        if(this.lines.has(id)) {
+          const x = this.lines.get(id).x1;
+          const y = this.lines.get(id).y1;
+          this.linesToComponent.push({
+            commandId: id,
+            offsetX: this.mouseX - x, 
+            offsetY: this.mouseY - y,
+          });
+        }
+      }
+      // console.log(this.linesFromComponent);
+      // console.log(this.linesToComponent);
+
+    },
+    moveComponent() {
+      
     }
   },
   setup() {

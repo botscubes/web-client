@@ -222,7 +222,10 @@ export default {
     },
     onMouseDown() {
       if(this.state == MOVE_STATE) {
+        this.$emit("startMove", { 
+          componentId: this.id, 
         
+        }); 
         this.shiftX = this.editorMouseX - this.left;
         this.shiftY = this.editorMouseY - this.top;
 
@@ -285,11 +288,19 @@ export default {
     editorMouseX(val) {
       if(this.state == MOVE_STATE && this.mouseDown) {
           this.left = val - this.shiftX;
+          this.$emit("move", { 
+            componentId: this.id, 
+        
+          }); 
         }
     },
     editorMouseY(val) {
       if(this.state == MOVE_STATE && this.mouseDown) {
         this.top = val - this.shiftY;
+        this.$emit("move", { 
+          componentId: this.id, 
+        
+        }); 
       }
     },
     editorMouseDown(val) {
@@ -318,6 +329,8 @@ export default {
       return true;
     },
     detach: null,
+    move: null,
+    startMove: null,
   },
   setup() {
     const component = ref(null)
