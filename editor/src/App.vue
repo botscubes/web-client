@@ -377,8 +377,8 @@ export default {
       }
       for(let id of conns.keys()) {
         if(this.lines.has(id)) {
-          const x = this.lines.get(id).x1;
-          const y = this.lines.get(id).y1;
+          const x = this.lines.get(id).x2;
+          const y = this.lines.get(id).y2;
           this.linesToComponent.push({
             commandId: id,
             offsetX: this.mouseX - x, 
@@ -394,8 +394,8 @@ export default {
       for(let item of this.linesToComponent) {
         if(this.lines.has(item.commandId)) {
           const line = this.lines.get(item.commandId);
-          line.x2 = this.mouseX + item.offsetX; 
-          line.y2 = this.mouseY + item.offsetY;
+          line.x2 = this.mouseX - item.offsetX; 
+          line.y2 = this.mouseY - item.offsetY;
         }
       }
       for(let item of this.linesFromComponent) {
