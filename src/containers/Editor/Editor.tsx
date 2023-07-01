@@ -1,5 +1,6 @@
 import { createSignal, createEffect } from "solid-js";
 import { handleMouseMove } from "./events";
+import { Component } from "./components/Component";
 import "./Editor.css";
 
 export default function Editor() {
@@ -9,7 +10,7 @@ export default function Editor() {
   });
   return (
     <div id="editor-area" onMouseMove={[handleMouseMove, setMousePos]}>
-      Editor
+      <Component />
     </div>
   );
 }

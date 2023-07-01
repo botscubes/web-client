@@ -1,7 +1,7 @@
-import { TPosition } from "./types";
+import { Position } from "./shared/types";
 
 export function handleMouseMove(
-  setMousePos: (v: TPosition) => TPosition,
+  setMousePos: (v: Position) => Position,
   event: MouseEvent
 ) {
   const editor: HTMLElement = event.currentTarget as HTMLElement;
