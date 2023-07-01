@@ -1,4 +1,4 @@
+export type { ComponentData } from "./types";
 import Component from "./Component";
-import { ComponentProps } from "./types";
 
-export { Component, ComponentProps };
+export { Component };

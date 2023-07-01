@@ -1,5 +1,5 @@
-import { ComponentProps } from "./components/Component";
+import { ComponentData } from "./components/Component";
 
 export interface EditorStore {
-  components: Record<number, ComponentProps>;
+  components: Record<number, ComponentData>;
 }
