@@ -6,9 +6,13 @@ export default function Component(props: ComponentProps) {
   const handleDeleteButtonClick = () => {
     props.deleteComponent(props.component.id);
   };
+  const handleMouseDown = () => {
+    props.selectComponent(props.component.id);
+  };
   return (
     <div
       class="component"
+      classList={{ selected: props.component.selected }}
       onDragStart={handleDragStart}
       onMouseUp={handleMouseUp}
       onMouseDown={handleMouseDown}
