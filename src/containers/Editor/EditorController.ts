@@ -26,11 +26,8 @@ export default class EditorController {
     this.id++;
   }
   deleteComponent(id: number) {
-    this.setEditorStore(
-      "components",
-      produce((components) => {
-        delete components[id];
-      })
-    );
+    this.setEditorStore("components", (components) => {
+      return { ...components, [id]: undefined };
+    });
   }
 }

@@ -15,10 +15,10 @@ export default function Editor() {
     setEditorStore
   );
 
-  const handleButtonClick = (event: Event) => {
+  const handleAddComponent = (event: Event) => {
     editorController.addComponent();
   };
-  const deleteComponent = (id: number) => {
+  const handleDeleteComponent = (id: number) => {
     editorController.deleteComponent(id);
   };
   //debug
@@ -27,14 +27,14 @@ export default function Editor() {
   //  });
   return (
     <div id="editor-area" onMouseMove={[handleMouseMove, setMousePos]}>
-      <button onClick={handleButtonClick}>Add Component</button>
+      <button onClick={handleAddComponent}>Add Component</button>
       <For each={Object.values(editorController.getEditorStore().components)}>
         {(component) => {
           console.log(component.id);
           return (
             <Component
               component={component}
-              deleteComponent={deleteComponent}
+              deleteComponent={handleDeleteComponent}
             />
           );
         }}
