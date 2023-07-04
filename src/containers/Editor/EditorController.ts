@@ -4,7 +4,8 @@ import { Position } from "./shared/types";
 
 export default class EditorController {
   private id = 0;
-  private selectedComponents = new Set<number>();
+  // key - id, value - mouse shift
+  private selectedComponents = new Map<number, Position>();
   constructor(
     private editorStore: Store<EditorStore>,
     private setEditorStore: SetStoreFunction<EditorStore>
@@ -28,7 +29,16 @@ export default class EditorController {
     });
     this.id++;
   }
+  setComponentPosition(id: number, position: Position) {
+    this.setEditorStore("components", id, (component) => {
+      return {
+        ...component,
+        position: position,
+      };
+    });
+  }
   deleteComponent(id: number) {
+    this.selectedComponents.delete(id);
     this.setEditorStore("components", (components) => {
       return { ...components, [id]: undefined };
     });
@@ -40,7 +50,7 @@ export default class EditorController {
         selected: true,
       };
     });
-    this.selectedComponents.add(id);
+    this.selectedComponents.set(id, { x: 0, y: 0 });
   }
   deselectComponent(id: number) {
     this.setEditorStore("components", id, (component) => {
@@ -49,13 +59,30 @@ export default class EditorController {
         selected: false,
       };
     });
-    this.selectedComponents.add(id);
+    this.selectedComponents.set(id, { x: 0, y: 0 });
   }
   deselectComponents() {
-    for (const id of this.selectedComponents) {
+    for (const id of this.selectedComponents.keys()) {
       this.deselectComponent(id);
     }
     this.selectedComponents.clear();
   }
-  moveComponents(mouse_pos: Position) {}
+  fixMouseShiftsRelativeToComponents(mousePos: Position) {
+    for (const id of this.selectedComponents.keys()) {
+      const position = this.editorStore.components[id].position;
+      const shift: Position = {
+        x: mousePos.x - position.x,
+        y: mousePos.y - position.y,
+      };
+      this.selectedComponents.set(id, shift);
+    }
+  }
+  moveComponents(mousePos: Position) {
+    for (const [id, position] of this.selectedComponents) {
+      this.setComponentPosition(id, {
+        x: mousePos.x - position.x,
+        y: mousePos.y - position.y,
+      });
+    }
+  }
 }

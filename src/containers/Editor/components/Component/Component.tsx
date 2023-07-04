@@ -13,6 +13,10 @@ export default function Component(props: ComponentProps) {
     <div
       class="component"
       classList={{ selected: props.component.selected }}
+      style={{
+        left: props.component.position.x.toString() + "px",
+        top: props.component.position.y.toString() + "px",
+      }}
       onDragStart={handleDragStart}
       onMouseUp={handleMouseUp}
       onMouseDown={handleMouseDown}

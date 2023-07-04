@@ -26,6 +26,7 @@ export default function Editor() {
 
   const handleSelectComponent = (id: number) => {
     editorController.selectComponent(id);
+    editorController.fixMouseShiftsRelativeToComponents(mousePos());
     editorState = EditorState.MOVING_COMPONENT;
   };
   const handleMouseUp = () => {
@@ -37,6 +38,12 @@ export default function Editor() {
     }
   };
 
+  createEffect(() => {
+    const position = mousePos();
+    if (editorState == EditorState.MOVING_COMPONENT) {
+      editorController.moveComponents(position);
+    }
+  });
   return (
     <div
       id="editor-area"
