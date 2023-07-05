@@ -6,8 +6,15 @@ export default function Component(props: ComponentProps) {
   const handleDeleteButtonClick = () => {
     props.deleteComponent(props.component.id);
   };
-  const handleMouseDown = () => {
-    props.selectComponent(props.component.id);
+  const handleMouseDown = (event: MouseEvent) => {
+    if (!(event.ctrlKey || event.metaKey)) {
+      props.selectComponent(props.component.id);
+    }
+  };
+  const handleMouseUp = (event: MouseEvent) => {
+    if (event.ctrlKey || event.metaKey) {
+      props.addSelectedComponent(props.component.id);
+    }
   };
   return (
     <div

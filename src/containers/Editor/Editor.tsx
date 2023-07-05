@@ -18,14 +18,31 @@ export default function Editor() {
   let editorState: EditorState = EditorState.NONE;
 
   const handleAddComponent = (event: Event) => {
-    editorController.addComponent();
+    editorController.deselectComponents();
+    const id: number = editorController.addComponent();
+    editorController.selectComponent(id);
+    //editorState = EditorState.COMPONENT_SELECTED;
   };
   const handleDeleteComponent = (id: number) => {
     editorController.deleteComponent(id);
   };
-
+  const handleAddSelectedComponent = (id: number) => {
+    if (editorController.componentIsSelected(id)) {
+      editorController.deselectComponent(id);
+    } else {
+      editorController.selectComponent(id);
+    }
+    if (editorController.haveSelectedComponents()) {
+      //editorState = EditorState.COMPONENT_SELECTED;
+    } else {
+      editorState = EditorState.NONE;
+    }
+  };
   const handleSelectComponent = (id: number) => {
-    editorController.selectComponent(id);
+    if (!editorController.componentIsSelected(id)) {
+      editorController.deselectComponents();
+      editorController.selectComponent(id);
+    }
     editorController.fixMouseShiftsRelativeToComponents(mousePos());
     editorState = EditorState.MOVING_COMPONENT;
   };
@@ -59,6 +76,7 @@ export default function Editor() {
               component={component}
               deleteComponent={handleDeleteComponent}
               selectComponent={handleSelectComponent}
+              addSelectedComponent={handleAddSelectedComponent}
             />
           );
         }}

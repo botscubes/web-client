@@ -13,12 +13,13 @@ export default class EditorController {
   getEditorStore(): Store<EditorStore> {
     return this.editorStore;
   }
-  addComponent() {
+  addComponent(): number {
+    const id: number = this.id;
     this.setEditorStore("components", (components) => {
       return {
         ...components,
-        [this.id]: {
-          id: this.id,
+        [id]: {
+          id: id,
           position: {
             x: 100,
             y: 100,
@@ -28,6 +29,7 @@ export default class EditorController {
       };
     });
     this.id++;
+    return id;
   }
   setComponentPosition(id: number, position: Position) {
     this.setEditorStore("components", id, (component) => {
@@ -42,6 +44,12 @@ export default class EditorController {
     this.setEditorStore("components", (components) => {
       return { ...components, [id]: undefined };
     });
+  }
+  componentIsSelected(id: number): boolean {
+    return this.selectedComponents.has(id);
+  }
+  haveSelectedComponents(): boolean {
+    return this.selectedComponents.size != 0;
   }
   selectComponent(id: number) {
     this.setEditorStore("components", id, (component) => {
@@ -59,13 +67,12 @@ export default class EditorController {
         selected: false,
       };
     });
-    this.selectedComponents.set(id, { x: 0, y: 0 });
+    this.selectedComponents.delete(id);
   }
   deselectComponents() {
     for (const id of this.selectedComponents.keys()) {
       this.deselectComponent(id);
     }
-    this.selectedComponents.clear();
   }
   fixMouseShiftsRelativeToComponents(mousePos: Position) {
     for (const id of this.selectedComponents.keys()) {
