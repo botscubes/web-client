@@ -21,7 +21,7 @@ export default function Editor() {
     editorController.deselectComponents();
     const id: number = editorController.addComponent();
     editorController.selectComponent(id);
-    //editorState = EditorState.COMPONENT_SELECTED;
+    editorState = EditorState.COMPONENT_SELECTED;
   };
   const handleDeleteComponent = (id: number) => {
     editorController.deleteComponent(id);
@@ -33,7 +33,7 @@ export default function Editor() {
       editorController.selectComponent(id);
     }
     if (editorController.haveSelectedComponents()) {
-      //editorState = EditorState.COMPONENT_SELECTED;
+      editorState = EditorState.COMPONENT_SELECTED;
     } else {
       editorState = EditorState.NONE;
     }
@@ -46,11 +46,15 @@ export default function Editor() {
     editorController.fixMouseShiftsRelativeToComponents(mousePos());
     editorState = EditorState.MOVING_COMPONENT;
   };
-  const handleMouseUp = () => {
-    if (editorState == EditorState.COMPONENT_SELECTED) {
+  const handleMouseUp = (event: MouseEvent) => {
+    const target = event.target as HTMLElement;
+
+    if (target.dataset.editorArea != undefined) {
       editorController.deselectComponents();
       editorState = EditorState.NONE;
-    } else if (editorState == EditorState.MOVING_COMPONENT) {
+    }
+
+    if (editorState == EditorState.MOVING_COMPONENT) {
       editorState = EditorState.COMPONENT_SELECTED;
     }
   };
@@ -64,6 +68,7 @@ export default function Editor() {
   return (
     <div
       id="editor-area"
+      data-editor-area
       onMouseMove={[handleMouseMove, setMousePos]}
       onMouseUp={handleMouseUp}
     >

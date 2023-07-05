@@ -1,6 +1,8 @@
-import { SetStoreFunction, Store, produce } from "solid-js/store";
+import { SetStoreFunction, Store } from "solid-js/store";
 import { EditorStore } from "./types";
 import { Position } from "./shared/types";
+import { ComponentData } from "./components/Component";
+import cloneDeep from "lodash/cloneDeep";
 
 export default class EditorController {
   private id = 0;
@@ -30,6 +32,19 @@ export default class EditorController {
     });
     this.id++;
     return id;
+  }
+  cloneComponent(id: number): number {
+    const component: ComponentData = cloneDeep(this.editorStore.components[id]);
+    const newId = this.id;
+    component.id = newId;
+    this.setEditorStore("components", (components) => {
+      return {
+        ...components,
+        component,
+      };
+    });
+    this.id++;
+    return newId;
   }
   setComponentPosition(id: number, position: Position) {
     this.setEditorStore("components", id, (component) => {
