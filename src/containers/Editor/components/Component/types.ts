@@ -6,8 +6,14 @@ export interface ComponentData {
   selected: boolean;
 }
 
+export interface ComponentStyle {
+  width: number;
+  connectionPointSize: number;
+}
+
 export interface ComponentProps {
   component: ComponentData;
+  componentStyle: ComponentStyle;
   deleteComponent: (id: number) => void;
   selectComponent: (id: number) => void;
   addSelectedComponent: (id: number) => void;

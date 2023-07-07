@@ -1,5 +1,6 @@
 import { ComponentProps } from "./types";
-import { handleDragStart, handleMouseUp, handleMouseDown } from "./events";
+import { handleDragStart } from "./events";
+import { ConnectionArea } from "./components/ConnectionArea";
 import "./Component.css";
 
 export default function Component(props: ComponentProps) {
@@ -23,13 +24,23 @@ export default function Component(props: ComponentProps) {
       style={{
         left: props.component.position.x.toString() + "px",
         top: props.component.position.y.toString() + "px",
+        width: props.componentStyle.width.toString() + "px",
+        height: "50px",
       }}
       onDragStart={handleDragStart}
       onMouseUp={handleMouseUp}
       onMouseDown={handleMouseDown}
     >
-      <button onClick={handleDeleteButtonClick}>delete</button>
-      <p>{props.component.id}</p>
+      <button onClick={handleDeleteButtonClick}>
+        delete {props.component.id}
+      </button>
+      <ConnectionArea
+        data={{
+          connectionPointSize: props.componentStyle.connectionPointSize,
+          componentWidth: props.componentStyle.width,
+          componentHeight: 50,
+        }}
+      />
     </div>
   );
 }

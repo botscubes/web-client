@@ -10,6 +10,10 @@ export default function Editor() {
   const [mousePos, setMousePos] = createSignal({ x: 0, y: 0 });
   const [editorStore, setEditorStore] = createStore({
     components: {},
+    componentStyle: {
+      width: 100, //px
+      connectionPointSize: 20, //px
+    },
   });
   const editorController: EditorController = new EditorController(
     editorStore,
@@ -76,9 +80,12 @@ export default function Editor() {
       <For each={Object.values(editorController.getEditorStore().components)}>
         {(component) => {
           console.log(component.id);
+          const componentStyle =
+            editorController.getEditorStore().componentStyle;
           return (
             <Component
               component={component}
+              componentStyle={componentStyle}
               deleteComponent={handleDeleteComponent}
               selectComponent={handleSelectComponent}
               addSelectedComponent={handleAddSelectedComponent}
