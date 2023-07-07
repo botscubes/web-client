@@ -5,6 +5,7 @@ import { Component } from "./components/Component";
 import EditorController from "./EditorController";
 import { EditorState } from "./types";
 import "./Editor.css";
+import { MouseButton } from "./shared/types";
 
 export default function Editor() {
   const [mousePos, setMousePos] = createSignal({ x: 0, y: 0 });
@@ -51,15 +52,18 @@ export default function Editor() {
     editorState = EditorState.MOVING_COMPONENT;
   };
   const handleMouseUp = (event: MouseEvent) => {
-    const target = event.target as HTMLElement;
+    if (event.button == MouseButton.LEFT) {
+      const target = event.target as HTMLElement;
 
-    if (target.dataset.editorArea != undefined) {
-      editorController.deselectComponents();
-      editorState = EditorState.NONE;
-    }
+      if (target.dataset.editorArea != undefined) {
+        editorController.deselectComponents();
+        editorState = EditorState.NONE;
+      }
 
-    if (editorState == EditorState.MOVING_COMPONENT) {
-      editorState = EditorState.COMPONENT_SELECTED;
+      if (editorState == EditorState.MOVING_COMPONENT) {
+        editorState = EditorState.COMPONENT_SELECTED;
+      }
+      console.log("mouse up on Editor");
     }
   };
 

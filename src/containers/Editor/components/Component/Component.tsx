@@ -2,18 +2,19 @@ import { ComponentProps } from "./types";
 import { handleDragStart } from "./events";
 import { ConnectionArea } from "./components/ConnectionArea";
 import "./Component.css";
+import { MouseButton } from "../../shared/types";
 
 export default function Component(props: ComponentProps) {
   const handleDeleteButtonClick = () => {
     props.deleteComponent(props.component.id);
   };
   const handleMouseDown = (event: MouseEvent) => {
-    if (!(event.ctrlKey || event.metaKey)) {
+    if (!(event.ctrlKey || event.metaKey) && event.button == MouseButton.LEFT) {
       props.selectComponent(props.component.id);
     }
   };
   const handleMouseUp = (event: MouseEvent) => {
-    if (event.ctrlKey || event.metaKey) {
+    if ((event.ctrlKey || event.metaKey) && event.button == MouseButton.LEFT) {
       props.addSelectedComponent(props.component.id);
     }
   };
