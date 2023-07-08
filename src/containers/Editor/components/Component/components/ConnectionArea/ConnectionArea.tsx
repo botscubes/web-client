@@ -9,16 +9,20 @@ export default function ConnectionArea(props: ConnectionAreaProps) {
     y: 0,
   });
   const areaWidth = createMemo(
-    () => props.data.componentWidth + props.data.connectionPointSize
+    () =>
+      props.connectionAreaStyle.componentWidth +
+      props.connectionAreaStyle.connectionPointSize
   );
   const areaHeight = createMemo(
-    () => props.data.componentHeight + props.data.connectionPointSize
+    () =>
+      props.connectionAreaStyle.componentHeight +
+      props.connectionAreaStyle.connectionPointSize
   );
   const handleMouseMove = (event: MouseEvent) => {
     const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
     const x = event.clientX - rect.x;
     const y = event.clientY - rect.y;
-    const pointSize = props.data.connectionPointSize;
+    const pointSize = props.connectionAreaStyle.connectionPointSize;
     const bordersX = x >= pointSize / 2 && x <= areaWidth() - pointSize / 2;
     const bordersY = y >= pointSize / 2 && y <= areaHeight() - pointSize / 2;
 
@@ -45,22 +49,26 @@ export default function ConnectionArea(props: ConnectionAreaProps) {
       });
     }
   };
-  console.log("aaaaaa");
+
   return (
     <div
       class="connection-area"
       style={{
-        left: (-props.data.connectionPointSize / 2).toString() + "px",
-        top: (-props.data.connectionPointSize / 2).toString() + "px",
+        left:
+          (-props.connectionAreaStyle.connectionPointSize / 2).toString() +
+          "px",
+        top:
+          (-props.connectionAreaStyle.connectionPointSize / 2).toString() +
+          "px",
         width: areaWidth().toString() + "px",
         height: areaHeight().toString() + "px",
       }}
       onMouseMove={handleMouseMove}
     >
       <ConnectionPoint
-        data={{
+        connectionPointStyle={{
           position: pointPos(),
-          size: props.data.connectionPointSize,
+          size: props.connectionAreaStyle.connectionPointSize,
         }}
       />
     </div>

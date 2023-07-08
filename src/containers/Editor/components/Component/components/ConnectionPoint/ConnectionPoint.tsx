@@ -16,10 +16,10 @@ export default function ConnectionPoint(props: ConnectionPointProps) {
     <div
       class="connection-point"
       style={{
-        left: props.data.position.x.toString() + "px",
-        top: props.data.position.y.toString() + "px",
-        width: props.data.size.toString() + "px",
-        height: props.data.size.toString() + "px",
+        left: props.connectionPointStyle.position.x.toString() + "px",
+        top: props.connectionPointStyle.position.y.toString() + "px",
+        width: props.connectionPointStyle.size.toString() + "px",
+        height: props.connectionPointStyle.size.toString() + "px",
         opacity: focus() ? 0.5 : 0,
       }}
       onMouseEnter={handleMouseEnter}

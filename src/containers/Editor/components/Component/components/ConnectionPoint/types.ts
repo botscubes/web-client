@@ -1,10 +1,10 @@
 import { Position } from "../../../../shared/types";
 
-export interface ConnectionPointData {
+export interface ConnectionPointStyle {
   size: number;
   position: Position;
 }
 
 export interface ConnectionPointProps {
-  data: ConnectionPointData;
+  connectionPointStyle: ConnectionPointStyle;
 }

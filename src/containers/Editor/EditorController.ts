@@ -26,6 +26,16 @@ export default class EditorController {
             x: 100,
             y: 100,
           },
+          commands: {
+            [0]: {
+              id: 1,
+              name: "test0",
+            },
+            [1]: {
+              id: 1,
+              name: "test1",
+            },
+          },
           selected: false,
         },
       };

@@ -4,9 +4,25 @@
   z-index: 1;
   min-height: 50px;
   width: 100px;
+  border-radius: 5px;
 }
 
 .selected {
   box-shadow: 0 0 4px 4px teal;
   outline: 2px solid teal;
+}
+
+.delete-button {
+  position: absolute;
+  margin: 0px;
+  top: 0;
+  right: 0;
+  display: inline-block;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  font-size: 20px;
+  padding: 0px 5px;
 }

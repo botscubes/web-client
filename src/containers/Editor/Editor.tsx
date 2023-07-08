@@ -14,6 +14,8 @@ export default function Editor() {
     componentStyle: {
       width: 100, //px
       connectionPointSize: 20, //px
+      commandHeight: 40, //px
+      commandIndent: 20,
     },
   });
   const editorController: EditorController = new EditorController(
@@ -22,7 +24,7 @@ export default function Editor() {
   );
   let editorState: EditorState = EditorState.NONE;
 
-  const handleAddComponent = (event: Event) => {
+  const handleAddComponent = () => {
     editorController.deselectComponents();
     const id: number = editorController.addComponent();
     editorController.selectComponent(id);
@@ -81,22 +83,24 @@ export default function Editor() {
       onMouseUp={handleMouseUp}
     >
       <button onClick={handleAddComponent}>Add Component</button>
-      <For each={Object.values(editorController.getEditorStore().components)}>
-        {(component) => {
-          console.log(component.id);
-          const componentStyle =
-            editorController.getEditorStore().componentStyle;
-          return (
-            <Component
-              component={component}
-              componentStyle={componentStyle}
-              deleteComponent={handleDeleteComponent}
-              selectComponent={handleSelectComponent}
-              addSelectedComponent={handleAddSelectedComponent}
-            />
-          );
-        }}
-      </For>
+      <div class="scaling">
+        <For each={Object.values(editorController.getEditorStore().components)}>
+          {(component) => {
+            console.log(component.id);
+            const componentStyle =
+              editorController.getEditorStore().componentStyle;
+            return (
+              <Component
+                componentData={component}
+                componentStyle={componentStyle}
+                deleteComponent={handleDeleteComponent}
+                selectComponent={handleSelectComponent}
+                addSelectedComponent={handleAddSelectedComponent}
+              />
+            );
+          }}
+        </For>
+      </div>
     </div>
   );
 }

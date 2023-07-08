@@ -8,3 +8,7 @@
   width: 90%;
   height: 600px;
 }
+
+.scaling {
+  transform: scale(1);
+}
