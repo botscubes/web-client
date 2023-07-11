@@ -68,6 +68,14 @@ export default function Editor() {
     editorController.fixMouseShiftsRelativeToComponents(mousePos());
     editorState = EditorState.MOVING_COMPONENT;
   };
+  const handleStartConnection = (
+    commandId: number,
+    pointPosition: Position
+  ) => {};
+  const handleFinishConnection = (
+    componentId: number,
+    pointPosition: Position
+  ) => {};
   const handleMouseUp = (event: MouseEvent) => {
     if (event.button == MouseButton.LEFT) {
       const target = event.target as HTMLElement;
@@ -122,6 +130,8 @@ export default function Editor() {
                 deleteComponent={handleDeleteComponent}
                 selectComponent={handleSelectComponent}
                 addSelectedComponent={handleAddSelectedComponent}
+                startConnection={handleStartConnection}
+                finishConnection={handleFinishConnection}
               />
             );
           }}

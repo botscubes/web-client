@@ -2,7 +2,7 @@ import { ComponentProps } from "./types";
 import { handleDragStart } from "./events";
 import { ConnectionArea } from "./components/ConnectionArea";
 import "./Component.css";
-import { MouseButton } from "../../shared/types";
+import { MouseButton, Position } from "../../shared/types";
 import { For } from "solid-js";
 import { Command } from "./components/Command";
 
@@ -28,6 +28,21 @@ export default function Component(props: ComponentProps) {
       props.addSelectedComponent(props.componentData.id);
     }
   };
+  const handleFinishConnection = (pointPosition: Position) => {
+    props.finishConnection(props.componentData.id, {
+      x: props.componentData.position.x + pointPosition.x,
+      y: props.componentData.position.y + pointPosition.y,
+    });
+  };
+  const handleStartConnection = (
+    commandId: number,
+    pointPosition: Position
+  ) => {
+    props.startConnection(commandId, {
+      x: props.componentData.position.x + pointPosition.x,
+      y: props.componentData.position.y + pointPosition.y,
+    });
+  };
   return (
     <div
       class="component"
@@ -51,6 +66,7 @@ export default function Component(props: ComponentProps) {
           componentWidth: props.componentStyle.width,
           componentHeight: height(),
         }}
+        finishConnection={handleFinishConnection}
       />
 
       <For each={commands()}>
@@ -69,6 +85,7 @@ export default function Component(props: ComponentProps) {
                     i() * props.componentStyle.commandHeight,
                 },
               }}
+              startConnection={handleStartConnection}
             />
           );
         }}

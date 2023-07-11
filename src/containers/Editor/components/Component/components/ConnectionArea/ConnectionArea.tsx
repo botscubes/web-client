@@ -49,6 +49,9 @@ export default function ConnectionArea(props: ConnectionAreaProps) {
       });
     }
   };
+  const handleConnectionPointMouseUp = () => {
+    props.finishConnection(pointPos());
+  };
 
   return (
     <div
@@ -70,6 +73,7 @@ export default function ConnectionArea(props: ConnectionAreaProps) {
           position: pointPos(),
           size: props.connectionAreaStyle.connectionPointSize,
         }}
+        onMouseUp={handleConnectionPointMouseUp}
       />
     </div>
   );

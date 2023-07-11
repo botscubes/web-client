@@ -1,3 +1,5 @@
+import { Position } from "../../../../shared/types";
+
 export interface ConnectionAreaStyle {
   componentWidth: number;
   componentHeight: number;
@@ -6,4 +8,5 @@ export interface ConnectionAreaStyle {
 
 export interface ConnectionAreaProps {
   connectionAreaStyle: ConnectionAreaStyle;
+  finishConnection: (pointPosition: Position) => void;
 }

@@ -11,6 +11,16 @@ export default function ConnectionPoint(props: ConnectionPointProps) {
   const handleMouseLeave = () => {
     setFocus(false);
   };
+  const handleMouseDown = (event: MouseEvent) => {
+    if (props.onMouseDown) {
+      props.onMouseDown(event);
+    }
+  };
+  const handleMouseUp = (event: MouseEvent) => {
+    if (props.onMouseUp) {
+      props.onMouseUp(event);
+    }
+  };
 
   return (
     <div
@@ -25,6 +35,8 @@ export default function ConnectionPoint(props: ConnectionPointProps) {
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
     />
   );
 }

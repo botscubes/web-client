@@ -15,4 +15,5 @@ export interface CommandStyle {
 export interface CommandProps {
   commandData: CommandData;
   commandStyle: CommandStyle;
+  startConnection: (commandId: number, pointPosition: Position) => void;
 }

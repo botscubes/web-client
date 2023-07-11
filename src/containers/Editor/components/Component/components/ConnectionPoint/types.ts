@@ -9,4 +9,8 @@ export interface ConnectionPointStyle {
 export interface ConnectionPointProps {
   class?: string;
   connectionPointStyle: ConnectionPointStyle;
+  onMouseDown?: (event: MouseEvent) => void;
+  onMouseUp?: (event: MouseEvent) => void;
+  //startConnection: (commandId: number) => void;
+  //finishConnection: (componentId: number) => void;
 }
