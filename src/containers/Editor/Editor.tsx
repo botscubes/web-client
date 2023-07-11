@@ -89,7 +89,7 @@ export default function Editor() {
       start: mousePos(),
       end: mousePos(),
     });
-    setShowLine(true);
+    // setShowLine(true);
   };
 
   createEffect(() => {

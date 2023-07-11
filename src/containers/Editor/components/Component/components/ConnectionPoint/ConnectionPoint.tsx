@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { createSignal, mergeProps } from "solid-js";
 import "./ConnectionPoint.css";
 import { ConnectionPointProps } from "./types";
 
@@ -14,8 +14,9 @@ export default function ConnectionPoint(props: ConnectionPointProps) {
 
   return (
     <div
-      class="connection-point"
+      class={`connection-point ${props.class != undefined ? props.class : ""}`}
       style={{
+        color: props.connectionPointStyle.color,
         left: props.connectionPointStyle.position.x.toString() + "px",
         top: props.connectionPointStyle.position.y.toString() + "px",
         width: props.connectionPointStyle.size.toString() + "px",

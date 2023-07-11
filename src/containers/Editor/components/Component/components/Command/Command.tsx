@@ -14,6 +14,7 @@ export default function Command(props: CommandProps) {
       }}
     >
       <ConnectionPoint
+        class="command-connection-point"
         connectionPointStyle={{
           size: props.commandStyle.connectionPointSize,
           position: {
@@ -23,6 +24,7 @@ export default function Command(props: CommandProps) {
         }}
       />
       <ConnectionPoint
+        class="command-connection-point"
         connectionPointStyle={{
           size: props.commandStyle.connectionPointSize,
           position: {
