@@ -1,14 +1,29 @@
-import { createSignal, createEffect, For } from "solid-js";
+import { createSignal, createEffect, For, Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import { handleMouseMove } from "./events";
 import { Component } from "./components/Component";
 import EditorController from "./EditorController";
 import { EditorState } from "./types";
 import "./Editor.css";
+import type { Position } from "./shared/types";
 import { MouseButton } from "./shared/types";
+import { Line, LinePosition } from "./components/Line";
 
 export default function Editor() {
   const [mousePos, setMousePos] = createSignal({ x: 0, y: 0 });
+
+  const [linePos, setLinePos] = createSignal({
+    start: {
+      x: 0,
+      y: 0,
+    },
+    end: {
+      x: 0,
+      y: 0,
+    },
+  });
+  const [showLine, setShowLine] = createSignal(false);
+
   const [editorStore, setEditorStore] = createStore({
     components: {},
     componentStyle: {
@@ -67,13 +82,23 @@ export default function Editor() {
       }
       console.log("mouse up on Editor");
     }
+    setShowLine(false);
+  };
+  const handleMouseDown = (event: MouseEvent) => {
+    setLinePos({
+      start: mousePos(),
+      end: mousePos(),
+    });
+    setShowLine(true);
   };
 
   createEffect(() => {
-    const position = mousePos();
+    const position: Position = mousePos();
     if (editorState == EditorState.MOVING_COMPONENT) {
       editorController.moveComponents(position);
     }
+
+    setLinePos((v) => ({ ...v, end: position }));
   });
   return (
     <div
@@ -81,6 +106,7 @@ export default function Editor() {
       data-editor-area
       onMouseMove={[handleMouseMove, setMousePos]}
       onMouseUp={handleMouseUp}
+      onMouseDown={handleMouseDown}
     >
       <button onClick={handleAddComponent}>Add Component</button>
       <div class="scaling">
@@ -100,6 +126,9 @@ export default function Editor() {
             );
           }}
         </For>
+        <Show when={showLine()}>
+          <Line position={linePos()} />
+        </Show>
       </div>
     </div>
   );

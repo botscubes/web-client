@@ -11,4 +11,7 @@
 
 .scaling {
   transform: scale(1);
+  position: absolute;
+  top: 0px;
+  left: 0px;
 }
