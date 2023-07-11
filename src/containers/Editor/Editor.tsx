@@ -82,7 +82,7 @@ export default function Editor() {
       }
       console.log("mouse up on Editor");
     }
-    setShowLine(false);
+    //setShowLine(false);
   };
   const handleMouseDown = (event: MouseEvent) => {
     setLinePos({

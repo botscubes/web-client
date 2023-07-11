@@ -4,6 +4,8 @@ import "./Line.css";
 
 export default function Line(props: LineProps) {
   const padding = 10;
+  const arrowLength = 12;
+  const arrowAngle = Math.PI / 3;
 
   const differenceX = createMemo(
     () => props.position.end.x - props.position.start.x
@@ -12,6 +14,7 @@ export default function Line(props: LineProps) {
   const differenceY = createMemo(
     () => props.position.end.y - props.position.start.y
   );
+
   const svgWidth = () => Math.abs(differenceX()) + 2 * padding;
   const svgHeigth = () => Math.abs(differenceY()) + 2 * padding;
   const svgTop = () =>
@@ -39,19 +42,69 @@ export default function Line(props: LineProps) {
     }
     return Math.abs(differenceY()) + padding;
   };
-  const lineX2 = () => {
+  const lineX2 = createMemo(() => {
     if (differenceX() >= 0) {
       return Math.abs(differenceX()) + padding;
     }
     return padding;
-  };
-  const lineY2 = () => {
+  });
+  const lineY2 = createMemo(() => {
     if (differenceY() >= 0) {
       return Math.abs(differenceY()) + padding;
     }
 
     return padding;
-  };
+  });
+
+  const angle = createMemo(() => {
+    if (differenceX() == 0) {
+      return 0;
+    }
+    if (differenceY() == 0) {
+      return Math.PI / 2;
+    }
+    const angle = Math.atan(Math.abs(differenceX() / differenceY()));
+    return angle;
+  });
+  const arrowPointX = createMemo(() => {
+    if (differenceX() > 0) {
+      if (angle() == 0) {
+        return lineX2() - arrowLength;
+      }
+      return lineX2() - arrowLength * Math.sin(angle());
+    }
+    return lineX2() + arrowLength * Math.sin(angle());
+  });
+
+  const arrowPointY = createMemo(() => {
+    if (differenceY() > 0) {
+      return lineY2() - arrowLength * Math.cos(angle());
+    }
+    return lineY2() + arrowLength * Math.cos(angle());
+  });
+
+  const arrowShiftLength = createMemo(
+    () => Math.tan(arrowAngle / 2) * arrowLength
+  );
+  const arrowShiftX = createMemo(() => {
+    const length = arrowShiftLength() * Math.cos(angle());
+    if (differenceY() <= 0) {
+      return -length;
+    }
+    return length;
+  });
+  const arrowShiftY = createMemo(() => {
+    const length = arrowShiftLength() * Math.sin(angle());
+    if (differenceX() >= 0) {
+      return -length;
+    }
+    return length;
+  });
+  const arrowPointX1 = () => Math.round(arrowPointX() + arrowShiftX());
+  const arrowPointY1 = () => Math.round(arrowPointY() + arrowShiftY());
+  const arrowPointX2 = () => Math.round(arrowPointX() - arrowShiftX());
+  const arrowPointY2 = () => Math.round(arrowPointY() - arrowShiftY());
+
   return (
     <svg
       class="connection-line"
@@ -66,20 +119,14 @@ export default function Line(props: LineProps) {
         stroke="black"
       />
 
-      <line
-        x1="this.relativeX2"
-        y1="this.relativeY2"
-        x2="this.arrowLine1X2"
-        y2="this.arrowLine1Y2"
+      <path
+        d={`
+          M${arrowPointX1()} ${arrowPointY1()} 
+          L${lineX2()} ${lineY2()} 
+          L${arrowPointX2()} ${arrowPointY2()}
+        `}
         stroke="black"
-      />
-
-      <line
-        x1="this.relativeX2"
-        y1="this.relativeY2"
-        x2="this.arrowLine2X2"
-        y2="this.arrowLine2Y2"
-        stroke="black"
+        fill="transparent"
       />
     </svg>
   );
