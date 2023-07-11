@@ -1,11 +1,12 @@
-import { createMemo } from "solid-js";
+import { createEffect, createMemo, createSignal } from "solid-js";
 import { LineProps } from "./types";
 import "./Line.css";
 
 export default function Line(props: LineProps) {
   const padding = 10;
-  const arrowLength = 12;
+  const maxArrowLength = 12;
   const arrowAngle = Math.PI / 3;
+  const [arrowLength, setArrowLength] = createSignal(0);
 
   const differenceX = createMemo(
     () => props.position.end.x - props.position.start.x
@@ -14,6 +15,18 @@ export default function Line(props: LineProps) {
   const differenceY = createMemo(
     () => props.position.end.y - props.position.start.y
   );
+
+  createEffect(() => {
+    const hypotenuse = Math.sqrt(
+      Math.pow(differenceX(), 2) + Math.pow(differenceY(), 2)
+    );
+
+    if (hypotenuse < maxArrowLength) {
+      setArrowLength(hypotenuse);
+    } else {
+      setArrowLength(maxArrowLength);
+    }
+  });
 
   const svgWidth = () => Math.abs(differenceX()) + 2 * padding;
   const svgHeigth = () => Math.abs(differenceY()) + 2 * padding;
@@ -69,22 +82,22 @@ export default function Line(props: LineProps) {
   const arrowPointX = createMemo(() => {
     if (differenceX() > 0) {
       if (angle() == 0) {
-        return lineX2() - arrowLength;
+        return lineX2() - arrowLength();
       }
-      return lineX2() - arrowLength * Math.sin(angle());
+      return lineX2() - arrowLength() * Math.sin(angle());
     }
-    return lineX2() + arrowLength * Math.sin(angle());
+    return lineX2() + arrowLength() * Math.sin(angle());
   });
 
   const arrowPointY = createMemo(() => {
     if (differenceY() > 0) {
-      return lineY2() - arrowLength * Math.cos(angle());
+      return lineY2() - arrowLength() * Math.cos(angle());
     }
-    return lineY2() + arrowLength * Math.cos(angle());
+    return lineY2() + arrowLength() * Math.cos(angle());
   });
 
   const arrowShiftLength = createMemo(
-    () => Math.tan(arrowAngle / 2) * arrowLength
+    () => Math.tan(arrowAngle / 2) * arrowLength()
   );
   const arrowShiftX = createMemo(() => {
     const length = arrowShiftLength() * Math.cos(angle());
