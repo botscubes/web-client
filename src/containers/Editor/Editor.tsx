@@ -32,18 +32,19 @@ export default function Editor() {
       commandHeight: 40, //px
       commandIndent: 20,
     },
+    lines: {},
   });
   const editorController: EditorController = new EditorController(
     editorStore,
     setEditorStore
   );
-  let editorState: EditorState = EditorState.NONE;
+  const [editorState, setEditorState] = createSignal(EditorState.NONE);
 
   const handleAddComponent = () => {
     editorController.deselectComponents();
     const id: number = editorController.addComponent();
     editorController.selectComponent(id);
-    editorState = EditorState.COMPONENT_SELECTED;
+    setEditorState(EditorState.COMPONENT_SELECTED);
   };
   const handleDeleteComponent = (id: number) => {
     editorController.deleteComponent(id);
@@ -55,58 +56,73 @@ export default function Editor() {
       editorController.selectComponent(id);
     }
     if (editorController.haveSelectedComponents()) {
-      editorState = EditorState.COMPONENT_SELECTED;
+      setEditorState(EditorState.COMPONENT_SELECTED);
     } else {
-      editorState = EditorState.NONE;
+      setEditorState(EditorState.NONE);
     }
   };
   const handleSelectComponent = (id: number) => {
-    if (!editorController.componentIsSelected(id)) {
-      editorController.deselectComponents();
-      editorController.selectComponent(id);
+    if (editorState() != EditorState.CONNECTION) {
+      if (!editorController.componentIsSelected(id)) {
+        editorController.deselectComponents();
+        editorController.selectComponent(id);
+      }
+      editorController.fixMouseShiftsRelativeToComponents(mousePos());
+
+      setEditorState(EditorState.MOVING_COMPONENT);
+      console.log("Editor: select component");
     }
-    editorController.fixMouseShiftsRelativeToComponents(mousePos());
-    editorState = EditorState.MOVING_COMPONENT;
   };
   const handleStartConnection = (
     commandId: number,
     pointPosition: Position
-  ) => {};
+  ) => {
+    setLinePos({
+      start: pointPosition,
+      end: mousePos(),
+    });
+
+    setShowLine(true);
+    setEditorState(EditorState.CONNECTION);
+    console.log("Editor: start connection");
+  };
   const handleFinishConnection = (
     componentId: number,
     pointPosition: Position
-  ) => {};
+  ) => {
+    console.log("Editor: finish connection");
+  };
   const handleMouseUp = (event: MouseEvent) => {
     if (event.button == MouseButton.LEFT) {
       const target = event.target as HTMLElement;
 
       if (target.dataset.editorArea != undefined) {
         editorController.deselectComponents();
-        editorState = EditorState.NONE;
+        setEditorState(EditorState.NONE);
+        console.log("Editor: mouse up on Editor");
       }
 
-      if (editorState == EditorState.MOVING_COMPONENT) {
-        editorState = EditorState.COMPONENT_SELECTED;
+      if (editorState() == EditorState.MOVING_COMPONENT) {
+        setEditorState(EditorState.COMPONENT_SELECTED);
+      } else if (editorState() == EditorState.CONNECTION) {
+        setEditorState(EditorState.NONE);
       }
-      console.log("mouse up on Editor");
+
+      setShowLine(false);
     }
-    //setShowLine(false);
   };
   const handleMouseDown = (event: MouseEvent) => {
-    setLinePos({
-      start: mousePos(),
-      end: mousePos(),
-    });
-    // setShowLine(true);
+    //setShowLine(true);
   };
 
   createEffect(() => {
     const position: Position = mousePos();
-    if (editorState == EditorState.MOVING_COMPONENT) {
+    if (editorState() == EditorState.MOVING_COMPONENT) {
       editorController.moveComponents(position);
     }
-
-    setLinePos((v) => ({ ...v, end: position }));
+    if (showLine()) {
+      setLinePos((v) => ({ ...v, end: position }));
+    }
   });
   return (
     <div

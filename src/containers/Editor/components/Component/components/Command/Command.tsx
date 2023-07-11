@@ -4,9 +4,10 @@ import { CommandProps } from "./types";
 import { Position } from "../../../../shared/types";
 
 export default function Command(props: CommandProps) {
-  const handleMouseUp = (pointPosition: Position) => (event: MouseEvent) => {
-    props.startConnection(props.commandData.id, pointPosition);
-  };
+  const handlePointMouseDown =
+    (pointPosition: Position) => (event: MouseEvent) => {
+      props.startConnection(props.commandData.id, pointPosition);
+    };
   return (
     <div
       class="command-area"
@@ -26,9 +27,9 @@ export default function Command(props: CommandProps) {
             y: props.commandStyle.height / 4,
           },
         }}
-        onMouseUp={handleMouseUp({
+        onMouseDown={handlePointMouseDown({
           x: 0,
-          y: props.commandStyle.height / 2,
+          y: props.commandStyle.position.y + props.commandStyle.height / 2,
         })}
       />
       <ConnectionPoint
@@ -42,9 +43,9 @@ export default function Command(props: CommandProps) {
             y: props.commandStyle.height / 4,
           },
         }}
-        onMouseUp={handleMouseUp({
+        onMouseDown={handlePointMouseDown({
           x: props.commandStyle.componentWidth,
-          y: props.commandStyle.height / 2,
+          y: props.commandStyle.position.y + props.commandStyle.height / 2,
         })}
       />
 

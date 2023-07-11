@@ -3,6 +3,7 @@ import { Position } from "../../../../shared/types";
 export interface CommandData {
   id: number;
   name: string;
+  nextComponentId?: number;
 }
 
 export interface CommandStyle {
