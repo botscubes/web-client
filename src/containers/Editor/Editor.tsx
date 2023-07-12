@@ -8,6 +8,7 @@ import "./Editor.css";
 import type { Position } from "./shared/types";
 import { MouseButton } from "./shared/types";
 import { Line, LinePosition } from "./components/Line";
+import { ConnectionPointData } from "./components/Component/components/ConnectionPoint/types";
 
 export default function Editor() {
   const [mousePos, setMousePos] = createSignal({ x: 0, y: 0 });
@@ -39,6 +40,9 @@ export default function Editor() {
     setEditorStore
   );
   const [editorState, setEditorState] = createSignal(EditorState.NONE);
+
+  let sourceComponentId: number | undefined = undefined;
+  let sourceCommandId: number | undefined = undefined;
 
   const handleAddComponent = () => {
     editorController.deselectComponents();
@@ -74,23 +78,42 @@ export default function Editor() {
     }
   };
   const handleStartConnection = (
+    componentId: number,
     commandId: number,
-    pointPosition: Position
+    connectionPosition: Position
   ) => {
     setLinePos({
-      start: pointPosition,
+      start: connectionPosition,
       end: mousePos(),
     });
-
+    sourceCommandId = commandId;
+    sourceComponentId = componentId;
+    editorController.showConnectionAreas(new Set([componentId]));
     setShowLine(true);
     setEditorState(EditorState.CONNECTION);
     console.log("Editor: start connection");
   };
   const handleFinishConnection = (
     componentId: number,
-    pointPosition: Position
+    conncetionPosition: Position,
+    relativePointPosition: Position
   ) => {
-    console.log("Editor: finish connection");
+    if (sourceComponentId != undefined && sourceCommandId != undefined) {
+      editorController.connectComponent(
+        sourceComponentId,
+        sourceCommandId,
+        componentId,
+        relativePointPosition,
+        { start: linePos().start, end: conncetionPosition }
+      );
+      editorController.hideConnectionAreas();
+      sourceCommandId = undefined;
+      sourceComponentId = undefined;
+      setShowLine(false);
+      console.log("Editor: finish connection");
+    } else {
+      console.error("Editor: error finish connection");
+    }
   };
   const handleMouseUp = (event: MouseEvent) => {
     if (event.button == MouseButton.LEFT) {
@@ -105,6 +128,9 @@ export default function Editor() {
       if (editorState() == EditorState.MOVING_COMPONENT) {
         setEditorState(EditorState.COMPONENT_SELECTED);
       } else if (editorState() == EditorState.CONNECTION) {
+        sourceComponentId = undefined;
+        sourceCommandId = undefined;
+        editorController.hideConnectionAreas();
         setEditorState(EditorState.NONE);
       }
 
@@ -114,7 +140,14 @@ export default function Editor() {
   const handleMouseDown = (event: MouseEvent) => {
     //setShowLine(true);
   };
+  const handleMoveConnection = (
+    commandId: number,
+    destinationPostition: Position
+  ) => {
+    console.log("Editor: move connection");
+  };
 
+  // TODO: move to mousemove event
   createEffect(() => {
     const position: Position = mousePos();
     if (editorState() == EditorState.MOVING_COMPONENT) {
@@ -148,6 +181,7 @@ export default function Editor() {
                 addSelectedComponent={handleAddSelectedComponent}
                 startConnection={handleStartConnection}
                 finishConnection={handleFinishConnection}
+                moveConnection={handleMoveConnection}
               />
             );
           }}
@@ -155,6 +189,9 @@ export default function Editor() {
         <Show when={showLine()}>
           <Line position={linePos()} />
         </Show>
+        <For each={Object.values(editorController.getEditorStore().lines)}>
+          {(line) => <Line position={line} />}
+        </For>
       </div>
     </div>
   );

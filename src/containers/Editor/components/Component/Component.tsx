@@ -3,7 +3,7 @@ import { handleDragStart } from "./events";
 import { ConnectionArea } from "./components/ConnectionArea";
 import "./Component.css";
 import { MouseButton, Position } from "../../shared/types";
-import { For } from "solid-js";
+import { For, createEffect, on } from "solid-js";
 import { Command } from "./components/Command";
 import { ConnectionPoint } from "./components/ConnectionPoint";
 
@@ -29,20 +29,52 @@ export default function Component(props: ComponentProps) {
     }
   };
   const handleFinishConnection = (pointPosition: Position) => {
-    props.finishConnection(props.componentData.id, {
-      x: props.componentData.position.x + pointPosition.x,
-      y: props.componentData.position.y + pointPosition.y,
-    });
+    props.finishConnection(
+      props.componentData.id,
+      {
+        x: props.componentData.position.x + pointPosition.x,
+        y: props.componentData.position.y + pointPosition.y,
+      },
+      {
+        x: pointPosition.x - props.componentStyle.connectionPointSize / 2,
+        y: pointPosition.y - props.componentStyle.connectionPointSize / 2,
+      }
+    );
   };
   const handleStartConnection = (
     commandId: number,
-    pointPosition: Position
+    connectionPosition: Position
   ) => {
-    props.startConnection(commandId, {
-      x: props.componentData.position.x + pointPosition.x,
-      y: props.componentData.position.y + pointPosition.y,
+    props.startConnection(props.componentData.id, commandId, {
+      x: props.componentData.position.x + connectionPosition.x,
+      y: props.componentData.position.y + connectionPosition.y,
     });
   };
+
+  createEffect(
+    on(
+      () => props.componentData.position,
+      (position: Position) => {
+        for (const point of Object.values(
+          props.componentData.connectionPoints
+        )) {
+          if (point.id) {
+            props.moveConnection(point.id, {
+              x:
+                position.x +
+                point.position.x +
+                props.componentStyle.connectionPointSize,
+              y:
+                position.y +
+                point.position.y +
+                props.componentStyle.connectionPointSize,
+            });
+          }
+        }
+        console.log("Editor: move connection");
+      }
+    )
+  );
   return (
     <div
       class="component"
@@ -61,6 +93,9 @@ export default function Component(props: ComponentProps) {
         ✖
       </button>
       <ConnectionArea
+        connectionAreaData={{
+          visible: props.componentData.connectionAreaVisible,
+        }}
         connectionAreaStyle={{
           connectionPointSize: props.componentStyle.connectionPointSize,
           componentWidth: props.componentStyle.width,
@@ -90,15 +125,19 @@ export default function Component(props: ComponentProps) {
           );
         }}
       </For>
+
       <For each={Object.values(props.componentData.connectionPoints)}>
-        {(point) => (
-          <ConnectionPoint
-            connectionPointStyle={{
-              size: props.componentStyle.connectionPointSize,
-            }}
-            connectionPointData={point}
-          />
-        )}
+        {(point) => {
+          console.log(point);
+          return (
+            <ConnectionPoint
+              connectionPointStyle={{
+                size: props.componentStyle.connectionPointSize,
+              }}
+              connectionPointData={point}
+            />
+          );
+        }}
       </For>
     </div>
   );

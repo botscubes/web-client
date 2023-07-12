@@ -8,6 +8,7 @@ export interface ComponentData {
   commands: Record<number, CommandData>;
   selected: boolean;
   connectionPoints: Record<number, ConnectionPointData>;
+  connectionAreaVisible: boolean;
 }
 
 export interface ComponentStyle {
@@ -23,6 +24,15 @@ export interface ComponentProps {
   deleteComponent: (id: number) => void;
   selectComponent: (id: number) => void;
   addSelectedComponent: (id: number) => void;
-  startConnection: (commandId: number, pointPosition: Position) => void;
-  finishConnection: (componentId: number, pointPosition: Position) => void;
+  startConnection: (
+    componentId: number,
+    commandId: number,
+    connectionPosition: Position
+  ) => void;
+  finishConnection: (
+    componentId: number,
+    connectionPosition: Position,
+    relativePointPosition: Position
+  ) => void;
+  moveConnection: (commandId: number, destinationPosition: Position) => void;
 }

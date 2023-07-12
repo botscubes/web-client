@@ -3,6 +3,7 @@ import { EditorStore } from "./types";
 import { Position } from "./shared/types";
 import { ComponentData } from "./components/Component";
 import cloneDeep from "lodash/cloneDeep";
+import { LinePosition } from "./components/Line";
 
 export default class EditorController {
   private id = 0;
@@ -38,6 +39,7 @@ export default class EditorController {
           },
           selected: false,
           connectionPoints: {},
+          connectionAreaVisible: false,
         },
       };
     });
@@ -117,5 +119,82 @@ export default class EditorController {
         y: mousePos.y - position.y,
       });
     }
+  }
+  setNextComponentId(
+    componentId: number,
+    commandId: number,
+    nextComponentID?: number
+  ) {
+    this.setEditorStore(
+      "components",
+      componentId,
+      "commands",
+      commandId,
+      (command) => ({
+        ...command,
+        nextComponentId: nextComponentID,
+      })
+    );
+  }
+  setConnectionAreaVisible(componentId: number, value: boolean) {
+    this.setEditorStore("components", componentId, (component) => ({
+      ...component,
+      connectionAreaVisible: value,
+    }));
+  }
+  showConnectionAreas(excludedComponentId: Set<number> = new Set()) {
+    for (const component of Object.values(this.editorStore.components)) {
+      if (!excludedComponentId.has(component.id)) {
+        this.setConnectionAreaVisible(component.id, true);
+      }
+    }
+  }
+  hideConnectionAreas() {
+    for (const component of Object.values(this.editorStore.components)) {
+      this.setConnectionAreaVisible(component.id, false);
+    }
+  }
+
+  connectComponent(
+    componentId: number,
+    commandId: number,
+    nextComponentId: number,
+    relativePointPosition: Position,
+    linePosition: LinePosition
+  ) {
+    this.setNextComponentId(componentId, commandId, nextComponentId);
+    this.setEditorStore(
+      "components",
+      nextComponentId,
+      "connectionPoints",
+      (points) => ({
+        ...points,
+        [componentId]: {
+          id: commandId,
+          position: relativePointPosition,
+        },
+      })
+    );
+    this.setEditorStore("lines", (lines) => ({
+      ...lines,
+      [commandId]: linePosition,
+    }));
+  }
+
+  disconnectComponent(componentId: number, commandId: number) {
+    this.setNextComponentId(componentId, commandId, undefined);
+    this.setEditorStore(
+      "components",
+      componentId,
+      "connectionPoints",
+      (points) => ({
+        ...points,
+        [commandId]: undefined,
+      })
+    );
+    this.setEditorStore("lines", (lines) => ({
+      ...lines,
+      [commandId]: undefined,
+    }));
   }
 }
