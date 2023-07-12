@@ -43,6 +43,7 @@ export default function Editor() {
 
   let sourceComponentId: number | undefined = undefined;
   let sourceCommandId: number | undefined = undefined;
+  let commandConnectionPosition: Position | undefined = undefined;
 
   const handleAddComponent = () => {
     editorController.deselectComponents();
@@ -80,7 +81,8 @@ export default function Editor() {
   const handleStartConnection = (
     componentId: number,
     commandId: number,
-    connectionPosition: Position
+    connectionPosition: Position,
+    relativeConnectionPosition: Position
   ) => {
     setLinePos({
       start: connectionPosition,
@@ -88,6 +90,7 @@ export default function Editor() {
     });
     sourceCommandId = commandId;
     sourceComponentId = componentId;
+    commandConnectionPosition = relativeConnectionPosition;
     editorController.showConnectionAreas(new Set([componentId]));
     setShowLine(true);
     setEditorState(EditorState.CONNECTION);
@@ -98,17 +101,24 @@ export default function Editor() {
     conncetionPosition: Position,
     relativePointPosition: Position
   ) => {
-    if (sourceComponentId != undefined && sourceCommandId != undefined) {
+    if (
+      sourceComponentId != undefined &&
+      sourceCommandId != undefined &&
+      commandConnectionPosition != undefined
+    ) {
       editorController.connectComponent(
         sourceComponentId,
         sourceCommandId,
         componentId,
         relativePointPosition,
-        { start: linePos().start, end: conncetionPosition }
+        { start: linePos().start, end: conncetionPosition },
+        commandConnectionPosition
       );
+
       editorController.hideConnectionAreas();
       sourceCommandId = undefined;
       sourceComponentId = undefined;
+      commandConnectionPosition = undefined;
       setShowLine(false);
       console.log("Editor: finish connection");
     } else {
@@ -142,9 +152,22 @@ export default function Editor() {
   };
   const handleMoveConnection = (
     commandId: number,
-    destinationPostition: Position
+    connectionPostition: Position
   ) => {
-    console.log("Editor: move connection");
+    editorController.setLinePosition(commandId, (position) => ({
+      ...position,
+      end: connectionPostition,
+    }));
+    //console.log("Editor: move connection");
+  };
+  const handleMoveCommandConnection = (
+    commandId: number,
+    connectionPosition: Position
+  ) => {
+    editorController.setLinePosition(commandId, (position) => ({
+      ...position,
+      start: connectionPosition,
+    }));
   };
 
   // TODO: move to mousemove event
@@ -182,6 +205,7 @@ export default function Editor() {
                 startConnection={handleStartConnection}
                 finishConnection={handleFinishConnection}
                 moveConnection={handleMoveConnection}
+                moveCommandConnection={handleMoveCommandConnection}
               />
             );
           }}

@@ -4,6 +4,7 @@ export interface CommandData {
   id: number;
   name: string;
   nextComponentId?: number;
+  connectionPosition?: Position;
 }
 
 export interface CommandStyle {

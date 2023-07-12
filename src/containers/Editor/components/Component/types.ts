@@ -27,12 +27,17 @@ export interface ComponentProps {
   startConnection: (
     componentId: number,
     commandId: number,
-    connectionPosition: Position
+    connectionPosition: Position,
+    relativeConnectionPosition: Position
   ) => void;
   finishConnection: (
     componentId: number,
     connectionPosition: Position,
     relativePointPosition: Position
   ) => void;
-  moveConnection: (commandId: number, destinationPosition: Position) => void;
+  moveConnection: (commandId: number, connectionPosition: Position) => void;
+  moveCommandConnection: (
+    commandId: number,
+    connectionPosition: Position
+  ) => void;
 }

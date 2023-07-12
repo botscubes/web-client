@@ -7,6 +7,7 @@ import { LinePosition } from "./components/Line";
 
 export default class EditorController {
   private id = 0;
+  private commandId = 0;
   // key - id, value - mouse shift
   private selectedComponents = new Map<number, Position>();
   constructor(
@@ -28,12 +29,12 @@ export default class EditorController {
             y: 100,
           },
           commands: {
-            [0]: {
-              id: 1,
+            [this.commandId]: {
+              id: this.commandId++,
               name: "test0",
             },
-            [1]: {
-              id: 1,
+            [this.commandId]: {
+              id: this.commandId++,
               name: "test1",
             },
           },
@@ -142,6 +143,28 @@ export default class EditorController {
       connectionAreaVisible: value,
     }));
   }
+  setLinePosition(
+    commandId: number,
+    fn: (position: LinePosition) => LinePosition
+  ) {
+    this.setEditorStore("lines", commandId, (line) => fn(line));
+  }
+  setCommandConnectionPosition(
+    componentId: number,
+    commandId: number,
+    position: Position
+  ) {
+    this.setEditorStore(
+      "components",
+      componentId,
+      "commands",
+      commandId,
+      (command) => ({
+        ...command,
+        connectionPosition: position,
+      })
+    );
+  }
   showConnectionAreas(excludedComponentId: Set<number> = new Set()) {
     for (const component of Object.values(this.editorStore.components)) {
       if (!excludedComponentId.has(component.id)) {
@@ -160,7 +183,8 @@ export default class EditorController {
     commandId: number,
     nextComponentId: number,
     relativePointPosition: Position,
-    linePosition: LinePosition
+    linePosition: LinePosition,
+    commandConnectionPosition: Position
   ) {
     this.setNextComponentId(componentId, commandId, nextComponentId);
     this.setEditorStore(
@@ -169,7 +193,7 @@ export default class EditorController {
       "connectionPoints",
       (points) => ({
         ...points,
-        [componentId]: {
+        [commandId]: {
           id: commandId,
           position: relativePointPosition,
         },
@@ -179,6 +203,12 @@ export default class EditorController {
       ...lines,
       [commandId]: linePosition,
     }));
+    this.setCommandConnectionPosition(
+      componentId,
+      commandId,
+      commandConnectionPosition
+    );
+    console.log(this.editorStore.components);
   }
 
   disconnectComponent(componentId: number, commandId: number) {

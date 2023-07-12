@@ -45,10 +45,18 @@ export default function Component(props: ComponentProps) {
     commandId: number,
     connectionPosition: Position
   ) => {
-    props.startConnection(props.componentData.id, commandId, {
-      x: props.componentData.position.x + connectionPosition.x,
-      y: props.componentData.position.y + connectionPosition.y,
-    });
+    props.startConnection(
+      props.componentData.id,
+      commandId,
+      {
+        x: props.componentData.position.x + connectionPosition.x,
+        y: props.componentData.position.y + connectionPosition.y,
+      },
+      {
+        x: connectionPosition.x,
+        y: connectionPosition.y,
+      }
+    );
   };
 
   createEffect(
@@ -58,20 +66,27 @@ export default function Component(props: ComponentProps) {
         for (const point of Object.values(
           props.componentData.connectionPoints
         )) {
-          if (point.id) {
+          if (point.id != undefined) {
             props.moveConnection(point.id, {
               x:
                 position.x +
                 point.position.x +
-                props.componentStyle.connectionPointSize,
+                props.componentStyle.connectionPointSize / 2,
               y:
                 position.y +
                 point.position.y +
-                props.componentStyle.connectionPointSize,
+                props.componentStyle.connectionPointSize / 2,
             });
           }
         }
-        console.log("Editor: move connection");
+        for (const command of Object.values(props.componentData.commands)) {
+          if (command.connectionPosition) {
+            props.moveCommandConnection(command.id, {
+              x: command.connectionPosition.x + position.x,
+              y: command.connectionPosition.y + position.y,
+            });
+          }
+        }
       }
     )
   );
