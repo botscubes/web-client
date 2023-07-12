@@ -5,9 +5,9 @@ import "./Component.css";
 import { MouseButton, Position } from "../../shared/types";
 import { For } from "solid-js";
 import { Command } from "./components/Command";
+import { ConnectionPoint } from "./components/ConnectionPoint";
 
 export default function Component(props: ComponentProps) {
-  console.log("Debug: create component");
   const commands = () => Object.values(props.componentData.commands);
   const height = () =>
     commands().length *
@@ -89,6 +89,16 @@ export default function Component(props: ComponentProps) {
             />
           );
         }}
+      </For>
+      <For each={Object.values(props.componentData.connectionPoints)}>
+        {(point) => (
+          <ConnectionPoint
+            connectionPointStyle={{
+              size: props.componentStyle.connectionPointSize,
+            }}
+            connectionPointData={point}
+          />
+        )}
       </For>
     </div>
   );

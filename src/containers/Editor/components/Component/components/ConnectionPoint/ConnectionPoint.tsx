@@ -27,8 +27,8 @@ export default function ConnectionPoint(props: ConnectionPointProps) {
       class={`connection-point ${props.class != undefined ? props.class : ""}`}
       style={{
         color: props.connectionPointStyle.color,
-        left: props.connectionPointStyle.position.x.toString() + "px",
-        top: props.connectionPointStyle.position.y.toString() + "px",
+        left: props.connectionPointData.position.x.toString() + "px",
+        top: props.connectionPointData.position.y.toString() + "px",
         width: props.connectionPointStyle.size.toString() + "px",
         height: props.connectionPointStyle.size.toString() + "px",
         opacity: focus() ? 0.5 : 0,

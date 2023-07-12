@@ -70,8 +70,10 @@ export default function ConnectionArea(props: ConnectionAreaProps) {
     >
       <ConnectionPoint
         connectionPointStyle={{
-          position: pointPos(),
           size: props.connectionAreaStyle.connectionPointSize,
+        }}
+        connectionPointData={{
+          position: pointPos(),
         }}
         onMouseUp={handleConnectionPointMouseUp}
       />

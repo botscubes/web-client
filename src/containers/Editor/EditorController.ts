@@ -37,6 +37,7 @@ export default class EditorController {
             },
           },
           selected: false,
+          connectionPoints: {},
         },
       };
     });
