@@ -11,6 +11,7 @@ import { Line, LinePosition } from "./components/Line";
 import { ConnectionPointData } from "./components/Component/components/ConnectionPoint/types";
 
 export default function Editor() {
+  const zoomSize = 0.05;
   const [mousePos, setMousePos] = createSignal({ x: 0, y: 0 });
 
   const [linePos, setLinePos] = createSignal({
@@ -40,7 +41,7 @@ export default function Editor() {
     setEditorStore
   );
   const [editorState, setEditorState] = createSignal(EditorState.NONE);
-
+  const [scale, setScale] = createSignal(1);
   let sourceComponentId: number | undefined = undefined;
   let sourceCommandId: number | undefined = undefined;
   let commandConnectionPosition: Position | undefined = undefined;
@@ -169,7 +170,12 @@ export default function Editor() {
       start: connectionPosition,
     }));
   };
-
+  const handleZoomIn = () => {
+    setScale((v) => (v < 4 ? v + zoomSize : v));
+  };
+  const handleZoomOut = () => {
+    setScale((v) => (v > 0.3 ? v - zoomSize : v));
+  };
   // TODO: move to mousemove event
   createEffect(() => {
     const position: Position = mousePos();
@@ -184,12 +190,25 @@ export default function Editor() {
     <div
       id="editor-area"
       data-editor-area
-      onMouseMove={[handleMouseMove, setMousePos]}
+      onMouseMove={[handleMouseMove, [setMousePos, scale]]}
       onMouseUp={handleMouseUp}
       onMouseDown={handleMouseDown}
     >
-      <button onClick={handleAddComponent}>Add Component</button>
-      <div class="scaling">
+      <div class="fixed-area">
+        <div class="control-buttons">
+          <button onClick={handleAddComponent} id="add-button">
+            Add component
+          </button>
+          <button id="save-button">Get Bot</button>
+          <button id="save-button">Start Bot</button>
+          <button id="save-button">Stop Bot</button>
+        </div>
+        <div class="scale-buttons">
+          <button onClick={handleZoomIn}> + </button>
+          <button onClick={handleZoomOut}> - </button>
+        </div>
+      </div>
+      <div class="scaling" style={{ transform: `scale(${scale()})` }}>
         <For each={Object.values(editorController.getEditorStore().components)}>
           {(component) => {
             console.log(component.id);
@@ -197,6 +216,7 @@ export default function Editor() {
               editorController.getEditorStore().componentStyle;
             return (
               <Component
+                scale={scale()}
                 componentData={component}
                 componentStyle={componentStyle}
                 deleteComponent={handleDeleteComponent}

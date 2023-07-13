@@ -13,5 +13,6 @@ export interface ConnectionAreaStyle {
 export interface ConnectionAreaProps {
   connectionAreaData: ConnectionAreaData;
   connectionAreaStyle: ConnectionAreaStyle;
+  scale: number;
   finishConnection: (pointPosition: Position) => void;
 }

@@ -108,6 +108,7 @@ export default function Component(props: ComponentProps) {
         ✖
       </button>
       <ConnectionArea
+        scale={props.scale}
         connectionAreaData={{
           visible: props.componentData.connectionAreaVisible,
         }}

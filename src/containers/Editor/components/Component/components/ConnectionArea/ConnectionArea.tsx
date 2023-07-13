@@ -20,8 +20,8 @@ export default function ConnectionArea(props: ConnectionAreaProps) {
   );
   const handleMouseMove = (event: MouseEvent) => {
     const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
-    const x = event.clientX - rect.x;
-    const y = event.clientY - rect.y;
+    const x = (event.clientX - rect.x) / props.scale;
+    const y = (event.clientY - rect.y) / props.scale;
     const pointSize = props.connectionAreaStyle.connectionPointSize;
     const bordersX = x >= pointSize / 2 && x <= areaWidth() - pointSize / 2;
     const bordersY = y >= pointSize / 2 && y <= areaHeight() - pointSize / 2;

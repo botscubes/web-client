@@ -21,6 +21,7 @@ export interface ComponentStyle {
 export interface ComponentProps {
   componentData: ComponentData;
   componentStyle: ComponentStyle;
+  scale: number;
   deleteComponent: (id: number) => void;
   selectComponent: (id: number) => void;
   addSelectedComponent: (id: number) => void;
