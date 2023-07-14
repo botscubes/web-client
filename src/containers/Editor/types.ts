@@ -10,7 +10,8 @@ export interface EditorStore {
 
 export enum EditorState {
   NONE,
-  MOVING_COMPONENT,
+  COMPONENT_MOVEMENT,
   COMPONENT_SELECTED,
   CONNECTION,
+  AREA_MOVEMENT,
 }

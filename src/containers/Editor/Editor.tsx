@@ -1,4 +1,4 @@
-import { createSignal, createEffect, For, Show } from "solid-js";
+import { createSignal, createEffect, For, Show, onMount, on } from "solid-js";
 import { createStore } from "solid-js/store";
 import { handleMouseMove } from "./events";
 import { Component } from "./components/Component";
@@ -12,6 +12,15 @@ import { ConnectionPointData } from "./components/Component/components/Connectio
 
 export default function Editor() {
   const zoomSize = 0.05;
+  let editorArea: HTMLDivElement | undefined;
+  let [fixedPosition, setFixedPosition] = createSignal({
+    x: 0,
+    y: 0,
+  });
+  let [fixedScrollPosition, setFixedScrollPosition] = createSignal({
+    x: 0,
+    y: 0,
+  });
   const [mousePos, setMousePos] = createSignal({ x: 0, y: 0 });
 
   const [linePos, setLinePos] = createSignal({
@@ -75,7 +84,7 @@ export default function Editor() {
       }
       editorController.fixMouseShiftsRelativeToComponents(mousePos());
 
-      setEditorState(EditorState.MOVING_COMPONENT);
+      setEditorState(EditorState.COMPONENT_MOVEMENT);
       console.log("Editor: select component");
     }
   };
@@ -136,12 +145,14 @@ export default function Editor() {
         console.log("Editor: mouse up on Editor");
       }
 
-      if (editorState() == EditorState.MOVING_COMPONENT) {
+      if (editorState() == EditorState.COMPONENT_MOVEMENT) {
         setEditorState(EditorState.COMPONENT_SELECTED);
       } else if (editorState() == EditorState.CONNECTION) {
         sourceComponentId = undefined;
         sourceCommandId = undefined;
         editorController.hideConnectionAreas();
+        setEditorState(EditorState.NONE);
+      } else if (editorState() == EditorState.AREA_MOVEMENT) {
         setEditorState(EditorState.NONE);
       }
 
@@ -149,7 +160,29 @@ export default function Editor() {
     }
   };
   const handleMouseDown = (event: MouseEvent) => {
-    //setShowLine(true);
+    //const editor: HTMLElement = event.currentTarget as HTMLElement;
+    //const rect: DOMRect = editor.getBoundingClientRect();
+    //setMousePos({
+    //  x: Math.round(editor.scrollLeft + event.clientX - rect.left) / scale(),
+    //  y: Math.round(editor.scrollTop + event.clientY - rect.top) / scale(),
+    //});
+    if (
+      editorState() == EditorState.NONE &&
+      event.button == MouseButton.LEFT &&
+      event.ctrlKey
+    ) {
+      if (editorArea) {
+        setEditorState(EditorState.AREA_MOVEMENT);
+        setFixedPosition({
+          x: event.clientX,
+          y: event.clientY,
+        });
+        setFixedScrollPosition({
+          x: editorArea.scrollLeft,
+          y: editorArea.scrollTop,
+        });
+      }
+    }
   };
   const handleMoveConnection = (
     commandId: number,
@@ -176,21 +209,50 @@ export default function Editor() {
   const handleZoomOut = () => {
     setScale((v) => (v > 0.3 ? v - zoomSize : v));
   };
-  // TODO: move to mousemove event
-  createEffect(() => {
-    const position: Position = mousePos();
-    if (editorState() == EditorState.MOVING_COMPONENT) {
-      editorController.moveComponents(position);
+
+  const handleMouseMove = (event: MouseEvent) => {
+    if (editorArea) {
+      const rect: DOMRect = editorArea.getBoundingClientRect();
+      const mousePos = {
+        x:
+          Math.round(editorArea.scrollLeft + event.clientX - rect.left) /
+          scale(),
+        y:
+          Math.round(editorArea.scrollTop + event.clientY - rect.top) / scale(),
+      };
+      setMousePos(mousePos);
+      if (editorState() == EditorState.COMPONENT_MOVEMENT) {
+        editorController.moveComponents(mousePos);
+      } else if (editorState() == EditorState.AREA_MOVEMENT) {
+        if (editorArea) {
+          const shiftX = event.clientX - fixedPosition().x;
+          const shiftY = event.clientY - fixedPosition().y;
+          editorArea.scrollLeft = fixedScrollPosition().x - shiftX;
+          editorArea.scrollTop = fixedScrollPosition().y - shiftY;
+          const pos = {
+            x:
+              Math.round(editorArea.scrollLeft + event.clientX - rect.left) /
+              scale(),
+            y:
+              Math.round(editorArea.scrollTop + event.clientY - rect.top) /
+              scale(),
+          };
+          //console.log(pos, mousePos);
+          setMousePos(pos);
+        }
+      }
+
+      if (showLine()) {
+        setLinePos((v) => ({ ...v, end: mousePos }));
+      }
     }
-    if (showLine()) {
-      setLinePos((v) => ({ ...v, end: position }));
-    }
-  });
+  };
   return (
     <div
       id="editor-area"
+      ref={editorArea}
       data-editor-area
-      onMouseMove={[handleMouseMove, [setMousePos, scale]]}
+      onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseDown={handleMouseDown}
     >
