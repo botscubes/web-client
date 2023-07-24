@@ -3,9 +3,9 @@ import { createStore } from "solid-js/store";
 import {
   handleMouseMove,
   handleAddComponent,
-  handleDeleteComponent,
-  handleAddSelectedComponent,
-  handleSelectComponent,
+  getDeleteComponentHandler,
+  getAddSelectedComponentHandler,
+  getSelectComponentHandler,
   handleStartConnection,
   handleFinishConnection,
   handleMouseUp,
@@ -28,7 +28,7 @@ import "./Editor.css";
 
 export default function Editor() {
   //  const zoomSize = 0.05;
-  //let editorArea: HTMLDivElement | undefined;
+  let editorArea: HTMLDivElement | undefined;
   //  let [fixedPosition, setFixedPosition] = createSignal({
   //    x: 0,
   //    y: 0,
@@ -67,6 +67,9 @@ export default function Editor() {
   const editorController: EditorController = new EditorController(
     new EditorStorage(editorData, setEditorData)
   );
+  onMount(() => {
+    editorController.setEditorArea(editorArea);
+  });
   //  const [editorState, setEditorState] = createSignal(EditorState.NONE);
   //  const [scale, setScale] = createSignal(1);
   //  let sourceComponentId: number | undefined = undefined;
@@ -76,7 +79,7 @@ export default function Editor() {
   return (
     <div
       id="editor-area"
-      //ref={editorArea}
+      ref={editorArea}
       data-editor-area
       onMouseMove={[handleMouseMove, editorController]}
       onMouseUp={[handleMouseUp, editorController]}
@@ -115,9 +118,11 @@ export default function Editor() {
                 scale={editorController.getEditorData().scale}
                 componentData={component}
                 componentStyle={componentStyle}
-                deleteComponent={handleDeleteComponent(editorController)}
-                selectComponent={handleSelectComponent}
-                addSelectedComponent={handleAddSelectedComponent}
+                deleteComponent={getDeleteComponentHandler(editorController)}
+                selectComponent={getSelectComponentHandler(editorController)}
+                addSelectedComponent={getAddSelectedComponentHandler(
+                  editorController
+                )}
                 startConnection={handleStartConnection}
                 finishConnection={handleFinishConnection}
                 moveConnection={handleMoveConnection}

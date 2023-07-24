@@ -18,14 +18,17 @@ export function handleMouseMove(
 export function handleAddComponent(editorController: EditorController) {
   editorController.addComponent();
 }
-export function handleDeleteComponent(editorController: EditorController) {
+export function getDeleteComponentHandler(editorController: EditorController) {
   return (id: number) => editorController.deleteComponent(id);
 }
-export function handleAddSelectedComponent(id: number) {
-  //
+export function getAddSelectedComponentHandler(
+  editorController: EditorController
+) {
+  return (id: number) => editorController.addSelectedComponent(id);
 }
-export function handleSelectComponent(id: number) {
-  //
+export function getSelectComponentHandler(editorController: EditorController) {
+  return (id: number, mousePosition: Position) =>
+    editorController.selectComponent(id, mousePosition);
 }
 export function handleStartConnection(
   componentId: number,

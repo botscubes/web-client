@@ -23,7 +23,7 @@ export interface ComponentProps {
   componentStyle: ComponentStyle;
   scale: number;
   deleteComponent: (id: number) => void;
-  selectComponent: (id: number) => void;
+  selectComponent: (id: number, mousePOsition: Position) => void;
   addSelectedComponent: (id: number) => void;
   startConnection: (
     componentId: number,
