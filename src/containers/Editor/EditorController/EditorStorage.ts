@@ -1,9 +1,9 @@
 import { SetStoreFunction, Store } from "solid-js/store";
-import { EditorData } from "./types";
-import { Position } from "./shared/types";
-import { ComponentData } from "./components/Component";
+import { EditorData } from "../types";
+import { Position } from "../shared/types";
+import { ComponentData } from "../components/Component";
 import cloneDeep from "lodash/cloneDeep";
-import { LinePosition } from "./components/Line";
+import { LinePosition } from "../components/Line";
 
 export default class EditorStorage {
   private id = 0;

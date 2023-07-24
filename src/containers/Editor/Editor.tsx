@@ -19,7 +19,7 @@ import { Component } from "./components/Component";
 import EditorController from "./EditorController";
 import { EditorState } from "./types";
 import type { Position } from "./shared/types";
-import EditorStorage from "./EditorStorage";
+import EditorStorage from "./EditorController/EditorStorage";
 import { MouseButton } from "./shared/types";
 import { Line, LinePosition } from "./components/Line";
 import { ConnectionPointData } from "./components/Component/components/ConnectionPoint/types";
@@ -78,9 +78,9 @@ export default function Editor() {
       id="editor-area"
       //ref={editorArea}
       data-editor-area
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseDown={handleMouseDown}
+      onMouseMove={[handleMouseMove, editorController]}
+      onMouseUp={[handleMouseUp, editorController]}
+      onMouseDown={[handleMouseDown, editorController]}
     >
       <div class="fixed-area">
         <div class="control-buttons">

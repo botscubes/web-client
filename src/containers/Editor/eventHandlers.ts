@@ -1,13 +1,18 @@
 import EditorController from "./EditorController";
 import { Position } from "./shared/types";
 
-export function handleMouseMove(event: MouseEvent) {
-  const editor: HTMLElement = event.currentTarget as HTMLElement;
-  const rect: DOMRect = editor.getBoundingClientRect();
-  //  setMousePos({
-  //    x: Math.round(editor.scrollLeft + event.clientX - rect.left) / scale(),
-  //    y: Math.round(editor.scrollTop + event.clientY - rect.top) / scale(),
-  //  });
+export function handleMouseMove(
+  editorController: EditorController,
+  event: MouseEvent
+) {
+  //const editor: HTMLElement = event.currentTarget as HTMLElement;
+  //const rect: DOMRect = editor.getBoundingClientRect();
+  //const position = {
+  //  x: Math.round(editor.scrollLeft + event.clientX - rect.left) / scale(),
+  //  y: Math.round(editor.scrollTop + event.clientY - rect.top) / scale(),
+  //};
+
+  editorController.handleMouseMove(event);
 }
 
 export function handleAddComponent(editorController: EditorController) {
@@ -37,11 +42,17 @@ export function handleFinishConnection(
 ) {
   //
 }
-export function handleMouseUp(event: MouseEvent) {
-  //
+export function handleMouseUp(
+  editorController: EditorController,
+  event: MouseEvent
+) {
+  editorController.handleMouseUp(event);
 }
-export function handleMouseDown(event: MouseEvent) {
-  //
+export function handleMouseDown(
+  editorController: EditorController,
+  event: MouseEvent
+) {
+  editorController.handleMouseDown(event);
 }
 export function handleMoveConnection(
   commandId: number,
