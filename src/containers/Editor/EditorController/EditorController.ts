@@ -15,7 +15,6 @@ export default class EditorController {
   private readonly zoomSize = 0.05;
   private editorState: EditorState = new WaitingState(this);
   private editorArea?: HTMLElement;
-  private connectionData?: ConnectionData;
 
   constructor(private editorStorage: EditorStorage) {}
 
@@ -40,16 +39,7 @@ export default class EditorController {
     this.editorStorage.moveComponents(mousePosition);
   }
   selectComponent(id: number, mousePosition: Position) {
-    if (!this.editorStorage.componentIsSelected(id)) {
-      this.editorStorage.deselectComponents();
-      this.editorStorage.selectComponent(id);
-    }
-
-    this.editorStorage.fixMouseShiftsRelativeToComponents(
-      this.getRelativeMousePosition(mousePosition)
-    );
-
-    this.setEditorState(new ComponentMoveState(this));
+    this.editorState.selectComponent(id, mousePosition);
   }
   deselectComponents() {
     this.editorStorage.deselectComponents();
@@ -72,20 +62,12 @@ export default class EditorController {
     connectionPosition: Position,
     relativeConnectionPosition: Position
   ) {
-    console.log("aaaa");
-    this.setLinePosition(() => ({
-      start: connectionPosition,
-      end: connectionPosition,
-    }));
-    this.connectionData = {
-      sourceCommandId: commandId,
-      sourceComponentId: componentId,
-      commandConnectionPosition: relativeConnectionPosition,
-    };
-    this.editorStorage.showConnectionAreas(new Set([componentId]));
-
-    this.setShowLine(true);
-    this.setEditorState(new ConnectionState(this));
+    this.editorState.startConnection(
+      componentId,
+      commandId,
+      connectionPosition,
+      relativeConnectionPosition
+    );
   }
   finishConnection(
     componentId: number,
@@ -125,5 +107,8 @@ export default class EditorController {
       );
     }
     return relativeMousePosition;
+  }
+  getEditorStorage(): EditorStorage {
+    return this.editorStorage;
   }
 }

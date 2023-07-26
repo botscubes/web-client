@@ -1,20 +1,25 @@
-import EditorController from "../EditorController";
+import { Position } from "../../shared/types";
+import type EditorController from "../EditorController";
 import EditorState from "../EditorState";
+import ComponentMoveState from "./ComponentMoveState";
 import WaitingState from "./WaitingState";
 
-export default class ComponentSelectedState implements EditorState {
-  constructor(private editorController: EditorController) {}
-  handleMouseDown(event: MouseEvent) {
-    //
+export default class ComponentSelectedState extends EditorState {
+  constructor(editorController: EditorController) {
+    super(editorController);
   }
-  handleMouseMove(event: MouseEvent) {
-    //
-  }
+
   handleMouseUp(event: MouseEvent) {
     this.editorController.deselectComponents();
 
     this.editorController.setEditorState(
       new WaitingState(this.editorController)
+    );
+  }
+  selectComponent(id: number, mousePosition: Position) {
+    super.selectComponent(id, mousePosition);
+    this.editorController.setEditorState(
+      new ComponentMoveState(this.editorController)
     );
   }
 }

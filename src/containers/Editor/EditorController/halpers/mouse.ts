@@ -11,3 +11,9 @@ export function getRelativeMousePosition(
     y: Math.round(htmlElement.scrollTop + mousePosition.y - rect.top) / scale,
   };
 }
+export function getMousePosition(event: MouseEvent): Position {
+  return {
+    x: event.clientX,
+    y: event.clientY,
+  };
+}
