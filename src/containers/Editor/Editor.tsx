@@ -6,8 +6,8 @@ import {
   getDeleteComponentHandler,
   getAddSelectedComponentHandler,
   getSelectComponentHandler,
-  handleStartConnection,
-  handleFinishConnection,
+  getStartConnectionHandler,
+  getFinishConnectionHandler,
   handleMouseUp,
   handleMouseDown,
   handleMoveConnection,
@@ -123,8 +123,8 @@ export default function Editor() {
                 addSelectedComponent={getAddSelectedComponentHandler(
                   editorController
                 )}
-                startConnection={handleStartConnection}
-                finishConnection={handleFinishConnection}
+                startConnection={getStartConnectionHandler(editorController)}
+                finishConnection={getFinishConnectionHandler(editorController)}
                 moveConnection={handleMoveConnection}
                 moveCommandConnection={handleMoveCommandConnection}
               />

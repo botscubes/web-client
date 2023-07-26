@@ -30,20 +30,31 @@ export function getSelectComponentHandler(editorController: EditorController) {
   return (id: number, mousePosition: Position) =>
     editorController.selectComponent(id, mousePosition);
 }
-export function handleStartConnection(
-  componentId: number,
-  commandId: number,
-  connectionPosition: Position,
-  relativeConnectionPosition: Position
-) {
-  //
+export function getStartConnectionHandler(editorController: EditorController) {
+  return (
+    componentId: number,
+    commandId: number,
+    connectionPosition: Position,
+    relativeConnectionPosition: Position
+  ) =>
+    editorController.startConnection(
+      componentId,
+      commandId,
+      connectionPosition,
+      relativeConnectionPosition
+    );
 }
-export function handleFinishConnection(
-  componentId: number,
-  conncetionPosition: Position,
-  relativePointPosition: Position
-) {
-  //
+export function getFinishConnectionHandler(editorController: EditorController) {
+  return (
+    componentId: number,
+    conncetionPosition: Position,
+    relativePointPosition: Position
+  ) =>
+    editorController.finishConnection(
+      componentId,
+      conncetionPosition,
+      relativePointPosition
+    );
 }
 export function handleMouseUp(
   editorController: EditorController,

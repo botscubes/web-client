@@ -2,16 +2,21 @@ import { Store } from "solid-js/store";
 import EditorStorage from "./EditorStorage";
 import { EditorData } from "../types";
 import { Position } from "../shared/types";
-import type { EditorState } from "./EditorState";
+import type EditorState from "./EditorState";
 import WaitingState from "./states/WaitingState";
 import ComponentMoveState from "./states/ComponentMoveState";
 import ComponentSelectedState from "./states/ComponentSelectedState";
 import { getRelativeMousePosition } from "./halpers/mouse";
+import ConnectionState from "./states/ConnectionState";
+import { LinePosition } from "../components/Line";
+import { ConnectionData } from "./types";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
   private editorState: EditorState = new WaitingState(this);
   private editorArea?: HTMLElement;
+  private connectionData?: ConnectionData;
+
   constructor(private editorStorage: EditorStorage) {}
 
   setEditorArea(editorArea?: HTMLElement) {
@@ -29,6 +34,7 @@ export default class EditorController {
   }
   deleteComponent(id: number) {
     this.editorStorage.deleteComponent(id);
+    this.editorStorage.deselectComponents();
   }
   moveComponents(mousePosition: Position) {
     this.editorStorage.moveComponents(mousePosition);
@@ -60,6 +66,34 @@ export default class EditorController {
       this.setEditorState(new WaitingState(this));
     }
   }
+  startConnection(
+    componentId: number,
+    commandId: number,
+    connectionPosition: Position,
+    relativeConnectionPosition: Position
+  ) {
+    console.log("aaaa");
+    this.setLinePosition(() => ({
+      start: connectionPosition,
+      end: connectionPosition,
+    }));
+    this.connectionData = {
+      sourceCommandId: commandId,
+      sourceComponentId: componentId,
+      commandConnectionPosition: relativeConnectionPosition,
+    };
+    this.editorStorage.showConnectionAreas(new Set([componentId]));
+
+    this.setShowLine(true);
+    this.setEditorState(new ConnectionState(this));
+  }
+  finishConnection(
+    componentId: number,
+    conncetionPosition: Position,
+    relativePointPosition: Position
+  ) {
+    //
+  }
   handleMouseDown(event: MouseEvent) {
     this.editorState.handleMouseDown(event);
   }
@@ -71,6 +105,15 @@ export default class EditorController {
   }
   setEditorState(state: EditorState) {
     this.editorState = state;
+  }
+  setShowLine(value: boolean) {
+    this.editorStorage.setShowLine(value);
+  }
+  setLinePosition(
+    fn: (position: LinePosition) => LinePosition,
+    commandId?: number
+  ) {
+    this.editorStorage.setLinePosition(fn, commandId);
   }
   getRelativeMousePosition(mousePosition: Position): Position {
     let relativeMousePosition = { x: 0, y: 0 };

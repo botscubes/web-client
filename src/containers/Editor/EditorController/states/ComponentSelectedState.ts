@@ -1,8 +1,8 @@
 import EditorController from "../EditorController";
-import { EditorState } from "../EditorState";
+import EditorState from "../EditorState";
 import WaitingState from "./WaitingState";
 
-export default class CompoentnSelectedState implements EditorState {
+export default class ComponentSelectedState implements EditorState {
   constructor(private editorController: EditorController) {}
   handleMouseDown(event: MouseEvent) {
     //

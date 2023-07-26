@@ -1,5 +1,5 @@
 import EditorController from "../EditorController";
-import { EditorState } from "../EditorState";
+import EditorState from "../EditorState";
 import CompoentnSelectedState from "./ComponentSelectedState";
 
 export default class ComponentMoveState implements EditorState {

@@ -47,6 +47,9 @@ export default class EditorStorage {
     this.id++;
     return id;
   }
+  setShowLine(value: boolean) {
+    this.setEditorData("showLine", value);
+  }
   cloneComponent(id: number): number {
     const component: ComponentData = cloneDeep(this.editorData.components[id]);
     const newId = this.id;
@@ -144,10 +147,14 @@ export default class EditorStorage {
     }));
   }
   setLinePosition(
-    commandId: number,
-    fn: (position: LinePosition) => LinePosition
+    fn: (position: LinePosition) => LinePosition,
+    commandId?: number
   ) {
-    this.setEditorData("lines", commandId, (line) => fn(line));
+    if (commandId != undefined) {
+      this.setEditorData("lines", commandId, (line) => fn(line));
+    } else {
+      this.setEditorData("line", (line) => fn(line));
+    }
   }
   setCommandConnectionPosition(
     componentId: number,
