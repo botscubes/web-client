@@ -1,7 +1,7 @@
 import type EditorController from "../EditorController";
 import EditorState from "../EditorState";
 import { getMousePosition } from "../halpers/mouse";
-import ComponentSelectedState from "./ComponentSelectedState";
+import WaitingState from "./WaitingState";
 
 export default class ComponentMoveState extends EditorState {
   constructor(editorController: EditorController) {
@@ -15,7 +15,7 @@ export default class ComponentMoveState extends EditorState {
   }
   handleMouseUp(event: MouseEvent) {
     this.editorController.setEditorState(
-      new ComponentSelectedState(this.editorController)
+      new WaitingState(this.editorController)
     );
   }
 }

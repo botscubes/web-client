@@ -5,7 +5,7 @@ import { Position } from "../shared/types";
 import type EditorState from "./EditorState";
 import WaitingState from "./states/WaitingState";
 import ComponentMoveState from "./states/ComponentMoveState";
-import ComponentSelectedState from "./states/ComponentSelectedState";
+//import ComponentSelectedState from "./states/ComponentSelectedState";
 import { getRelativeMousePosition } from "./halpers/mouse";
 import ConnectionState from "./states/ConnectionState";
 import { LinePosition } from "../components/Line";
@@ -29,7 +29,7 @@ export default class EditorController {
     this.deselectComponents();
     const id: number = this.editorStorage.addComponent();
     this.editorStorage.selectComponent(id);
-    this.setEditorState(new ComponentSelectedState(this));
+    this.setEditorState(new WaitingState(this));
   }
   deleteComponent(id: number) {
     this.editorStorage.deleteComponent(id);

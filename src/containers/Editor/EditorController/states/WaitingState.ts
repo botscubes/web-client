@@ -7,6 +7,9 @@ export default class WaitingState extends EditorState {
   constructor(editorController: EditorController) {
     super(editorController);
   }
+  handleMouseUp(event: MouseEvent) {
+    this.editorController.deselectComponents();
+  }
   selectComponent(id: number, mousePosition: Position) {
     super.selectComponent(id, mousePosition);
     this.editorController.setEditorState(
