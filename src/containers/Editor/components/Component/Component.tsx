@@ -62,37 +62,37 @@ export default function Component(props: ComponentProps) {
     );
   };
 
-  createEffect(
-    on(
-      () => props.componentData.position,
-      (position: Position) => {
-        for (const point of Object.values(
-          props.componentData.connectionPoints
-        )) {
-          if (point.id != undefined) {
-            props.moveConnection(point.id, {
-              x:
-                position.x +
-                point.position.x +
-                props.componentStyle.connectionPointSize / 2,
-              y:
-                position.y +
-                point.position.y +
-                props.componentStyle.connectionPointSize / 2,
-            });
-          }
-        }
-        for (const command of Object.values(props.componentData.commands)) {
-          if (command.connectionPosition) {
-            props.moveCommandConnection(command.id, {
-              x: command.connectionPosition.x + position.x,
-              y: command.connectionPosition.y + position.y,
-            });
-          }
-        }
-      }
-    )
-  );
+  // createEffect(
+  //   on(
+  //     () => props.componentData.position,
+  //     (position: Position) => {
+  //       for (const point of Object.values(
+  //         props.componentData.connectionPoints
+  //       )) {
+  //         if (point.id != undefined) {
+  //           props.moveConnection(point.id, {
+  //             x:
+  //               position.x +
+  //               point.position.x +
+  //               props.componentStyle.connectionPointSize / 2,
+  //             y:
+  //               position.y +
+  //               point.position.y +
+  //               props.componentStyle.connectionPointSize / 2,
+  //           });
+  //         }
+  //       }
+  //       for (const command of Object.values(props.componentData.commands)) {
+  //         if (command.connectionPosition) {
+  //           props.moveCommandConnection(command.id, {
+  //             x: command.connectionPosition.x + position.x,
+  //             y: command.connectionPosition.y + position.y,
+  //           });
+  //         }
+  //       }
+  //     }
+  //   )
+  // );
   return (
     <div
       class="component"

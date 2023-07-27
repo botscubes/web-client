@@ -125,8 +125,8 @@ export default function Editor() {
                 )}
                 startConnection={getStartConnectionHandler(editorController)}
                 finishConnection={getFinishConnectionHandler(editorController)}
-                moveConnection={handleMoveConnection}
-                moveCommandConnection={handleMoveCommandConnection}
+                //moveConnection={handleMoveConnection}
+                //moveCommandConnection={handleMoveCommandConnection}
               />
             );
           }}

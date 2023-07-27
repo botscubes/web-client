@@ -122,6 +122,7 @@ export default class EditorStorage {
         x: mousePos.x - position.x,
         y: mousePos.y - position.y,
       });
+      this.setComponentConnections(id);
     }
   }
   setNextComponentId(
@@ -158,6 +159,48 @@ export default class EditorStorage {
   }
   getLinePosition(): LinePosition {
     return this.editorData.line;
+  }
+  setComponentConnections(componentId: number) {
+    const component = this.editorData.components[componentId];
+    if (component) {
+      for (const point of Object.values(component.connectionPoints)) {
+        if (point.id != undefined) {
+          const pointPosition = {
+            x:
+              component.position.x +
+              point.position.x +
+              this.editorData.componentStyle.connectionPointSize / 2,
+            y:
+              component.position.y +
+              point.position.y +
+              this.editorData.componentStyle.connectionPointSize / 2,
+          };
+          this.setLinePosition(
+            (position: LinePosition) => ({
+              ...position,
+              end: pointPosition,
+            }),
+            point.id
+          );
+        }
+      }
+      for (const command of Object.values(component.commands)) {
+        if (command.connectionPosition) {
+          const commandPointPosition = {
+            x: command.connectionPosition.x + component.position.x,
+            y: command.connectionPosition.y + component.position.y,
+          };
+
+          this.setLinePosition(
+            (position: LinePosition) => ({
+              ...position,
+              start: commandPointPosition,
+            }),
+            command.id
+          );
+        }
+      }
+    }
   }
   setCommandConnectionPosition(
     componentId: number,

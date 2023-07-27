@@ -36,9 +36,9 @@ export interface ComponentProps {
     connectionPosition: Position,
     relativePointPosition: Position
   ) => void;
-  moveConnection: (commandId: number, connectionPosition: Position) => void;
-  moveCommandConnection: (
-    commandId: number,
-    connectionPosition: Position
-  ) => void;
+  //  moveConnection: (commandId: number, connectionPosition: Position) => void;
+  //  moveCommandConnection: (
+  //    commandId: number,
+  //    connectionPosition: Position
+  //  ) => void;
 }
