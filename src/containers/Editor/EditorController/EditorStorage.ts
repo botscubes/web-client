@@ -156,6 +156,9 @@ export default class EditorStorage {
       this.setEditorData("line", (line) => fn(line));
     }
   }
+  getLinePosition(): LinePosition {
+    return this.editorData.line;
+  }
   setCommandConnectionPosition(
     componentId: number,
     commandId: number,

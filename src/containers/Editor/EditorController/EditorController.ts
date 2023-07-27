@@ -71,10 +71,14 @@ export default class EditorController {
   }
   finishConnection(
     componentId: number,
-    conncetionPosition: Position,
+    connectionPosition: Position,
     relativePointPosition: Position
   ) {
-    //
+    this.editorState.finishConnection(
+      componentId,
+      connectionPosition,
+      relativePointPosition
+    );
   }
   handleMouseDown(event: MouseEvent) {
     this.editorState.handleMouseDown(event);

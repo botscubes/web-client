@@ -1,6 +1,6 @@
 import { LinePosition } from "../../components/Line";
 import { Position } from "../../shared/types";
-import type EditorController from "../EditorController";
+import EditorController from "../EditorController";
 import EditorState from "../EditorState";
 import { getMousePosition } from "../halpers/mouse";
 import { ConnectionData } from "../types";
@@ -30,29 +30,28 @@ export default class ConnectionState extends EditorState {
       new WaitingState(this.editorController)
     );
   }
-
-  startConnection(
+  finishConnection(
     componentId: number,
-    commandId: number,
     connectionPosition: Position,
-    relativeConnectionPosition: Position
+    relativePointPosition: Position
   ) {
-    this.editorController.setLinePosition(() => ({
-      start: connectionPosition,
-      end: connectionPosition,
-    }));
-    const connectionData = {
-      sourceCommandId: commandId,
-      sourceComponentId: componentId,
-      commandConnectionPosition: relativeConnectionPosition,
-    };
-    this.editorController
-      .getEditorStorage()
-      .showConnectionAreas(new Set([componentId]));
+    const editorStorage = this.editorController.getEditorStorage();
+    editorStorage.connectComponent(
+      this.connectionData.sourceComponentId,
+      this.connectionData.sourceCommandId,
+      componentId,
+      relativePointPosition,
+      {
+        start: editorStorage.getLinePosition().start,
+        end: connectionPosition,
+      },
+      this.connectionData.commandConnectionPosition
+    );
 
-    this.editorController.getEditorStorage().setShowLine(true);
+    editorStorage.hideConnectionAreas();
+    editorStorage.setShowLine(false);
     this.editorController.setEditorState(
-      new ConnectionState(this.editorController, connectionData)
+      new WaitingState(this.editorController)
     );
   }
 }

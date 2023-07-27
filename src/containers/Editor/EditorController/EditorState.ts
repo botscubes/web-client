@@ -25,4 +25,11 @@ export default abstract class EditorState {
   ) {
     //
   }
+  finishConnection(
+    componentId: number,
+    connectionPosition: Position,
+    relativePointPosition: Position
+  ) {
+    //
+  }
 }

@@ -2,6 +2,7 @@ import { Position } from "../../shared/types";
 import type EditorController from "../EditorController";
 import EditorState from "../EditorState";
 import ComponentMoveState from "./ComponentMoveState";
+import ConnectionState from "./ConnectionState";
 
 export default class WaitingState extends EditorState {
   constructor(editorController: EditorController) {
@@ -23,6 +24,30 @@ export default class WaitingState extends EditorState {
       );
     this.editorController.setEditorState(
       new ComponentMoveState(this.editorController)
+    );
+  }
+  startConnection(
+    componentId: number,
+    commandId: number,
+    connectionPosition: Position,
+    relativeConnectionPosition: Position
+  ) {
+    this.editorController.setLinePosition(() => ({
+      start: connectionPosition,
+      end: connectionPosition,
+    }));
+    const connectionData = {
+      sourceCommandId: commandId,
+      sourceComponentId: componentId,
+      commandConnectionPosition: relativeConnectionPosition,
+    };
+    this.editorController
+      .getEditorStorage()
+      .showConnectionAreas(new Set([componentId]));
+
+    this.editorController.getEditorStorage().setShowLine(true);
+    this.editorController.setEditorState(
+      new ConnectionState(this.editorController, connectionData)
     );
   }
 }
