@@ -14,16 +14,7 @@ export default abstract class EditorState {
     //
   }
   selectComponent(id: number, mousePosition: Position) {
-    if (!this.editorController.getEditorStorage().componentIsSelected(id)) {
-      this.editorController.getEditorStorage().deselectComponents();
-      this.editorController.getEditorStorage().selectComponent(id);
-    }
-
-    this.editorController
-      .getEditorStorage()
-      .fixMouseShiftsRelativeToComponents(
-        this.editorController.getRelativeMousePosition(mousePosition)
-      );
+    //
   }
 
   startConnection(

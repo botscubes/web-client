@@ -11,7 +11,16 @@ export default class WaitingState extends EditorState {
     this.editorController.deselectComponents();
   }
   selectComponent(id: number, mousePosition: Position) {
-    super.selectComponent(id, mousePosition);
+    if (!this.editorController.getEditorStorage().componentIsSelected(id)) {
+      this.editorController.getEditorStorage().deselectComponents();
+      this.editorController.getEditorStorage().selectComponent(id);
+    }
+
+    this.editorController
+      .getEditorStorage()
+      .fixMouseShiftsRelativeToComponents(
+        this.editorController.getRelativeMousePosition(mousePosition)
+      );
     this.editorController.setEditorState(
       new ComponentMoveState(this.editorController)
     );

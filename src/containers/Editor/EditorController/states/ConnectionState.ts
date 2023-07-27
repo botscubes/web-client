@@ -30,9 +30,7 @@ export default class ConnectionState extends EditorState {
       new WaitingState(this.editorController)
     );
   }
-  selectComponent(id: number, mousePosition: Position) {
-    //
-  }
+
   startConnection(
     componentId: number,
     commandId: number,
