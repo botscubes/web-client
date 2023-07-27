@@ -26,6 +26,7 @@ export default class ConnectionState extends EditorState {
 
   handleMouseUp(event: MouseEvent) {
     this.editorController.setShowLine(false);
+    this.editorController.getEditorStorage().hideConnectionAreas();
     this.editorController.setEditorState(
       new WaitingState(this.editorController)
     );

@@ -72,10 +72,16 @@ export default class EditorStorage {
     });
   }
   deleteComponent(id: number) {
-    this.selectedComponents.delete(id);
-    this.setEditorData("components", (components) => {
-      return { ...components, [id]: undefined };
-    });
+    const component = this.editorData.components[id];
+    if (component) {
+      this.selectedComponents.delete(id);
+      for (const command of Object.values(component.commands)) {
+        this.deleteConnection(id, command.id);
+      }
+      this.setEditorData("components", (components) => {
+        return { ...components, [id]: undefined };
+      });
+    }
   }
   componentIsSelected(id: number): boolean {
     return this.selectedComponents.has(id);
@@ -159,6 +165,26 @@ export default class EditorStorage {
   }
   getLinePosition(): LinePosition {
     return this.editorData.line;
+  }
+  deleteConnection(componentId: number, commandId: number) {
+    this.setEditorData("lines", (lines) => ({
+      ...lines,
+      [commandId]: undefined,
+    }));
+
+    const command = this.editorData.components[componentId].commands[commandId];
+
+    if (command.nextComponentId != undefined) {
+      this.setEditorData(
+        "components",
+        command.nextComponentId,
+        "connectionPoints",
+        (connectionPoints) => ({
+          ...connectionPoints,
+          [command.id]: undefined,
+        })
+      );
+    }
   }
   setComponentConnections(componentId: number) {
     const component = this.editorData.components[componentId];

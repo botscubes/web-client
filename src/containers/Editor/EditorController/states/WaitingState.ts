@@ -32,6 +32,10 @@ export default class WaitingState extends EditorState {
     connectionPosition: Position,
     relativeConnectionPosition: Position
   ) {
+    this.editorController
+      .getEditorStorage()
+      .deleteConnection(componentId, commandId);
+
     this.editorController.setLinePosition(() => ({
       start: connectionPosition,
       end: connectionPosition,
