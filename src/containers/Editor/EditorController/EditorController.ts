@@ -89,8 +89,8 @@ export default class EditorController {
       );
     this.setEditorState(
       new ConnectionState(this, {
-        sourceCommandId: sourceComponentId,
-        sourceComponentId: sourceCommandId,
+        sourceComponentId: sourceComponentId,
+        sourceCommandId: sourceCommandId,
         commandConnectionPosition: commandConnectionPosition,
         linePosition: linePosition,
       })
