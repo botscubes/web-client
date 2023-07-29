@@ -82,11 +82,16 @@ export default class EditorController {
   }
   deleteConnection(sourceComponentId: number, sourceCommandId: number) {
     const linePosition = this.editorStorage.getLinePosition(sourceCommandId);
+    const commandConnectionPosition: Position =
+      this.editorStorage.getCommandConnectionPosition(
+        sourceComponentId,
+        sourceCommandId
+      );
     this.setEditorState(
       new ConnectionState(this, {
         sourceCommandId: sourceComponentId,
         sourceComponentId: sourceCommandId,
-        commandConnectionPosition: { x: 0, y: 0 },
+        commandConnectionPosition: commandConnectionPosition,
         linePosition: linePosition,
       })
     );

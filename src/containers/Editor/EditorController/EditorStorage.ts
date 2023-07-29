@@ -177,7 +177,7 @@ export default class EditorStorage {
 
     const command = this.editorData.components[componentId].commands[commandId];
 
-    if (command.nextComponentId != undefined) {
+    if (command && command.nextComponentId != undefined) {
       this.setEditorData(
         "components",
         command.nextComponentId,
@@ -247,6 +247,18 @@ export default class EditorStorage {
         connectionPosition: position,
       })
     );
+  }
+  getCommandConnectionPosition(
+    componentId: number,
+    commandId: number
+  ): Position {
+    const commandConnectionPosition =
+      this.editorData.components[componentId].commands[commandId]
+        .connectionPosition;
+    if (commandConnectionPosition) {
+      return commandConnectionPosition;
+    }
+    return { x: 0, y: 0 };
   }
   showConnectionAreas(excludedComponentId: Set<number> = new Set()) {
     for (const component of Object.values(this.editorData.components)) {
