@@ -1,4 +1,4 @@
-import { createSignal, createEffect, For, Show, onMount, on } from "solid-js";
+import { For, Show, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 import {
   handleMouseMove,
@@ -10,19 +10,14 @@ import {
   getFinishConnectionHandler,
   handleMouseUp,
   handleMouseDown,
-  handleMoveConnection,
-  handleMoveCommandConnection,
   handleZoomIn,
   handleZoomOut,
+  getDeleteConnectionHandler,
 } from "./eventHandlers";
 import { Component } from "./components/Component";
 import EditorController from "./EditorController";
-import { EditorState } from "./types";
-import type { Position } from "./shared/types";
 import EditorStorage from "./EditorController/EditorStorage";
-import { MouseButton } from "./shared/types";
-import { Line, LinePosition } from "./components/Line";
-import { ConnectionPointData } from "./components/Component/components/ConnectionPoint/types";
+import { Line } from "./components/Line";
 
 import "./Editor.css";
 
@@ -125,6 +120,7 @@ export default function Editor() {
                 )}
                 startConnection={getStartConnectionHandler(editorController)}
                 finishConnection={getFinishConnectionHandler(editorController)}
+                deleteConnection={getDeleteConnectionHandler(editorController)}
                 //moveConnection={handleMoveConnection}
                 //moveCommandConnection={handleMoveCommandConnection}
               />

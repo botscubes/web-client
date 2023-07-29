@@ -128,7 +128,7 @@ export default class EditorStorage {
         x: mousePos.x - position.x,
         y: mousePos.y - position.y,
       });
-      this.setComponentConnections(id);
+      this.setConnectionLines(id);
     }
   }
   setNextComponentId(
@@ -163,7 +163,10 @@ export default class EditorStorage {
       this.setEditorData("line", (line) => fn(line));
     }
   }
-  getLinePosition(): LinePosition {
+  getLinePosition(commandId?: number): LinePosition {
+    if (commandId != undefined) {
+      return this.editorData.lines[commandId];
+    }
     return this.editorData.line;
   }
   deleteConnection(componentId: number, commandId: number) {
@@ -185,12 +188,13 @@ export default class EditorStorage {
         })
       );
     }
+    this.setNextComponentId(componentId, commandId, undefined);
   }
-  setComponentConnections(componentId: number) {
+  setConnectionLines(componentId: number) {
     const component = this.editorData.components[componentId];
     if (component) {
       for (const point of Object.values(component.connectionPoints)) {
-        if (point.id != undefined) {
+        if (point.commandId != undefined) {
           const pointPosition = {
             x:
               component.position.x +
@@ -206,7 +210,7 @@ export default class EditorStorage {
               ...position,
               end: pointPosition,
             }),
-            point.id
+            point.commandId
           );
         }
       }
@@ -273,7 +277,8 @@ export default class EditorStorage {
       (points) => ({
         ...points,
         [commandId]: {
-          id: commandId,
+          componentId: componentId,
+          commandId: commandId,
           position: relativePointPosition,
         },
       })
@@ -290,20 +295,26 @@ export default class EditorStorage {
     console.log(this.editorData.components);
   }
 
-  disconnectComponent(componentId: number, commandId: number) {
-    this.setNextComponentId(componentId, commandId, undefined);
-    this.setEditorData(
-      "components",
-      componentId,
-      "connectionPoints",
-      (points) => ({
-        ...points,
-        [commandId]: undefined,
-      })
-    );
-    this.setEditorData("lines", (lines) => ({
-      ...lines,
-      [commandId]: undefined,
-    }));
-  }
+  //  disconnectComponent(
+  //    sourceComponentId: number,
+  //    sourceCommandId: number,
+  //    nextComponentId: number
+  //  ): Position {
+  //    this.setNextComponentId(sourceComponentId, sourceCommandId, undefined);
+  //    this.setEditorData(
+  //      "components",
+  //      nextComponentId,
+  //      "connectionPoints",
+  //      (points) => ({
+  //        ...points,
+  //        [sourceCommandId]: undefined,
+  //      })
+  //    );
+  //    const lineStartPosition = this.editorData.lines[sourceCommandId].start;
+  //    this.setEditorData("lines", (lines) => ({
+  //      ...lines,
+  //      [sourceCommandId]: undefined,
+  //    }));
+  //    return lineStartPosition;
+  //  }
 }

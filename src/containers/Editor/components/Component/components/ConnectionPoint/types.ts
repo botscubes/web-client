@@ -2,7 +2,8 @@ import { Position } from "../../../../shared/types";
 
 export interface ConnectionPointData {
   position: Position;
-  id?: number;
+  componentId?: number;
+  commandId?: number;
 }
 
 export interface ConnectionPointStyle {

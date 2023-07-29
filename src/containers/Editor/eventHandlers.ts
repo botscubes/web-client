@@ -56,6 +56,10 @@ export function getFinishConnectionHandler(editorController: EditorController) {
       relativePointPosition
     );
 }
+export function getDeleteConnectionHandler(editorController: EditorController) {
+  return (sourceComponentId: number, sourceCommandId: number) =>
+    editorController.deleteConnection(sourceComponentId, sourceCommandId);
+}
 export function handleMouseUp(
   editorController: EditorController,
   event: MouseEvent
@@ -68,18 +72,7 @@ export function handleMouseDown(
 ) {
   editorController.handleMouseDown(event);
 }
-export function handleMoveConnection(
-  commandId: number,
-  connectionPostition: Position
-) {
-  //console.log("Editor: move connection");
-}
-export function handleMoveCommandConnection(
-  commandId: number,
-  connectionPosition: Position
-) {
-  //
-}
+
 export function handleZoomIn() {
   //
 }

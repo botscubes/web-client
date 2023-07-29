@@ -80,6 +80,17 @@ export default class EditorController {
       relativePointPosition
     );
   }
+  deleteConnection(sourceComponentId: number, sourceCommandId: number) {
+    const linePosition = this.editorStorage.getLinePosition(sourceCommandId);
+    this.setEditorState(
+      new ConnectionState(this, {
+        sourceCommandId: sourceComponentId,
+        sourceComponentId: sourceCommandId,
+        commandConnectionPosition: { x: 0, y: 0 },
+        linePosition: linePosition,
+      })
+    );
+  }
   handleMouseDown(event: MouseEvent) {
     this.editorState.handleMouseDown(event);
   }

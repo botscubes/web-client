@@ -3,9 +3,10 @@ import { handleDragStart } from "./events";
 import { ConnectionArea } from "./components/ConnectionArea";
 import "./Component.css";
 import { MouseButton, Position } from "../../shared/types";
-import { For, createEffect, on } from "solid-js";
+import { For } from "solid-js";
 import { Command } from "./components/Command";
 import { ConnectionPoint } from "./components/ConnectionPoint";
+import { getConnectionPointMouseDownHandler } from "./eventHandlers";
 
 export default function Component(props: ComponentProps) {
   const commands = () => Object.values(props.componentData.commands);
@@ -62,37 +63,6 @@ export default function Component(props: ComponentProps) {
     );
   };
 
-  // createEffect(
-  //   on(
-  //     () => props.componentData.position,
-  //     (position: Position) => {
-  //       for (const point of Object.values(
-  //         props.componentData.connectionPoints
-  //       )) {
-  //         if (point.id != undefined) {
-  //           props.moveConnection(point.id, {
-  //             x:
-  //               position.x +
-  //               point.position.x +
-  //               props.componentStyle.connectionPointSize / 2,
-  //             y:
-  //               position.y +
-  //               point.position.y +
-  //               props.componentStyle.connectionPointSize / 2,
-  //           });
-  //         }
-  //       }
-  //       for (const command of Object.values(props.componentData.commands)) {
-  //         if (command.connectionPosition) {
-  //           props.moveCommandConnection(command.id, {
-  //             x: command.connectionPosition.x + position.x,
-  //             y: command.connectionPosition.y + position.y,
-  //           });
-  //         }
-  //       }
-  //     }
-  //   )
-  // );
   return (
     <div
       class="component"
@@ -147,13 +117,17 @@ export default function Component(props: ComponentProps) {
 
       <For each={Object.values(props.componentData.connectionPoints)}>
         {(point) => {
-          console.log(point);
           return (
             <ConnectionPoint
               connectionPointStyle={{
                 size: props.componentStyle.connectionPointSize,
               }}
               connectionPointData={point}
+              onMouseDown={getConnectionPointMouseDownHandler(
+                props.deleteConnection,
+                point.componentId,
+                point.commandId
+              )}
             />
           );
         }}

@@ -12,6 +12,21 @@ export default class ConnectionState extends EditorState {
     private connectionData: ConnectionData
   ) {
     super(editorController);
+
+    this.editorController
+      .getEditorStorage()
+      .deleteConnection(
+        connectionData.sourceComponentId,
+        connectionData.sourceCommandId
+      );
+    this.editorController.setLinePosition(
+      () => this.connectionData.linePosition
+    );
+
+    this.editorController.getEditorStorage().setShowLine(true);
+    this.editorController
+      .getEditorStorage()
+      .showConnectionAreas(new Set([connectionData.sourceComponentId]));
   }
 
   handleMouseMove(event: MouseEvent) {
