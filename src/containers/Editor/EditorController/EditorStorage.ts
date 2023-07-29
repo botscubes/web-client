@@ -261,7 +261,7 @@ export default class EditorStorage {
     }
   }
 
-  connectComponent(
+  addConnection(
     componentId: number,
     commandId: number,
     nextComponentId: number,

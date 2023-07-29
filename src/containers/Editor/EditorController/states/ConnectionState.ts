@@ -52,7 +52,7 @@ export default class ConnectionState extends EditorState {
     relativePointPosition: Position
   ) {
     const editorStorage = this.editorController.getEditorStorage();
-    editorStorage.connectComponent(
+    editorStorage.addConnection(
       this.connectionData.sourceComponentId,
       this.connectionData.sourceCommandId,
       componentId,
