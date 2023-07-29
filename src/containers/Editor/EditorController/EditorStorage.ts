@@ -73,10 +73,16 @@ export default class EditorStorage {
   }
   deleteComponent(id: number) {
     const component = this.editorData.components[id];
+
     if (component) {
       this.selectedComponents.delete(id);
       for (const command of Object.values(component.commands)) {
         this.deleteConnection(id, command.id);
+      }
+      const points = cloneDeep(component.connectionPoints);
+      for (const point of Object.values(points)) {
+        if (point.componentId != undefined && point.commandId != undefined)
+          this.deleteConnection(point.componentId, point.commandId);
       }
       this.setEditorData("components", (components) => {
         return { ...components, [id]: undefined };
@@ -169,12 +175,15 @@ export default class EditorStorage {
     }
     return this.editorData.line;
   }
-  deleteConnection(componentId: number, commandId: number) {
+  deleteLine(commandId: number) {
     this.setEditorData("lines", (lines) => ({
       ...lines,
       [commandId]: undefined,
     }));
+  }
 
+  deleteConnection(componentId: number, commandId: number) {
+    this.deleteLine(commandId);
     const command = this.editorData.components[componentId].commands[commandId];
 
     if (command && command.nextComponentId != undefined) {
@@ -215,7 +224,10 @@ export default class EditorStorage {
         }
       }
       for (const command of Object.values(component.commands)) {
-        if (command.connectionPosition) {
+        if (
+          command.nextComponentId != undefined &&
+          command.connectionPosition
+        ) {
           const commandPointPosition = {
             x: command.connectionPosition.x + component.position.x,
             y: command.connectionPosition.y + component.position.y,
@@ -304,7 +316,6 @@ export default class EditorStorage {
       commandId,
       commandConnectionPosition
     );
-    console.log(this.editorData.components);
   }
 
   //  disconnectComponent(
