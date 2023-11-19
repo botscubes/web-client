@@ -1,4 +1,4 @@
-import { Position } from "../../../../shared/types";
+import { Position } from "~/containers/Editor/shared/types";
 
 export interface ConnectionPointData {
   position: Position;

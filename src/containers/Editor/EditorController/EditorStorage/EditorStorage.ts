@@ -6,6 +6,9 @@ import cloneDeep from "lodash/cloneDeep";
 import { LinePosition } from "../../components/Line";
 
 export default class EditorStorage {
+  
+
+
   private id = 0;
   private commandId = 0;
   // key - id, value - mouse shift

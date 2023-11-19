@@ -1,7 +1,8 @@
 import "./Command.css";
 import { ConnectionPoint } from "../ConnectionPoint";
 import { CommandProps } from "./types";
-import { Position } from "../../../../shared/types";
+//import { Position } from "../../../../shared/types";
+import { Position } from "~/containers/Editor/shared/types";
 
 export default function Command(props: CommandProps) {
   const handlePointMouseDown =
