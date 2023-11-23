@@ -1,16 +1,25 @@
 import { A, redirect } from "solid-start";
 import { createRouteAction } from "solid-start/data/createRouteAction";
+import { serverConfig } from "~/ServerConfig";
+import { config } from "~/config";
 
 export default function Signup() {
   const [_, { Form }] = createRouteAction(async (formData: FormData) => {
-    // await new Promise((resolve, reject) => setTimeout(resolve, 1000));
-    //  const username = formData.get("username");
-    //  if (username === "admin") {
-    //    return redirect("/admin");
-    //  } else {
-    //    throw new Error("Invalid username");
-    //  }
-    //return redirect("/home");
+    let response = await fetch(serverConfig.getUrl("/api/users/signup"), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({}),
+    });
+    console.log(response);
+    //   const username = formData.get("username");
+    //   if (username === "admin") {
+    //     //  return redirect("/admin");
+    //   } else {
+    //     //  throw new Error("Invalid username");
+    //   }
+    //   //return redirect("/home");
   });
 
   return (
