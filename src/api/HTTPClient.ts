@@ -3,7 +3,7 @@ export interface HTTPResponse<T> {
   status: number;
 }
 
-export class HTTPRequest {
+export class HTTPClient {
   constructor(private _url: string) {}
 
   async GET<T>(
@@ -12,10 +12,34 @@ export class HTTPRequest {
   ): Promise<[HTTPResponse<T>, Error?]> {
     return this.request(path, "GET", token);
   }
-  //POST()
-  //PATCH()
-  //PUT()
-  //DELETE()
+  async POST<I, O>(
+    path: string,
+    data?: I,
+    token?: string
+  ): Promise<[HTTPResponse<O>, Error?]> {
+    return this.request(path, "POST", token, data);
+  }
+  async PATCH<I, O>(
+    path: string,
+    data?: I,
+    token?: string
+  ): Promise<[HTTPResponse<O>, Error?]> {
+    return this.request(path, "PATCH", token, data);
+  }
+
+  async PUT<I, O>(
+    path: string,
+    data?: I,
+    token?: string
+  ): Promise<[HTTPResponse<O>, Error?]> {
+    return this.request(path, "PUT", token, data);
+  }
+  async DELETE<T>(
+    path: string,
+    token?: string
+  ): Promise<[HTTPResponse<T>, Error?]> {
+    return this.request(path, "DELETE", token);
+  }
 
   async request<I, O>(
     path: string,
