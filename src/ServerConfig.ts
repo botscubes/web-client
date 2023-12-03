@@ -5,8 +5,8 @@ export class ServerConfig {
   constructor(domain: string, port: number, scheme = "https") {
     this._url = scheme + "://" + domain + ":" + port;
   }
-  public getUrl(path: string): string {
-    return this._url + path;
+  public getUrl(path?: string): string {
+    return path ? this._url + path : this._url;
   }
 }
 

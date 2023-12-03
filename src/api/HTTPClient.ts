@@ -10,7 +10,7 @@ export interface HTTPResponse<T> {
 }
 
 export class HTTPClient {
-  constructor(private _url: string) {}
+  constructor(private _baseUrl: string) {}
 
   async GET<T>(path: string, token?: string): Promise<HTTPResponse<T>> {
     return this.request(path, "GET", token);
@@ -81,16 +81,19 @@ export class HTTPClient {
         };
       }
     }
-    const response = await fetch(this._url + path, options);
+    const response = await fetch(this._baseUrl + path, options);
     const result = {
       status: response.status,
       data: undefined,
       error: undefined,
     };
-    if (response.status == 200 || response.status == 201) {
-      result.data = await response.json();
-    } else if (response.status == 422) {
-      result.error = await response.json();
+    const text = await response.text();
+    if (text) {
+      if (response.status == 200 || response.status == 201) {
+        result.data = JSON.parse(text);
+      } else if (response.status == 422) {
+        result.error = JSON.parse(text);
+      }
     }
 
     return result;
