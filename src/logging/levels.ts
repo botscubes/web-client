@@ -1,5 +1,6 @@
 export type LoggingLevel = number;
 
+export const NONE: LoggingLevel = 0;
 export const INFO: LoggingLevel = 1;
 export const WARN: LoggingLevel = 2;
 export const DEBUG: LoggingLevel = 4;
