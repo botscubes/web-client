@@ -1,13 +1,4 @@
-export interface ServiceError {
-  code: number;
-  message: string;
-}
-
-export interface HTTPResponse<T> {
-  status: number;
-  data?: T;
-  error?: ServiceError;
-}
+import { HTTPResponse } from "./HTTPResponse";
 
 export class HTTPClient {
   constructor(private _baseUrl: string) {}
@@ -96,6 +87,7 @@ export class HTTPClient {
       }
     }
 
-    return result;
+    return new HTTPResponse<O>(result);
   }
 }
+export { HTTPResponse };

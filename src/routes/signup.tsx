@@ -3,12 +3,12 @@ import { A, redirect } from "solid-start";
 import { createRouteAction } from "solid-start/data/createRouteAction";
 import { serverConfig } from "~/ServerConfig";
 import { HTTPClient } from "~/api/HTTPClient";
-import UserClient from "~/api/user/UserClient";
-import { config } from "~/config";
+import User from "~/api/user/User";
+import Logger from "~/logging/Logger";
 
 export default function Signup() {
-  const userClinet = new UserClient(new HTTPClient(serverConfig.getUrl()));
-
+  const httpClient = new HTTPClient(serverConfig.getUrl());
+  const logger = new Logger();
   const [enrolling, { Form }] = createRouteAction(
     async (formData: FormData) => {
       //  let response = await fetch(serverConfig.getUrl("/api/users/signup"), {
@@ -26,24 +26,20 @@ export default function Signup() {
       //     //  throw new Error("Invalid username");
       //   }
       //   //return redirect("/home");
-      let response;
-      try {
-        const login = formData.get("login") as string;
-        const password = formData.get("password") as string;
 
-        response = await userClinet.signup({
+      const login = formData.get("login") as string;
+      const password = formData.get("password") as string;
+
+      const user = new User(
+        httpClient,
+        {
           login: login,
           password: password,
-        });
-      } catch (e) {
-        console.log(e);
-        throw new Error("Error sending request.");
-      }
-      if (response.status == 422) {
-        if (response.error != undefined) {
-          throw new Error(response.error.message);
-        }
-      }
+        },
+        "",
+        logger
+      );
+      await user.signup();
 
       return redirect("/signin");
     }
