@@ -1,4 +1,5 @@
 import { LoggerConfig } from "./LoggerConfig";
+import { ALL, DEBUG, ERROR, INFO, TRACE, WARN } from "./levels";
 
 export default class Logger {
   constructor(private _config: LoggerConfig = { levels: ALL }) {}
