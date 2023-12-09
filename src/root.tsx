@@ -13,6 +13,7 @@ import {
   Title,
 } from "solid-start";
 import "./root.css";
+import { AppContextProvider } from "./AppContext";
 
 export default function Root() {
   return (
@@ -25,9 +26,11 @@ export default function Root() {
       <Body>
         <Suspense>
           <ErrorBoundary>
-            <Routes>
-              <FileRoutes />
-            </Routes>
+            <AppContextProvider>
+              <Routes>
+                <FileRoutes />
+              </Routes>
+            </AppContextProvider>
           </ErrorBoundary>
         </Suspense>
         <Scripts />

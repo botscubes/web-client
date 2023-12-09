@@ -10,8 +10,8 @@ export class ServerConfig {
   }
 }
 
-export const serverConfig = new ServerConfig(
-  config.server.domain,
-  config.server.port,
-  config.server.scheme
-);
+//export const serverConfig = new ServerConfig(
+//  config.server.domain,
+//  config.server.port,
+//  config.server.scheme
+//);

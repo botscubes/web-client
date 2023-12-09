@@ -1,0 +1,39 @@
+import { createContext, useContext } from "solid-js";
+import { config } from "./config";
+import { ServerConfig } from "./ServerConfig";
+import Logger from "./logging/Logger";
+import { HTTPClient } from "./api/HTTPClient";
+
+export interface AppState {
+  get logger(): Logger;
+  get httpClient(): HTTPClient;
+}
+
+const AppContext = createContext<AppState>({} as AppState);
+
+export function AppContextProvider(props: any) {
+  const conf = config;
+  const serverConfig = new ServerConfig(
+    conf.server.domain,
+    conf.server.port,
+    conf.server.scheme
+  );
+  const logger = new Logger({ levels: conf.log.levels });
+  const httpClient = new HTTPClient(serverConfig.getUrl());
+  const state: AppState = {
+    get logger(): Logger {
+      return logger;
+    },
+    get httpClient(): HTTPClient {
+      return httpClient;
+    },
+  };
+
+  return (
+    <AppContext.Provider value={state}>{props.children}</AppContext.Provider>
+  );
+}
+
+export function useAppState() {
+  return useContext(AppContext);
+}

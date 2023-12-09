@@ -1,14 +1,13 @@
 import { Show } from "solid-js";
 import { A, redirect } from "solid-start";
 import { createRouteAction } from "solid-start/data/createRouteAction";
-import { serverConfig } from "~/ServerConfig";
+import { useAppState } from "~/AppContext";
 import { HTTPClient } from "~/api/HTTPClient";
 import User from "~/api/user/User";
 import Logger from "~/logging/Logger";
 
 export default function Signup() {
-  const httpClient = new HTTPClient(serverConfig.getUrl());
-  const logger = new Logger();
+  const appState = useAppState();
   const [enrolling, { Form }] = createRouteAction(
     async (formData: FormData) => {
       //  let response = await fetch(serverConfig.getUrl("/api/users/signup"), {
@@ -31,13 +30,13 @@ export default function Signup() {
       const password = formData.get("password") as string;
 
       const user = new User(
-        httpClient,
+        appState.httpClient,
         {
           login: login,
           password: password,
         },
         "",
-        logger
+        appState.logger
       );
       await user.signup();
 
@@ -60,7 +59,6 @@ export default function Signup() {
           <div class="error">{enrolling.error.message}</div>
         </Show>
       </Form>
-
       <A href="/login">Sign in</A>
     </>
   );
