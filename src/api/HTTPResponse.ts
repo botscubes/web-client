@@ -1,3 +1,4 @@
+import Logger from "~/logging/Logger";
 import HTTPError from "./HTTPError";
 
 export interface ServiceError {
@@ -45,4 +46,41 @@ function defaultCheck<T>(response: HTTPResponse<T>): HTTPResponse<T> {
     }
   }
   return response;
+}
+
+export async function getDataFromResponsePromise<T>(
+  promise: Promise<HTTPResponse<T>>,
+  log: Logger
+): Promise<T | undefined> {
+  try {
+    const data = (await promise).check().data;
+    return data;
+  } catch (e) {
+    if (e instanceof HTTPError) {
+      log.info(e.message);
+      throw new HTTPError(e.message);
+    } else if (e instanceof Error) {
+      log.error(e.message);
+      throw new HTTPError("Error sending request");
+    }
+  }
+}
+
+export async function checkResponsePromise<T>(
+  promise: Promise<HTTPResponse<T>>,
+  log: Logger
+): Promise<HTTPResponse<T>> {
+  try {
+    const response = (await promise).check();
+    return response;
+  } catch (e) {
+    if (e instanceof HTTPError) {
+      log.info(e.message);
+      throw new HTTPError(e.message);
+    } else if (e instanceof Error) {
+      log.error(e.message);
+      throw new HTTPError("Error sending request");
+    }
+  }
+  return promise;
 }

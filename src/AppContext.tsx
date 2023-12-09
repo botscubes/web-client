@@ -1,4 +1,4 @@
-import { createContext, useContext } from "solid-js";
+import { createContext, createSignal, useContext } from "solid-js";
 import { config } from "./config";
 import { ServerConfig } from "./ServerConfig";
 import Logger from "./logging/Logger";
@@ -7,11 +7,15 @@ import { HTTPClient } from "./api/HTTPClient";
 export interface AppState {
   get logger(): Logger;
   get httpClient(): HTTPClient;
+  saveToken(token: string): void;
+  deleteToken(): void;
+  get token(): string;
 }
 
 const AppContext = createContext<AppState>({} as AppState);
 
 export function AppContextProvider(props: any) {
+  let token: string = "";
   const conf = config;
   const serverConfig = new ServerConfig(
     conf.server.domain,
@@ -26,6 +30,15 @@ export function AppContextProvider(props: any) {
     },
     get httpClient(): HTTPClient {
       return httpClient;
+    },
+    saveToken(t: string) {
+      token = t;
+    },
+    deleteToken() {
+      token = "";
+    },
+    get token() {
+      return token;
     },
   };
 
