@@ -39,7 +39,7 @@ export class HTTPClient {
     data?: I
   ): Promise<HTTPResponse<O>> {
     let options = {};
-    if (data == undefined) {
+    if (data != undefined) {
       if (token != undefined) {
         options = {
           method: method,
