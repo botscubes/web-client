@@ -44,10 +44,11 @@ export default function Login() {
         <label for="password">Password: </label> <br />
         <input type="password" name="password" /> <br />
         <input type="submit" value="submit" />
+        <Show when={enrolling.error}>
+          <div class="error">{enrolling.error.message}</div>
+        </Show>
       </Form>
-      <Show when={enrolling.error}>
-        <div class="error">{enrolling.error.message}</div>
-      </Show>
+
       <A href="/signup">Sign up</A>
     </>
   );

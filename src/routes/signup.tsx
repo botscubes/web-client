@@ -10,22 +10,6 @@ export default function Signup() {
   const userClient = new UserClient(appState.httpClient);
   const [enrolling, { Form }] = createRouteAction(
     async (formData: FormData) => {
-      //  let response = await fetch(serverConfig.getUrl("/api/users/signup"), {
-      //    method: "POST",
-      //    headers: {
-      //      "Content-Type": "application/json;charset=utf-8",
-      //    },
-      //    body: JSON.stringify({}),
-      //  });:
-      //  console.log(response);
-      //   const username = formData.get("username");
-      //   if (username === "admin") {
-      //     //  return redirect("/admin");
-      //   } else {
-      //     //  throw new Error("Invalid username");
-      //   }
-      //   //return redirect("/home");
-
       const login = formData.get("login") as string;
       const password = formData.get("password") as string;
       const user = {
