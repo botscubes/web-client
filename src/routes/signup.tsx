@@ -37,7 +37,7 @@ export default function Signup() {
           <div class="error">{enrolling.error.message}</div>
         </Show>
       </Form>
-      <A href="/login">Sign in</A>
+      <A href="/signin">Sign in</A>
     </>
   );
 }

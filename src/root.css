@@ -1,6 +1,8 @@
 body {
   font-family: Gordita, Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
     "Helvetica Neue", sans-serif;
+  margin: 0px;
+  padding: 0px;
 }
 
 a {
@@ -12,13 +14,13 @@ main {
   padding: 1em;
   margin: 0 auto;
 }
+
 form {
   padding: 1%;
   /*background: gray;*/
 }
 
-input {
-}
+input {}
 
 h1 {
   color: #335d92;
@@ -35,6 +37,7 @@ p {
   margin: 2rem auto;
   line-height: 1.35; */
 }
+
 .error {
   color: red;
 }

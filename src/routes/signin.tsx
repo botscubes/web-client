@@ -6,7 +6,7 @@ import HTTPError from "~/api/HTTPError";
 import { getDataFromResponsePromise } from "~/api/HTTPResponse";
 import UserClient from "~/api/user/UserClient";
 
-export default function Login() {
+export default function Signin() {
   const appState = useAppState();
   const userClient = new UserClient(appState.httpClient);
 

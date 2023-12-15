@@ -14,6 +14,7 @@ import {
 } from "solid-start";
 import "./root.css";
 import { AppContextProvider } from "./AppContext";
+import Header from "./components/Header";
 
 export default function Root() {
   return (
@@ -24,15 +25,16 @@ export default function Root() {
         <Meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Body>
-        <Suspense>
-          <ErrorBoundary>
-            <AppContextProvider>
+        <AppContextProvider>
+          <Header />
+          <Suspense>
+            <ErrorBoundary>
               <Routes>
                 <FileRoutes />
               </Routes>
-            </AppContextProvider>
-          </ErrorBoundary>
-        </Suspense>
+            </ErrorBoundary>
+          </Suspense>
+        </AppContextProvider>
         <Scripts />
       </Body>
     </Html>
