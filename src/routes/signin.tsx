@@ -37,9 +37,9 @@ export default function Signin() {
     <>
       <Form>
         <p>Sign in</p>
-        <label for="username">Login:</label>
+        <label for="login">Login:</label>
         <br />
-        <input type="text" name="username" />
+        <input type="text" name="login" />
         <br />
         <label for="password">Password: </label> <br />
         <input type="password" name="password" /> <br />

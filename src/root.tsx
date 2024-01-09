@@ -14,7 +14,7 @@ import {
 } from "solid-start";
 import "./root.css";
 import { AppContextProvider } from "./AppContext";
-import Header from "./components/Header";
+import Header from "./containers/Header";
 
 export default function Root() {
   return (

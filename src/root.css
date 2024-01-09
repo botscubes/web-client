@@ -5,8 +5,13 @@ body {
   padding: 0px;
 }
 
+.action-link,
+a.text:active,
+a.text:hover,
 a {
   margin-right: 1rem;
+  text-decoration: none;
+  color: #335d92;
 }
 
 main {

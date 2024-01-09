@@ -15,7 +15,8 @@ export interface AppState {
 const AppContext = createContext<AppState>({} as AppState);
 
 export function AppContextProvider(props: any) {
-  let token: string = "";
+  const [token, setToken] = createSignal("");
+
   const conf = config;
   const serverConfig = new ServerConfig(
     conf.server.domain,
@@ -32,13 +33,13 @@ export function AppContextProvider(props: any) {
       return httpClient;
     },
     saveToken(t: string) {
-      token = t;
+      setToken(t);
     },
     deleteToken() {
-      token = "";
+      setToken("");
     },
     get token() {
-      return token;
+      return token();
     },
   };
 
