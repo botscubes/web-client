@@ -1,11 +1,11 @@
-import { Title } from "solid-start";
-import Counter from "~/components/Counter";
+import { Title } from "@solidjs/meta";
 import Editor from "~/containers/Editor";
 
 export default function Home() {
   return (
-    <main>
+    <div>
+      <Title>aaaa</Title>
       <Editor />
-    </main>
+    </div>
   );
 }

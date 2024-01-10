@@ -1,5 +1,3 @@
-import { config } from "./config";
-
 export class ServerConfig {
   private _url;
   constructor(domain: string, port: number, scheme = "https") {
