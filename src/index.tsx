@@ -6,6 +6,7 @@ import { MetaProvider } from "@solidjs/meta";
 import "./index.css";
 import App from "./App";
 import { routes } from "./routes";
+import { AppContextProvider } from "./AppContext";
 
 const root = document.getElementById("root");
 
@@ -14,7 +15,9 @@ const root = document.getElementById("root");
 render(
   () => (
     <MetaProvider>
-      <Router root={App}>{routes}</Router>
+      <AppContextProvider>
+        <Router root={App}>{routes}</Router>
+      </AppContextProvider>
     </MetaProvider>
   ),
   root!

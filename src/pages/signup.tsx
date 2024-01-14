@@ -1,30 +1,33 @@
-import { Show } from "solid-js";
-import { A, redirect } from "solid-start";
-import { createRouteAction } from "solid-start/data/createRouteAction";
+import { A, action, useNavigate } from "@solidjs/router";
+import { Show, createResource, createSignal } from "solid-js";
 import { useAppState } from "~/AppContext";
 import { checkResponsePromise } from "~/api/HTTPResponse";
 import UserClient from "~/api/user/UserClient";
+import { UserData } from "~/api/user/UserData";
 
 export default function Signup() {
   const appState = useAppState();
   const userClient = new UserClient(appState.httpClient);
-  const [enrolling, { Form }] = createRouteAction(
-    async (formData: FormData) => {
-      const login = formData.get("login") as string;
-      const password = formData.get("password") as string;
-      const user = {
-        login: login,
-        password: password,
-      };
-      await checkResponsePromise(userClient.signup(user), appState.logger);
 
-      return redirect("/login");
-    }
-  );
+  const navigate = useNavigate();
+
+  const [user, setUser] = createSignal<UserData>();
+  const [enrolling] = createResource(user, async (user: UserData) => {
+    await checkResponsePromise(userClient.signup(user), appState.logger);
+    navigate("/signin");
+  });
+
+  const send = action(async (formData: FormData) => {
+    const user = {
+      login: formData.get("login") as string,
+      password: formData.get("password") as string,
+    };
+    setUser(user);
+  });
 
   return (
     <>
-      <Form>
+      <form action={send} method="post">
         <p>Sign up</p>
         <label for="login">Login:</label>
         <br />
@@ -36,7 +39,7 @@ export default function Signup() {
         <Show when={enrolling.error}>
           <div class="error">{enrolling.error.message}</div>
         </Show>
-      </Form>
+      </form>
       <A href="/signin">Sign in</A>
     </>
   );

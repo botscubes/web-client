@@ -1,41 +1,44 @@
-import { Show } from "solid-js";
-import { A, redirect } from "solid-start";
-import { createRouteAction } from "solid-start/data/createRouteAction";
+import { Show, createResource, createSignal } from "solid-js";
+import { A, action, useNavigate } from "@solidjs/router";
 import { useAppState } from "~/AppContext";
 import HTTPError from "~/api/HTTPError";
 import { getDataFromResponsePromise } from "~/api/HTTPResponse";
 import UserClient from "~/api/user/UserClient";
+import { UserData } from "~/api/user/UserData";
 
 export default function Signin() {
   const appState = useAppState();
   const userClient = new UserClient(appState.httpClient);
 
-  const [enrolling, { Form }] = createRouteAction(
-    async (formData: FormData) => {
-      const login = formData.get("login") as string;
-      const password = formData.get("password") as string;
-      const user = {
-        login: login,
-        password: password,
-      };
-      const token = await getDataFromResponsePromise(
-        userClient.signin(user),
-        appState.logger
-      );
-      if (token) {
-        appState.saveToken(token.token);
-      } else {
-        appState.logger.error("No token");
-        throw new HTTPError("Error sending request");
-      }
+  const navigate = useNavigate();
 
-      return redirect("/about");
+  const [user, setUser] = createSignal<UserData>();
+  const [enrolling] = createResource(user, async (user: UserData) => {
+    const token = await getDataFromResponsePromise(
+      userClient.signin(user),
+      appState.logger
+    );
+    if (token) {
+      appState.saveToken(token.token);
+    } else {
+      appState.logger.error("No token");
+      throw new HTTPError("Error sending request");
     }
-  );
+
+    navigate("/about");
+  });
+
+  const send = action(async (formData: FormData) => {
+    const user = {
+      login: formData.get("login") as string,
+      password: formData.get("password") as string,
+    };
+    setUser(user);
+  });
 
   return (
     <>
-      <Form>
+      <form action={send} method="post">
         <p>Sign in</p>
         <label for="login">Login:</label>
         <br />
@@ -47,7 +50,7 @@ export default function Signin() {
         <Show when={enrolling.error}>
           <div class="error">{enrolling.error.message}</div>
         </Show>
-      </Form>
+      </form>
 
       <A href="/signup">Sign up</A>
     </>
