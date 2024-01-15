@@ -5,6 +5,11 @@ import "./Header.css";
 
 export default function Header() {
   const appState = useAppState();
+  let testCounter = 0;
+  const logout = () => {
+    appState.error = "error" + testCounter.toString();
+    testCounter++;
+  };
 
   return (
     <header>
@@ -13,9 +18,9 @@ export default function Header() {
       </div>
       <div id="auth">
         <Show
-          when={!appState.token}
+          when={!appState.token && false}
           fallback={
-            <div class="action-link" onClick={() => {}}>
+            <div class="action-link" onClick={logout}>
               Sign out
             </div>
           }

@@ -7,15 +7,20 @@ import { HTTPClient } from "./api/HTTPClient";
 export interface AppState {
   get logger(): Logger;
   get httpClient(): HTTPClient;
+
   saveToken(token: string): void;
   deleteToken(): void;
   get token(): string;
+
+  get error(): string;
+  set error(error: string);
 }
 
 const AppContext = createContext<AppState>({} as AppState);
 
 export function AppContextProvider(props: any) {
   const [token, setToken] = createSignal("");
+  const [error, setError] = createSignal("");
 
   const conf = config;
   const serverConfig = new ServerConfig(
@@ -40,6 +45,13 @@ export function AppContextProvider(props: any) {
     },
     get token() {
       return token();
+    },
+
+    get error(): string {
+      return error();
+    },
+    set error(error: string) {
+      setError(error);
     },
   };
 
