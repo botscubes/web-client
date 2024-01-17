@@ -35,7 +35,11 @@ export default function Signup() {
         <br />
         <label for="password">Password: </label> <br />
         <input type="password" name="password" /> <br />
-        <input type="submit" value="submit" />
+        <input
+          type="submit"
+          value="submit"
+          style={{ "pointer-events": enrolling.loading ? "none" : undefined }}
+        />
         <Show when={enrolling.error}>
           <div class="error">{enrolling.error.message}</div>
         </Show>

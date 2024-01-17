@@ -1,14 +1,31 @@
-import { A } from "@solidjs/router";
+import { A, useNavigate } from "@solidjs/router";
 import { Show } from "solid-js";
 import { useAppState } from "~/AppContext";
 import "./Header.css";
+import UserClient from "~/api/user/UserClient";
+import { checkResponsePromise } from "~/api/HTTPResponse";
 
 export default function Header() {
   const appState = useAppState();
-  let testCounter = 0;
-  const logout = () => {
-    appState.error = "error" + testCounter.toString();
-    testCounter++;
+  const userClient = new UserClient(appState.httpClient);
+  const navigate = useNavigate();
+
+  let sending = false;
+  const logout = async () => {
+    if (!sending) {
+      sending = true;
+      try {
+        await checkResponsePromise(
+          userClient.signout(appState.token),
+          appState.logger
+        );
+        appState.deleteToken();
+        navigate("/signin");
+      } catch (e) {
+        appState.error = e as Error;
+      }
+      sending = false;
+    }
   };
 
   return (
@@ -18,7 +35,7 @@ export default function Header() {
       </div>
       <div id="auth">
         <Show
-          when={!appState.token && false}
+          when={!appState.token}
           fallback={
             <div class="action-link" onClick={logout}>
               Sign out

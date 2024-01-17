@@ -12,15 +12,15 @@ export interface AppState {
   deleteToken(): void;
   get token(): string;
 
-  get error(): string;
-  set error(error: string);
+  get error(): Error | undefined;
+  set error(error: Error);
 }
 
 const AppContext = createContext<AppState>({} as AppState);
 
 export function AppContextProvider(props: any) {
   const [token, setToken] = createSignal("");
-  const [error, setError] = createSignal("");
+  const [error, setError] = createSignal<Error>();
 
   const conf = config;
   const serverConfig = new ServerConfig(
@@ -47,10 +47,10 @@ export function AppContextProvider(props: any) {
       return token();
     },
 
-    get error(): string {
+    get error(): Error | undefined {
       return error();
     },
-    set error(error: string) {
+    set error(error: Error) {
       setError(error);
     },
   };

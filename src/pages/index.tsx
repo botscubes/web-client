@@ -1,11 +1,5 @@
-import { Title } from "@solidjs/meta";
-import Editor from "~/containers/Editor";
+import { Navigate } from "@solidjs/router";
 
 export default function Home() {
-  return (
-    <div>
-      <Title>aaaa</Title>
-      <Editor />
-    </div>
-  );
+  return <Navigate href={"/bots"} />;
 }

@@ -45,7 +45,7 @@ export class HTTPClient {
           method: method,
           headers: {
             "Content-Type": "application/json;charset=utf-8",
-            Authentication: "Bearer " + token,
+            Authorization: "Bearer " + token,
           },
           body: JSON.stringify(data),
         };
@@ -63,7 +63,7 @@ export class HTTPClient {
         options = {
           method: method,
           headers: {
-            Authentication: "Bearer " + token,
+            Authorization: "Bearer " + token,
           },
         };
       } else {

@@ -6,11 +6,12 @@ import { useAppState } from "./AppContext";
 
 function App(props: any) {
   const appState = useAppState();
-  const [errors, setErrors] = createSignal<Array<string>>([]);
+  const [errors, setErrors] = createSignal<Array<Error>>([]);
   createEffect(() => {
+    console.log("aaaaa");
     if (appState.error) {
       let err = appState.error;
-      setErrors((errors) => [...errors, appState.error]);
+      setErrors((errors) => [...errors, err]);
 
       setTimeout(() => {
         setErrors((errors) => errors.filter((error) => error != err));
@@ -27,7 +28,7 @@ function App(props: any) {
         <For each={errors()}>
           {(error) => (
             <div class="global-error">
-              <div class="error">{error}</div>
+              <div class="error">{error.message}</div>
             </div>
           )}
         </For>
