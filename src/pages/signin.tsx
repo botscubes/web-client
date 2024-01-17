@@ -25,7 +25,7 @@ export default function Signin() {
       throw new HTTPError("Error sending request");
     }
 
-    navigate("/about");
+    navigate("/bots");
   });
 
   const send = action(async (formData: FormData) => {

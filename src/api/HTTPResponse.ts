@@ -35,6 +35,9 @@ export class HTTPResponse<T> {
   ): HTTPResponse<T> {
     return handler(this);
   }
+  statusUnauthorized(): boolean {
+    return this.status == 401;
+  }
 }
 
 function defaultCheck<T>(response: HTTPResponse<T>): HTTPResponse<T> {
@@ -83,4 +86,38 @@ export async function checkResponsePromise<T>(
     }
   }
   return promise;
+}
+
+export async function checkPromise<T>(
+  promise: Promise<T>,
+  log: Logger
+): Promise<T> {
+  try {
+    const response = await promise;
+    return response;
+  } catch (e) {
+    if (e instanceof Error) {
+      log.error(e.message);
+      throw new HTTPError("Error sending request");
+    }
+  }
+  return promise;
+}
+
+export async function checkResponse<T>(
+  response: HTTPResponse<T>,
+  log: Logger
+): Promise<HTTPResponse<T>> {
+  try {
+    return response.check();
+  } catch (e) {
+    if (e instanceof HTTPError) {
+      log.info(e.message);
+      throw new HTTPError(e.message);
+    } else if (e instanceof Error) {
+      log.error(e.message);
+      throw new HTTPError("Error sending request");
+    }
+  }
+  return response;
 }

@@ -1,4 +1,5 @@
 import { lazy } from "solid-js";
+import { botRoutes } from "./bots.ts";
 
 export const routes = [
   {
@@ -17,4 +18,5 @@ export const routes = [
     path: "signin",
     component: lazy(() => import("../pages/signin.tsx")),
   },
+  botRoutes,
 ];

@@ -8,7 +8,6 @@ function App(props: any) {
   const appState = useAppState();
   const [errors, setErrors] = createSignal<Array<Error>>([]);
   createEffect(() => {
-    console.log("aaaaa");
     if (appState.error) {
       let err = appState.error;
       setErrors((errors) => [...errors, err]);
