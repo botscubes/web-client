@@ -1,7 +1,14 @@
 import { HTTPResponse } from "./HTTPResponse";
 
+type Headers = {
+  [key: string]: string | number | boolean;
+};
+
 export class HTTPClient {
-  constructor(private _baseUrl: string) {}
+  constructor(
+    private _baseUrl: string,
+    private _additionalHeaders?: Headers
+  ) {}
 
   async GET<T>(path: string, token?: string): Promise<HTTPResponse<T>> {
     return this.request(path, "GET", token);
@@ -46,6 +53,7 @@ export class HTTPClient {
           headers: {
             "Content-Type": "application/json;charset=utf-8",
             Authorization: "Bearer " + token,
+            ...this._additionalHeaders,
           },
           body: JSON.stringify(data),
         };
@@ -54,6 +62,7 @@ export class HTTPClient {
           method: method,
           headers: {
             "Content-Type": "application/json;charset=utf-8",
+            ...this._additionalHeaders,
           },
           body: JSON.stringify(data),
         };
@@ -64,11 +73,13 @@ export class HTTPClient {
           method: method,
           headers: {
             Authorization: "Bearer " + token,
+            ...this._additionalHeaders,
           },
         };
       } else {
         options = {
           method: method,
+          ...this._additionalHeaders,
         };
       }
     }

@@ -1,10 +1,15 @@
 import { ALL } from "./logging/levels";
 
 export const config = {
-  server: {
-    domain: "localhost",
-    port: 80,
-    scheme: "http",
+  httpClient: {
+    server: {
+      domain: "localhost",
+      port: 80,
+      scheme: "http",
+    },
+    requests: {
+      additionalHeaders: {},
+    },
   },
   log: {
     levels: ALL,

@@ -104,10 +104,10 @@ export async function checkPromise<T>(
   return promise;
 }
 
-export async function checkResponse<T>(
+export function checkResponse<T>(
   response: HTTPResponse<T>,
   log: Logger
-): Promise<HTTPResponse<T>> {
+): HTTPResponse<T> {
   try {
     return response.check();
   } catch (e) {
@@ -120,4 +120,22 @@ export async function checkResponse<T>(
     }
   }
   return response;
+}
+
+export function getDataFromResponse<T>(
+  response: HTTPResponse<T>,
+  log: Logger
+): T | undefined {
+  try {
+    return response.check().data;
+  } catch (e) {
+    if (e instanceof HTTPError) {
+      log.info(e.message);
+      throw new HTTPError(e.message);
+    } else if (e instanceof Error) {
+      log.error(e.message);
+      throw new HTTPError("Error sending request");
+    }
+  }
+  return response.data;
 }

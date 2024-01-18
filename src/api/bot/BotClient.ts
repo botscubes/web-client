@@ -1,4 +1,5 @@
 import { HTTPClient, HTTPResponse } from "../HTTPClient";
+import { BotData } from "./BotData";
 
 export default class BotClient {
   constructor(
@@ -11,5 +12,8 @@ export default class BotClient {
       { title: title },
       this._token
     );
+  }
+  async getBots(): Promise<HTTPResponse<Array<BotData>>> {
+    return await this._httpClient.GET("/api/bots", this._token);
   }
 }

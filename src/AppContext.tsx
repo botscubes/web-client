@@ -23,13 +23,17 @@ export function AppContextProvider(props: any) {
   const [error, setError] = createSignal<Error>();
 
   const conf = config;
+  const client = conf.httpClient;
   const serverConfig = new ServerConfig(
-    conf.server.domain,
-    conf.server.port,
-    conf.server.scheme
+    client.server.domain,
+    client.server.port,
+    client.server.scheme
   );
   const logger = new Logger({ levels: conf.log.levels });
-  const httpClient = new HTTPClient(serverConfig.getUrl());
+  const httpClient = new HTTPClient(
+    serverConfig.getUrl(),
+    client.requests.additionalHeaders
+  );
   const state: AppState = {
     get logger(): Logger {
       return logger;
