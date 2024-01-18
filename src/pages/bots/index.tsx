@@ -2,7 +2,11 @@ import { Title } from "@solidjs/meta";
 import { A, useNavigate } from "@solidjs/router";
 import { For, Show, createSignal, onMount } from "solid-js";
 import { useAppState } from "~/AppContext";
-import { checkPromise, getDataFromResponse } from "~/api/HTTPResponse";
+import {
+  checkPromise,
+  checkResponse,
+  getDataFromResponse,
+} from "~/api/HTTPResponse";
 import BotClient from "~/api/bot/BotClient";
 import { BotData } from "~/api/bot/BotData";
 
@@ -34,6 +38,25 @@ export default function Bots() {
     setLoading(false);
   });
 
+  const deleteBot = async (botId: number) => {
+    setLoading(true);
+    try {
+      const response = await checkPromise(
+        botClient.deleteBot(botId),
+        appState.logger
+      );
+      if (response.statusUnauthorized()) {
+        navigate("/signin");
+      } else {
+        checkResponse(response, appState.logger);
+      }
+    } catch (e: any) {
+      setError(e.message);
+    }
+    setBots((bots) => bots.filter((bot) => bot.id != botId));
+    setLoading(false);
+  };
+
   return (
     <>
       <Title>Bots</Title>
@@ -48,6 +71,7 @@ export default function Bots() {
             <A href={"/bots/" + bot.id}>
               {bot.title} | {bot.status ? "active" : "not active"}
             </A>
+            <button onClick={[deleteBot, bot.id]}>Delete</button>
           </div>
         )}
       </For>
