@@ -4,18 +4,20 @@ import { getMousePosition } from "../halpers/mouse";
 import WaitingState from "./WaitingState";
 
 export default class ComponentMoveState extends EditorState {
-  constructor(editorController: EditorController) {
-    super(editorController);
+  constructor(editor: EditorController) {
+    super(editor);
+  }
+  get name() {
+    return "ComponentMoveState";
   }
 
   handleMouseMove(event: MouseEvent) {
-    const relativeMousePosition =
-      this.editorController.getRelativeMousePosition(getMousePosition(event));
-    this.editorController.moveComponents(relativeMousePosition);
-  }
-  handleMouseUp(event: MouseEvent) {
-    this.editorController.setEditorState(
-      new WaitingState(this.editorController)
+    const relativeMousePosition = this._editor.getRelativeMousePosition(
+      getMousePosition(event)
     );
+    this._editor.components.move(relativeMousePosition);
+  }
+  handleMouseUp(_event: MouseEvent) {
+    this._editor.setState(new WaitingState(this._editor));
   }
 }

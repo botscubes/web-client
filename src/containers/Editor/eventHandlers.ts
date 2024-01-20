@@ -16,15 +16,15 @@ export function handleMouseMove(
 }
 
 export function handleAddComponent(editorController: EditorController) {
-  editorController.addComponent();
+  editorController.components.add();
 }
 export function getDeleteComponentHandler(editorController: EditorController) {
-  return (id: number) => editorController.deleteComponent(id);
+  return (id: number) => editorController.components.delete(id);
 }
 export function getAddSelectedComponentHandler(
   editorController: EditorController
 ) {
-  return (id: number) => editorController.addSelectedComponent(id);
+  return (id: number) => editorController.components.markAsSelected(id);
 }
 export function getSelectComponentHandler(editorController: EditorController) {
   return (id: number, mousePosition: Position) =>

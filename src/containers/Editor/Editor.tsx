@@ -20,6 +20,8 @@ import EditorStorage from "./EditorController/EditorStorage";
 import { Line } from "./components/Line";
 
 import "./Editor.css";
+import { EditorProps } from "./types";
+import { useAppState } from "~/AppContext";
 
 export default function Editor() {
   //  const zoomSize = 0.05;
@@ -59,8 +61,11 @@ export default function Editor() {
     showLine: false,
     scale: 1,
   });
+  const appState = useAppState();
   const editorController: EditorController = new EditorController(
-    new EditorStorage(editorData, setEditorData)
+    editorData,
+    setEditorData,
+    appState.logger
   );
   onMount(() => {
     editorController.setEditorArea(editorArea);

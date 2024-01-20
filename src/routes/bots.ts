@@ -11,5 +11,9 @@ export const botRoutes = {
       path: "/add",
       component: lazy(() => import("../pages/bots/add.tsx")),
     },
+    {
+      path: "/:id",
+      component: lazy(() => import("../pages/bots/edit.tsx")),
+    },
   ],
 };

@@ -13,7 +13,7 @@ export default class ConnectionState extends EditorState {
   ) {
     super(editorController);
 
-    this.editorController
+    this._editor
       .getEditorStorage()
       .deleteConnection(
         connectionData.sourceComponentId,
@@ -29,6 +29,10 @@ export default class ConnectionState extends EditorState {
       .showConnectionAreas(new Set([connectionData.sourceComponentId]));
   }
 
+  get name() {
+    return "ConnectionState";
+  }
+
   handleMouseMove(event: MouseEvent) {
     const mousePosition = this.editorController.getRelativeMousePosition(
       getMousePosition(event)
@@ -39,7 +43,7 @@ export default class ConnectionState extends EditorState {
     }));
   }
 
-  handleMouseUp(event: MouseEvent) {
+  handleMouseUp(_event: MouseEvent) {
     this.editorController.setShowLine(false);
     this.editorController.getEditorStorage().hideConnectionAreas();
     this.editorController.setEditorState(

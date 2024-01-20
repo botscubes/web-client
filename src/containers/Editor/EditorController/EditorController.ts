@@ -1,4 +1,4 @@
-import { Store } from "solid-js/store";
+import { SetStoreFunction, Store } from "solid-js/store";
 import EditorStorage from "./EditorStorage";
 import { EditorData } from "../types";
 import { Position } from "../shared/types";
@@ -10,52 +10,47 @@ import { getRelativeMousePosition } from "./halpers/mouse";
 import ConnectionState from "./states/ConnectionState";
 import { LinePosition } from "../components/Line";
 import { ConnectionData } from "./types";
+import SelectedComponents from "./SelectedComponents";
+import ComponentController from "./ComponentController";
+import Logger from "~/logging/Logger";
 
 export default class EditorController {
-  private readonly zoomSize = 0.05;
+  //private readonly zoomSize = 0.05;
   private editorState: EditorState = new WaitingState(this);
   private editorArea?: HTMLElement;
+  private _components: ComponentController;
 
-  constructor(private editorStorage: EditorStorage) {}
+  constructor(
+    private _editorData: Store<EditorData>,
+    setEditorData: SetStoreFunction<EditorData>,
+    private _logger: Logger
+  ) {
+    this._components = new ComponentController(
+      this,
+      _editorData,
+      setEditorData,
+      _logger
+    );
+  }
+
+  get components() {
+    return this._components;
+  }
+  get state() {
+    return this.editorState;
+  }
+
+  selectComponent(id: number, mousePosition: Position) {
+    this.editorState.selectComponent(id, mousePosition);
+  }
 
   setEditorArea(editorArea?: HTMLElement) {
     this.editorArea = editorArea;
   }
   getEditorData(): Store<EditorData> {
-    return this.editorStorage.getEditorData();
+    return this._editorData;
   }
 
-  addComponent() {
-    this.deselectComponents();
-    const id: number = this.editorStorage.addComponent();
-    this.editorStorage.selectComponent(id);
-    this.setEditorState(new WaitingState(this));
-  }
-  deleteComponent(id: number) {
-    this.editorStorage.deleteComponent(id);
-    this.editorStorage.deselectComponents();
-  }
-  moveComponents(mousePosition: Position) {
-    this.editorStorage.moveComponents(mousePosition);
-  }
-  selectComponent(id: number, mousePosition: Position) {
-    this.editorState.selectComponent(id, mousePosition);
-  }
-  deselectComponents() {
-    this.editorStorage.deselectComponents();
-  }
-  addSelectedComponent(id: number) {
-    if (this.editorStorage.componentIsSelected(id)) {
-      this.editorStorage.deselectComponent(id);
-    } else {
-      this.editorStorage.selectComponent(id);
-    }
-    if (this.editorStorage.haveSelectedComponents()) {
-      this.setEditorState(new ComponentMoveState(this));
-    } else {
-      this.setEditorState(new WaitingState(this));
-    }
-  }
   startConnection(
     componentId: number,
     commandId: number,
@@ -80,22 +75,22 @@ export default class EditorController {
       relativePointPosition
     );
   }
-  deleteConnection(sourceComponentId: number, sourceCommandId: number) {
-    const linePosition = this.editorStorage.getLinePosition(sourceCommandId);
-    const commandConnectionPosition: Position =
-      this.editorStorage.getCommandConnectionPosition(
-        sourceComponentId,
-        sourceCommandId
-      );
-    this.setEditorState(
-      new ConnectionState(this, {
-        sourceComponentId: sourceComponentId,
-        sourceCommandId: sourceCommandId,
-        commandConnectionPosition: commandConnectionPosition,
-        linePosition: linePosition,
-      })
-    );
-  }
+  //  deleteConnection(sourceComponentId: number, sourceCommandId: number) {
+  //    const linePosition = this.editorStorage.getLinePosition(sourceCommandId);
+  //    const commandConnectionPosition: Position =
+  //      this.editorStorage.getCommandConnectionPosition(
+  //        sourceComponentId,
+  //        sourceCommandId
+  //      );
+  //    this.setEditorState(
+  //      new ConnectionState(this, {
+  //        sourceComponentId: sourceComponentId,
+  //        sourceCommandId: sourceCommandId,
+  //        commandConnectionPosition: commandConnectionPosition,
+  //        linePosition: linePosition,
+  //      })
+  //    );
+  //  }
   handleMouseDown(event: MouseEvent) {
     this.editorState.handleMouseDown(event);
   }
@@ -105,18 +100,19 @@ export default class EditorController {
   handleMouseUp(event: MouseEvent) {
     this.editorState.handleMouseUp(event);
   }
-  setEditorState(state: EditorState) {
+  setState(state: EditorState) {
+    this._logger.info("Editor: state changed to " + state.name);
     this.editorState = state;
   }
-  setShowLine(value: boolean) {
-    this.editorStorage.setShowLine(value);
-  }
-  setLinePosition(
-    fn: (position: LinePosition) => LinePosition,
-    commandId?: number
-  ) {
-    this.editorStorage.setLinePosition(fn, commandId);
-  }
+  // setShowLine(value: boolean) {
+  //   this.editorStorage.setShowLine(value);
+  // }
+  // setLinePosition(
+  //   fn: (position: LinePosition) => LinePosition,
+  //   commandId?: number
+  // ) {
+  //   this.editorStorage.setLinePosition(fn, commandId);
+  // }
   getRelativeMousePosition(mousePosition: Position): Position {
     let relativeMousePosition = { x: 0, y: 0 };
     if (this.editorArea) {
@@ -128,7 +124,7 @@ export default class EditorController {
     }
     return relativeMousePosition;
   }
-  getEditorStorage(): EditorStorage {
-    return this.editorStorage;
-  }
+  // getEditorStorage(): EditorStorage {
+  //   return this.editorStorage;
+  // }
 }

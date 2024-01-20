@@ -1,35 +1,37 @@
 import { Position } from "../shared/types";
 import type EditorController from "./EditorController";
-import ComponentMoveState from "./states/ComponentMoveState";
 
 export default abstract class EditorState {
-  constructor(protected editorController: EditorController) {}
-  handleMouseDown(event: MouseEvent) {
+  constructor(protected _editor: EditorController) {}
+
+  get name() {
+    return "EditorState";
+  }
+
+  handleMouseDown(_event: MouseEvent) {
     //
   }
-  handleMouseMove(event: MouseEvent) {
+  handleMouseMove(_event: MouseEvent) {
     //
   }
-  handleMouseUp(event: MouseEvent) {
+  handleMouseUp(_event: MouseEvent) {
     //
   }
-  selectComponent(id: number, mousePosition: Position) {
+  selectComponent(_id: number, _mousePosition: Position) {
     //
   }
 
   startConnection(
-    componentId: number,
-    commandId: number,
-    connectionPosition: Position,
-    relativeConnectionPosition: Position
+    _componentId: number,
+    _commandId: number,
+    _connectionPosition: Position,
+    _relativeConnectionPosition: Position
   ) {
     //
   }
   finishConnection(
-    componentId: number,
-    connectionPosition: Position,
-    relativePointPosition: Position
-  ) {
-    //
-  }
+    _componentId: number,
+    _connectionPosition: Position,
+    _relativePointPosition: Position
+  ) {}
 }

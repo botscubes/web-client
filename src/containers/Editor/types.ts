@@ -1,3 +1,4 @@
+import Logger from "~/logging/Logger";
 import { ComponentData } from "./components/Component";
 import { ComponentStyle } from "./components/Component/types";
 import { LinePosition } from "./components/Line";
@@ -9,6 +10,10 @@ export interface EditorData {
   line: LinePosition;
   showLine: boolean;
   scale: number;
+}
+
+export interface EditorProps {
+  logger: Logger;
 }
 
 export enum EditorState {
