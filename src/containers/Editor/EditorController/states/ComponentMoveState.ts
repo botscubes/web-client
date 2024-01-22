@@ -12,12 +12,12 @@ export default class ComponentMoveState extends EditorState {
   }
 
   handleMouseMove(event: MouseEvent) {
-    const relativeMousePosition = this._editor.getRelativeMousePosition(
+    const relativeMousePosition = this.editor.getRelativeMousePosition(
       getMousePosition(event)
     );
-    this._editor.components.move(relativeMousePosition);
+    this.editor.components.move(relativeMousePosition);
   }
   handleMouseUp(_event: MouseEvent) {
-    this._editor.setState(new WaitingState(this._editor));
+    this.editor.setState(new WaitingState(this.editor));
   }
 }

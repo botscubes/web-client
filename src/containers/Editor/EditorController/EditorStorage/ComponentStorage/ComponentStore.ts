@@ -3,7 +3,6 @@ import { JSX } from "solid-js";
 import { SetStoreFunction, Store } from "solid-js/store";
 import { ComponentData } from "~/containers/Editor/components/Component";
 import { Position } from "~/containers/Editor/shared/types";
-import { EditorData } from "~/containers/Editor/types";
 
 export default class ComponentStore {
   private id = 0;

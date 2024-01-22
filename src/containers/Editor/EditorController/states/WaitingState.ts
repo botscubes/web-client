@@ -12,19 +12,19 @@ export default class WaitingState extends EditorState {
     return "WaitingState";
   }
   handleMouseUp(_event: MouseEvent) {
-    this._editor.components.deselectAll();
+    this.editor.components.deselectAll();
   }
   selectComponent(id: number, mousePosition: Position) {
-    if (!this._editor.components.isSelected(id)) {
-      this._editor.components.deselectAll();
-      this._editor.components.select(id);
+    if (!this.editor.components.isSelected(id)) {
+      this.editor.components.deselectAll();
+      this.editor.components.select(id);
     }
 
-    this._editor.components.fixMouseShiftsRelative(
-      this._editor.getRelativeMousePosition(mousePosition)
+    this.editor.components.fixMouseShiftsRelative(
+      this.editor.getRelativeMousePosition(mousePosition)
     );
 
-    this._editor.setState(new ComponentMoveState(this._editor));
+    this.editor.setState(new ComponentMoveState(this.editor));
   }
   startConnection(
     componentId: number,
@@ -39,6 +39,6 @@ export default class WaitingState extends EditorState {
       linePosition: { start: connectionPosition, end: connectionPosition },
     };
 
-    this._editor.setState(new ConnectionState(this._editor, connectionData));
+    this.editor.setState(new ConnectionState(this.editor, connectionData));
   }
 }

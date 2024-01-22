@@ -2,7 +2,7 @@ import { Position } from "../shared/types";
 import type EditorController from "./EditorController";
 
 export default abstract class EditorState {
-  constructor(protected _editor: EditorController) {}
+  constructor(protected editor: EditorController) {}
 
   get name() {
     return "EditorState";

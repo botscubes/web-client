@@ -1,12 +1,11 @@
 import { SetStoreFunction, Store } from "solid-js/store";
-import { EditorData } from "~/containers/Editor/types";
 import ComponentStore from "./ComponentStore";
 import { Position } from "~/containers/Editor/shared/types";
 import { JSX } from "solid-js";
 import { ComponentData } from "~/containers/Editor/components/Component";
 
 export default class ComponentStorage {
-  private _components: ComponentStore;
+  private components: ComponentStore;
 
   constructor(
     componentStore: [
@@ -14,38 +13,38 @@ export default class ComponentStorage {
       SetStoreFunction<Record<number, ComponentData>>,
     ]
   ) {
-    this._components = new ComponentStore(...componentStore);
+    this.components = new ComponentStore(...componentStore);
   }
 
   get() {
-    return this._components.get();
+    return this.components.get();
   }
 
   add(content: () => JSX.Element): number {
-    return this._components.add(content);
+    return this.components.add(content);
   }
 
   clone(id: number): number {
-    return this._components.clone(id);
+    return this.components.clone(id);
   }
 
   delete(id: number) {
-    return this._components.delete(id);
+    return this.components.delete(id);
   }
 
   setPosition(id: number, position: Position) {
-    this._components.setPosition(id, position);
+    this.components.setPosition(id, position);
   }
 
   move(selected: Array<[number, Position]>, mousePos: Position) {
-    this._components.move(selected, mousePos);
+    this.components.move(selected, mousePos);
   }
 
   select(id: number) {
-    this._components.select(id);
+    this.components.select(id);
   }
 
   deselect(id: number) {
-    this._components.deselect(id);
+    this.components.deselect(id);
   }
 }

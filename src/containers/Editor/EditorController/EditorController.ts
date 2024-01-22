@@ -21,13 +21,13 @@ export default class EditorController {
   private _components: ComponentController;
 
   constructor(
-    private _editor: EditorData,
-    private _logger: Logger
+    private editor: EditorData,
+    private logger: Logger
   ) {
     this._components = new ComponentController(
       this,
-      _editor.componentStore,
-      _logger
+      editor.componentStore,
+      logger
     );
   }
 
@@ -46,7 +46,7 @@ export default class EditorController {
     this.editorArea = editorArea;
   }
   //  getEditorData(): Store<EditorData> {
-  //    return this._editorData;
+  //    return this.editorData;
   //  }
 
   startConnection(
@@ -99,7 +99,7 @@ export default class EditorController {
     this.editorState.handleMouseUp(event);
   }
   setState(state: EditorState) {
-    this._logger.info("Editor: state changed to " + state.name);
+    this.logger.info("Editor: state changed to " + state.name);
     this.editorState = state;
   }
   // setShowLine(value: boolean) {
