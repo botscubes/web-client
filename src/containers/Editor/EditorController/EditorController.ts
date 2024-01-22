@@ -21,14 +21,12 @@ export default class EditorController {
   private _components: ComponentController;
 
   constructor(
-    private _editorData: Store<EditorData>,
-    setEditorData: SetStoreFunction<EditorData>,
+    private _editor: EditorData,
     private _logger: Logger
   ) {
     this._components = new ComponentController(
       this,
-      _editorData,
-      setEditorData,
+      _editor.componentStore,
       _logger
     );
   }
@@ -47,9 +45,9 @@ export default class EditorController {
   setEditorArea(editorArea?: HTMLElement) {
     this.editorArea = editorArea;
   }
-  getEditorData(): Store<EditorData> {
-    return this._editorData;
-  }
+  //  getEditorData(): Store<EditorData> {
+  //    return this._editorData;
+  //  }
 
   startConnection(
     componentId: number,
@@ -119,7 +117,7 @@ export default class EditorController {
       relativeMousePosition = getRelativeMousePosition(
         this.editorArea,
         mousePosition,
-        this.getEditorData().scale
+        1 //this.getEditorData().scale
       );
     }
     return relativeMousePosition;

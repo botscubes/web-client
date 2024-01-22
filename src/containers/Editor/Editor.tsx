@@ -20,8 +20,9 @@ import EditorStorage from "./EditorController/EditorStorage";
 import { Line } from "./components/Line";
 
 import "./Editor.css";
-import { EditorProps } from "./types";
+import { EditorData, EditorProps } from "./types";
 import { useAppState } from "~/AppContext";
+import { ComponentData } from "./components/Component";
 
 export default function Editor() {
   //  const zoomSize = 0.05;
@@ -38,33 +39,37 @@ export default function Editor() {
 
   //const [linePos, setLinePos] = createSignal({});
   // const [showLine, setShowLine] = createSignal(false);
+  const [componentStore, setComponentStore] = createStore<
+    Record<number, ComponentData>
+  >({});
 
-  const [editorData, setEditorData] = createStore({
-    components: {},
-    componentStyle: {
-      width: 100, //px
-      connectionPointSize: 20, //px
-      commandHeight: 40, //px
-      commandIndent: 20,
-    },
-    lines: {},
-    line: {
-      start: {
-        x: 0,
-        y: 0,
-      },
-      end: {
-        x: 0,
-        y: 0,
-      },
-    },
-    showLine: false,
-    scale: 1,
-  });
+  //const editorStore = createStore<EditorData>({
+  //components: {},
+  //    componentStyle: {
+  //      width: 100, //px
+  //      connectionPointSize: 20, //px
+  //      commandHeight: 40, //px
+  //      commandIndent: 20,
+  //    },
+  //    lines: {},
+  //    line: {
+  //      start: {
+  //        x: 0,
+  //        y: 0,
+  //      },
+  //      end: {
+  //        x: 0,
+  //        y: 0,
+  //      },
+  //    },
+  //    showLine: false,
+  //    scale: 1,
+  //});
   const appState = useAppState();
   const editorController: EditorController = new EditorController(
-    editorData,
-    setEditorData,
+    {
+      componentStore: [componentStore, setComponentStore],
+    },
     appState.logger
   );
   onMount(() => {
@@ -104,18 +109,22 @@ export default function Editor() {
       </div>
       <div
         class="scaling"
-        style={{
-          transform: `scale(${editorController.getEditorData().scale})`,
-        }}
+        style={
+          {
+            //transform: `scale(${editorController.getEditorData().scale})`,
+          }
+        }
       >
-        <For each={Object.values(editorController.getEditorData().components)}>
+        <For each={Object.values(componentStore)}>
           {(component) => {
             console.log(component.id);
-            const componentStyle =
-              editorController.getEditorData().componentStyle;
+            const componentStyle = {
+              width: 100, //px
+              connectionPointSize: 20, //px
+            };
             return (
               <Component
-                scale={editorController.getEditorData().scale}
+                scale={1} //editorController.getEditorData().scale}
                 componentData={component}
                 componentStyle={componentStyle}
                 deleteComponent={getDeleteComponentHandler(editorController)}
@@ -132,12 +141,14 @@ export default function Editor() {
             );
           }}
         </For>
-        <Show when={editorController.getEditorData().showLine}>
-          <Line position={editorController.getEditorData().line} />
-        </Show>
-        <For each={Object.values(editorController.getEditorData().lines)}>
-          {(line) => <Line position={line} />}
-        </For>
+        {
+          //<Show when={editorController.getEditorData().showLine}>
+          //  <Line position={editorController.getEditorData().line} />
+          //</Show>
+          //<For each={Object.values(editorController.getEditorData().lines)}>
+          //  {(line) => <Line position={line} />}
+          //</For>
+        }
       </div>
     </div>
   );

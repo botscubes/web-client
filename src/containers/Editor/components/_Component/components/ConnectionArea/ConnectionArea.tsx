@@ -63,9 +63,9 @@ export default function ConnectionArea(props: ConnectionAreaProps) {
         top:
           (-props.connectionAreaStyle.connectionPointSize / 2).toString() +
           "px",
-        //width: areaWidth().toString() + "px",
-        //height: areaHeight().toString() + "px",
-        //visibility: props.connectionAreaData.visible ? "visible" : "hidden",
+        width: areaWidth().toString() + "px",
+        height: areaHeight().toString() + "px",
+        visibility: props.connectionAreaData.visible ? "visible" : "hidden",
       }}
       onMouseMove={handleMouseMove}
     >

@@ -1,19 +1,21 @@
-import { JSX } from "solid-js";
 import { Position } from "../../shared/types";
+import { CommandData } from "./components/Command";
 import { ConnectionPointData } from "./components/ConnectionPoint/types";
 
 export interface ComponentData {
   id: number;
   position: Position;
+  commands: Record<number, CommandData>;
   selected: boolean;
   connectionPoints: Record<number, ConnectionPointData>;
   connectionAreaVisible: boolean;
-  content: () => JSX.Element;
 }
 
 export interface ComponentStyle {
   width: number;
   connectionPointSize: number;
+  commandHeight: number;
+  commandIndent: number;
 }
 
 export interface ComponentProps {

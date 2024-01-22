@@ -4,11 +4,18 @@ import { ConnectionArea } from "./components/ConnectionArea";
 import "./Component.css";
 import { MouseButton, Position } from "../../shared/types";
 import { For } from "solid-js";
+import { Command } from "./components/Command";
 import { ConnectionPoint } from "./components/ConnectionPoint";
 import { getConnectionPointMouseDownHandler } from "./eventHandlers";
-import { Dynamic } from "solid-js/web";
 
 export default function Component(props: ComponentProps) {
+  const commands = () => Object.values(props.componentData.commands);
+  const height = () =>
+    commands().length *
+      (props.componentStyle.commandIndent +
+        props.componentStyle.commandHeight) +
+    props.componentStyle.commandIndent;
+
   const handleDeleteButtonClick = () => {
     props.deleteComponent(props.componentData.id);
   };
@@ -63,17 +70,13 @@ export default function Component(props: ComponentProps) {
       style={{
         left: props.componentData.position.x.toString() + "px",
         top: props.componentData.position.y.toString() + "px",
-        //width: props.componentStyle.width.toString() + "px",
-        //height: height().toString() + "px",
+        width: props.componentStyle.width.toString() + "px",
+        height: height().toString() + "px",
       }}
       onDragStart={handleDragStart}
       onMouseUp={handleMouseUp}
       onMouseDown={handleMouseDown}
     >
-      <div class="component-content">
-        <Dynamic component={props.componentData.content} />
-      </div>
-
       <button class="delete-button" onClick={handleDeleteButtonClick}>
         ✖
       </button>
@@ -85,10 +88,32 @@ export default function Component(props: ComponentProps) {
         connectionAreaStyle={{
           connectionPointSize: props.componentStyle.connectionPointSize,
           componentWidth: props.componentStyle.width,
-          componentHeight: 100, //height(),
+          componentHeight: height(),
         }}
         finishConnection={handleFinishConnection}
       />
+
+      <For each={commands()}>
+        {(command, i) => {
+          return (
+            <Command
+              commandData={command}
+              commandStyle={{
+                height: props.componentStyle.commandHeight,
+                connectionPointSize: props.componentStyle.connectionPointSize,
+                componentWidth: props.componentStyle.width,
+                position: {
+                  x: 0,
+                  y:
+                    (i() + 1) * props.componentStyle.commandIndent +
+                    i() * props.componentStyle.commandHeight,
+                },
+              }}
+              startConnection={handleStartConnection}
+            />
+          );
+        }}
+      </For>
 
       <For each={Object.values(props.componentData.connectionPoints)}>
         {(point) => {

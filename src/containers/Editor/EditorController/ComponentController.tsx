@@ -7,22 +7,25 @@ import WaitingState from "./states/WaitingState";
 import { Position } from "../shared/types";
 import ComponentMoveState from "./states/ComponentMoveState";
 import Logger from "~/logging/Logger";
+import { ComponentData } from "../components/Component";
 
 export default class ComponentController {
   private _selectedComponents = new SelectedComponents();
   private _storage: ComponentStorage;
   constructor(
     private _editor: EditorController,
-    editorData: Store<EditorData>,
-    setEditorData: SetStoreFunction<EditorData>,
+    componentStore: [
+      Store<Record<number, ComponentData>>,
+      SetStoreFunction<Record<number, ComponentData>>,
+    ],
     private _logger: Logger
   ) {
-    this._storage = new ComponentStorage(editorData, setEditorData);
+    this._storage = new ComponentStorage(componentStore);
   }
 
   add() {
     this._selectedComponents.deselectAll();
-    const id: number = this._storage.add();
+    const id: number = this._storage.add(() => <>aaa</>);
     this._storage.select(id);
     this._selectedComponents.select(id);
     this._editor.setState(new WaitingState(this._editor));
