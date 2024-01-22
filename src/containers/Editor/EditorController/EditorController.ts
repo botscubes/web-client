@@ -1,16 +1,8 @@
-import { SetStoreFunction, Store } from "solid-js/store";
-import EditorStorage from "./EditorStorage";
 import { EditorData } from "../types";
 import { Position } from "../shared/types";
 import type EditorState from "./EditorState";
 import WaitingState from "./states/WaitingState";
-import ComponentMoveState from "./states/ComponentMoveState";
-//import ComponentSelectedState from "./states/ComponentSelectedState";
 import { getRelativeMousePosition } from "./halpers/mouse";
-import ConnectionState from "./states/ConnectionState";
-import { LinePosition } from "../components/Line";
-import { ConnectionData } from "./types";
-import SelectedComponents from "./SelectedComponents";
 import ComponentController from "./ComponentController";
 import Logger from "~/logging/Logger";
 
@@ -21,7 +13,7 @@ export default class EditorController {
   private _components: ComponentController;
 
   constructor(
-    private editor: EditorData,
+    editor: EditorData,
     private logger: Logger
   ) {
     this._components = new ComponentController(

@@ -66,14 +66,14 @@ export default function Editor() {
   //    scale: 1,
   //});
   const appState = useAppState();
-  const editorController: EditorController = new EditorController(
+  const editor: EditorController = new EditorController(
     {
       componentStore: [componentStore, setComponentStore],
     },
     appState.logger
   );
   onMount(() => {
-    editorController.setEditorArea(editorArea);
+    editor.setEditorArea(editorArea);
   });
   //  const [editorState, setEditorState] = createSignal(EditorState.NONE);
   //  const [scale, setScale] = createSignal(1);
@@ -86,18 +86,17 @@ export default function Editor() {
       id="editor-area"
       ref={editorArea}
       data-editor-area
-      onMouseMove={[handleMouseMove, editorController]}
-      onMouseUp={[handleMouseUp, editorController]}
-      onMouseDown={[handleMouseDown, editorController]}
+      onMouseMove={[handleMouseMove, editor]}
+      onMouseUp={[handleMouseUp, editor]}
+      onMouseDown={[handleMouseDown, editor]}
     >
       <div class="fixed-area">
         <div class="control-buttons">
-          <button
-            onClick={[handleAddComponent, editorController]}
-            id="add-button"
-          >
-            Add component
-          </button>
+          {
+            //<button onClick={[handleAddComponent, editor]} id="add-button">
+            // Add component
+            //</button>
+          }
           <button id="save-button">Get Bot</button>
           <button id="save-button">Start Bot</button>
           <button id="save-button">Stop Bot</button>
@@ -111,7 +110,7 @@ export default function Editor() {
         class="scaling"
         style={
           {
-            //transform: `scale(${editorController.getEditorData().scale})`,
+            //transform: `scale(${editor.getEditorData().scale})`,
           }
         }
       >
@@ -124,17 +123,15 @@ export default function Editor() {
             };
             return (
               <Component
-                scale={1} //editorController.getEditorData().scale}
+                scale={1} //editor.getEditorData().scale}
                 componentData={component}
                 componentStyle={componentStyle}
-                deleteComponent={getDeleteComponentHandler(editorController)}
-                selectComponent={getSelectComponentHandler(editorController)}
-                addSelectedComponent={getAddSelectedComponentHandler(
-                  editorController
-                )}
-                startConnection={getStartConnectionHandler(editorController)}
-                finishConnection={getFinishConnectionHandler(editorController)}
-                deleteConnection={getDeleteConnectionHandler(editorController)}
+                deleteComponent={getDeleteComponentHandler(editor)}
+                selectComponent={getSelectComponentHandler(editor)}
+                addSelectedComponent={getAddSelectedComponentHandler(editor)}
+                startConnection={getStartConnectionHandler(editor)}
+                finishConnection={getFinishConnectionHandler(editor)}
+                deleteConnection={getDeleteConnectionHandler(editor)}
                 //moveConnection={handleMoveConnection}
                 //moveCommandConnection={handleMoveCommandConnection}
               />
@@ -142,10 +139,10 @@ export default function Editor() {
           }}
         </For>
         {
-          //<Show when={editorController.getEditorData().showLine}>
-          //  <Line position={editorController.getEditorData().line} />
+          //<Show when={editor.getEditorData().showLine}>
+          //  <Line position={editor.getEditorData().line} />
           //</Show>
-          //<For each={Object.values(editorController.getEditorData().lines)}>
+          //<For each={Object.values(editor.getEditorData().lines)}>
           //  {(line) => <Line position={line} />}
           //</For>
         }

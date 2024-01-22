@@ -17,7 +17,7 @@ export default class ComponentController {
       Store<Record<number, ComponentData>>,
       SetStoreFunction<Record<number, ComponentData>>,
     ],
-    private _logger: Logger
+    private logger: Logger
   ) {
     this.storage = new ComponentStorage(componentStore);
   }
@@ -74,7 +74,7 @@ export default class ComponentController {
         };
         this.selectedComponents.set(id, shift);
       } else {
-        this._logger.error(`Editor: component ${id} not found`);
+        this.logger.error(`Editor: component ${id} not found`);
       }
     }
   }
