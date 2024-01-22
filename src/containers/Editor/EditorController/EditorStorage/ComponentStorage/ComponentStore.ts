@@ -1,5 +1,4 @@
 import { cloneDeep } from "lodash";
-import { JSX } from "solid-js";
 import { SetStoreFunction, Store } from "solid-js/store";
 import { ComponentData } from "~/containers/Editor/components/Component";
 import { Position } from "~/containers/Editor/shared/types";
@@ -16,7 +15,7 @@ export default class ComponentStore {
     return this.componentStore;
   }
 
-  add(content: () => JSX.Element): number {
+  add(content: () => Element): number {
     const id: number = this.id;
     this.setComponentStore(
       (

@@ -10,3 +10,8 @@ export enum MouseButton {
   DOWN = 3,
   UP = 4,
 }
+
+export interface Size {
+  width: number;
+  height: number;
+}

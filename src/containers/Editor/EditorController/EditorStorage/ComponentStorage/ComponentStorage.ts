@@ -1,7 +1,6 @@
 import { SetStoreFunction, Store } from "solid-js/store";
 import ComponentStore from "./ComponentStore";
 import { Position } from "~/containers/Editor/shared/types";
-import { JSX } from "solid-js";
 import { ComponentData } from "~/containers/Editor/components/Component";
 
 export default class ComponentStorage {
@@ -20,7 +19,7 @@ export default class ComponentStorage {
     return this.components.get();
   }
 
-  add(content: () => JSX.Element): number {
+  add(content: () => Element): number {
     return this.components.add(content);
   }
 

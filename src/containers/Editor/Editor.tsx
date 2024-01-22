@@ -1,4 +1,4 @@
-import { For, Show, onMount } from "solid-js";
+import { For, Show, createSignal, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 import {
   handleMouseMove,
@@ -16,17 +16,13 @@ import {
 } from "./eventHandlers";
 import { Component } from "./components/Component";
 import EditorController from "./EditorController";
-import EditorStorage from "./EditorController/EditorStorage";
-import { Line } from "./components/Line";
 
 import "./Editor.css";
-import { EditorData, EditorProps } from "./types";
 import { useAppState } from "~/AppContext";
 import { ComponentData } from "./components/Component";
 
 export default function Editor() {
   //  const zoomSize = 0.05;
-  let editorArea: HTMLDivElement | undefined;
   //  let [fixedPosition, setFixedPosition] = createSignal({
   //    x: 0,
   //    y: 0,
@@ -72,39 +68,69 @@ export default function Editor() {
     },
     appState.logger
   );
-  onMount(() => {
-    editor.setEditorArea(editorArea);
-  });
   //  const [editorState, setEditorState] = createSignal(EditorState.NONE);
   //  const [scale, setScale] = createSignal(1);
   //  let sourceComponentId: number | undefined = undefined;
   //  let sourceCommandId: number | undefined = undefined;
   //  let commandConnectionPosition: Position | undefined = undefined;
-
+  const [showComponentSelection, setShowComponentSelection] =
+    createSignal(false);
   return (
     <div
       id="editor-area"
-      ref={editorArea}
+      ref={(editorArea) => {
+        editor.setEditorArea(editorArea);
+      }}
       data-editor-area
       onMouseMove={[handleMouseMove, editor]}
       onMouseUp={[handleMouseUp, editor]}
       onMouseDown={[handleMouseDown, editor]}
     >
       <div class="fixed-area">
-        <div class="control-buttons">
-          {
-            //<button onClick={[handleAddComponent, editor]} id="add-button">
-            // Add component
-            //</button>
-          }
+        {
+          //<div class="control-buttons">
+          //<button onClick={[handleAddComponent, editor]} id="add-button">
+          // Add component
+          //</button>
+          //  <button id="save-button">Get Bot</button>
+          //  <button id="save-button">Start Bot</button>
+          //  <button id="save-button">Stop Bot</button>
+          // </div>
+        }
+        <div class="scale-buttons events">
+          <button onClick={handleZoomIn}> + </button>
+          <button onClick={handleZoomOut}> - </button>
+        </div>
+        <div id="editor-menu-panel" class="events">
           <button id="save-button">Get Bot</button>
           <button id="save-button">Start Bot</button>
           <button id="save-button">Stop Bot</button>
         </div>
-        <div class="scale-buttons">
-          <button onClick={handleZoomIn}> + </button>
-          <button onClick={handleZoomOut}> - </button>
-        </div>
+        <Show
+          when={showComponentSelection()}
+          fallback={
+            <div>
+              <button
+                class="events show-panel-btn"
+                onClick={() => setShowComponentSelection(true)}
+              >
+                {"->"}
+              </button>
+            </div>
+          }
+        >
+          <div id="component-selection-panel" class="events">
+            <button
+              class="hide-panel-btn"
+              onClick={() => {
+                setShowComponentSelection(false);
+              }}
+            >
+              {"<-"}
+            </button>
+            <div class="component">component</div>
+          </div>
+        </Show>
       </div>
       <div
         class="scaling"
