@@ -20,6 +20,7 @@ import EditorController from "./EditorController";
 import "./Editor.css";
 import { useAppState } from "~/AppContext";
 import { ComponentData } from "./components/Component";
+import FormatContent from "./components/ComponentContent/contents/FormatContent";
 
 export default function Editor() {
   //  const zoomSize = 0.05;
@@ -75,6 +76,7 @@ export default function Editor() {
   //  let commandConnectionPosition: Position | undefined = undefined;
   const [showComponentSelection, setShowComponentSelection] =
     createSignal(false);
+  const componentList = [<FormatContent />];
   return (
     <div
       id="editor-area"
@@ -86,7 +88,7 @@ export default function Editor() {
       onMouseUp={[handleMouseUp, editor]}
       onMouseDown={[handleMouseDown, editor]}
     >
-      <div class="fixed-area">
+      <div class="fixed-area no-events">
         {
           //<div class="control-buttons">
           //<button onClick={[handleAddComponent, editor]} id="add-button">
@@ -109,14 +111,12 @@ export default function Editor() {
         <Show
           when={showComponentSelection()}
           fallback={
-            <div>
-              <button
-                class="events show-panel-btn"
-                onClick={() => setShowComponentSelection(true)}
-              >
-                {"->"}
-              </button>
-            </div>
+            <button
+              class="events show-panel-btn"
+              onClick={() => setShowComponentSelection(true)}
+            >
+              {"->"}
+            </button>
           }
         >
           <div id="component-selection-panel" class="events">
@@ -128,7 +128,20 @@ export default function Editor() {
             >
               {"<-"}
             </button>
-            <div class="component">component</div>
+            <div class="component-list">
+              <For each={componentList}>
+                {(component) => (
+                  <div
+                    class="component reduce"
+                    onClick={() => {
+                      console.log("aaaa");
+                    }}
+                  >
+                    <div class="no-events">{component}</div>
+                  </div>
+                )}
+              </For>
+            </div>
           </div>
         </Show>
       </div>

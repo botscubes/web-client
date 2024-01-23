@@ -1,0 +1,23 @@
+.component-content-container {
+  position: relative;
+  width: auto;
+  height: auto;
+}
+
+.component-input {
+  width: 100px;
+}
+
+.component-content {
+  width: auto;
+  height: auto;
+  padding: 30px 20px 30px 20px;
+}
+
+.component-name {
+  font-size: 0.8rem;
+  margin: 2px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
