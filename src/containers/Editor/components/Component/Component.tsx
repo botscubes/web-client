@@ -3,7 +3,7 @@ import { handleDragStart } from "./events";
 import { ConnectionArea } from "./components/ConnectionArea";
 import "./Component.css";
 import { MouseButton, Position } from "../../shared/types";
-import { For } from "solid-js";
+import { For, children } from "solid-js";
 import { ConnectionPoint } from "./components/ConnectionPoint";
 import { getConnectionPointMouseDownHandler } from "./eventHandlers";
 import { Dynamic } from "solid-js/web";
@@ -55,7 +55,7 @@ export default function Component(props: ComponentProps) {
       }
     );
   };
-
+  const c = children(() => props.children);
   return (
     <div
       class="component"
@@ -70,9 +70,7 @@ export default function Component(props: ComponentProps) {
       onMouseUp={handleMouseUp}
       onMouseDown={handleMouseDown}
     >
-      <div class="component-content">
-        <Dynamic component={props.componentData.content} />
-      </div>
+      <div class="component-content">{c()}</div>
 
       <button class="delete-button" onClick={handleDeleteButtonClick}>
         ✖

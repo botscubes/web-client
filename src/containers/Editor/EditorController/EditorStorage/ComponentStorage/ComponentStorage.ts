@@ -2,14 +2,16 @@ import { SetStoreFunction, Store } from "solid-js/store";
 import ComponentStore from "./ComponentStore";
 import { Position } from "~/containers/Editor/shared/types";
 import { ComponentData } from "~/containers/Editor/components/Component";
+import { JSX } from "solid-js";
+import { ExtendedComponentData } from "~/containers/Editor/types";
 
 export default class ComponentStorage {
   private components: ComponentStore;
 
   constructor(
     componentStore: [
-      Store<Record<number, ComponentData>>,
-      SetStoreFunction<Record<number, ComponentData>>,
+      Store<Record<number, ExtendedComponentData>>,
+      SetStoreFunction<Record<number, ExtendedComponentData>>,
     ]
   ) {
     this.components = new ComponentStore(...componentStore);
@@ -19,7 +21,7 @@ export default class ComponentStorage {
     return this.components.get();
   }
 
-  add(content: () => Element): number {
+  add(content: () => JSX.Element): number {
     return this.components.add(content);
   }
 

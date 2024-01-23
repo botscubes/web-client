@@ -7,6 +7,7 @@ import { Position } from "../shared/types";
 import ComponentMoveState from "./states/ComponentMoveState";
 import Logger from "~/logging/Logger";
 import { ComponentData } from "../components/Component";
+import { ExtendedComponentData } from "../types";
 
 export default class ComponentController {
   private selectedComponents = new SelectedComponents();
@@ -14,8 +15,8 @@ export default class ComponentController {
   constructor(
     private editor: EditorController,
     componentStore: [
-      Store<Record<number, ComponentData>>,
-      SetStoreFunction<Record<number, ComponentData>>,
+      Store<Record<number, ExtendedComponentData>>,
+      SetStoreFunction<Record<number, ExtendedComponentData>>,
     ],
     private logger: Logger
   ) {

@@ -21,6 +21,7 @@ import "./Editor.css";
 import { useAppState } from "~/AppContext";
 import { ComponentData } from "./components/Component";
 import FormatContent from "./components/ComponentContent/contents/FormatContent";
+import { ExtendedComponentData } from "./types";
 
 export default function Editor() {
   //  const zoomSize = 0.05;
@@ -37,7 +38,7 @@ export default function Editor() {
   //const [linePos, setLinePos] = createSignal({});
   // const [showLine, setShowLine] = createSignal(false);
   const [componentStore, setComponentStore] = createStore<
-    Record<number, ComponentData>
+    Record<number, ExtendedComponentData>
   >({});
 
   //const editorStore = createStore<EditorData>({
@@ -173,7 +174,9 @@ export default function Editor() {
                 deleteConnection={getDeleteConnectionHandler(editor)}
                 //moveConnection={handleMoveConnection}
                 //moveCommandConnection={handleMoveCommandConnection}
-              />
+              >
+                {component.content()}
+              </Component>
             );
           }}
         </For>

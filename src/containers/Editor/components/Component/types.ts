@@ -8,7 +8,6 @@ export interface ComponentData {
   selected: boolean;
   connectionPoints: Record<number, ConnectionPointData>;
   connectionAreaVisible: boolean;
-  content: () => JSX.Element;
 }
 
 export interface ComponentStyle {
@@ -19,6 +18,7 @@ export interface ComponentStyle {
 export interface ComponentProps {
   componentData: ComponentData;
   componentStyle: ComponentStyle;
+  children: JSX.Element;
   scale: number;
   deleteComponent: (id: number) => void;
   selectComponent: (id: number, mousePOsition: Position) => void;

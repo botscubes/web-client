@@ -1,26 +1,30 @@
 import { cloneDeep } from "lodash";
+import { JSX } from "solid-js";
 import { SetStoreFunction, Store } from "solid-js/store";
 import { ComponentData } from "~/containers/Editor/components/Component";
 import { Position } from "~/containers/Editor/shared/types";
+import { ExtendedComponentData } from "~/containers/Editor/types";
 
 export default class ComponentStore {
   private id = 0;
 
   constructor(
-    private componentStore: Store<Record<number, ComponentData>>,
-    private setComponentStore: SetStoreFunction<Record<number, ComponentData>>
+    private componentStore: Store<Record<number, ExtendedComponentData>>,
+    private setComponentStore: SetStoreFunction<
+      Record<number, ExtendedComponentData>
+    >
   ) {}
 
   get() {
     return this.componentStore;
   }
 
-  add(content: () => Element): number {
+  add(content: () => JSX.Element): number {
     const id: number = this.id;
     this.setComponentStore(
       (
-        components: Record<number, ComponentData>
-      ): Record<number, ComponentData> => ({
+        components: Record<number, ExtendedComponentData>
+      ): Record<number, ExtendedComponentData> => ({
         ...components,
         [id]: {
           id: id,
