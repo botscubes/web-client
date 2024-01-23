@@ -21,7 +21,7 @@ import "./Editor.css";
 import { useAppState } from "~/AppContext";
 import { ComponentData } from "./components/Component";
 import FormatContent from "./components/ComponentContent/contents/FormatContent";
-import { ExtendedComponentData } from "./types";
+import { ExtendedComponentData } from "./EditorController/EditorStorage/ComponentStorage/types";
 
 export default function Editor() {
   //  const zoomSize = 0.05;

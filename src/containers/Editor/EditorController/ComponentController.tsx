@@ -7,7 +7,7 @@ import { Position } from "../shared/types";
 import ComponentMoveState from "./states/ComponentMoveState";
 import Logger from "~/logging/Logger";
 import { ComponentData } from "../components/Component";
-import { ExtendedComponentData } from "../types";
+import { ExtendedComponentData } from "./EditorStorage/ComponentStorage/types";
 
 export default class ComponentController {
   private selectedComponents = new SelectedComponents();

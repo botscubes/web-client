@@ -3,6 +3,7 @@ import { ComponentData, ComponentStyle } from "./components/Component/types";
 import { LinePosition } from "./components/Line";
 import { SetStoreFunction, Store } from "solid-js/store";
 import { JSX } from "solid-js";
+import { ExtendedComponentData } from "./EditorController/EditorStorage/ComponentStorage/types";
 
 export interface EditorData {
   componentStore: [
@@ -27,7 +28,3 @@ export interface EditorProps {
 //  CONNECTION,
 //  AREA_MOVEMENT,
 //}
-
-export interface ExtendedComponentData extends ComponentData {
-  content: () => JSX.Element;
-}

@@ -3,7 +3,7 @@ import ComponentStore from "./ComponentStore";
 import { Position } from "~/containers/Editor/shared/types";
 import { ComponentData } from "~/containers/Editor/components/Component";
 import { JSX } from "solid-js";
-import { ExtendedComponentData } from "~/containers/Editor/types";
+import { ExtendedComponentData } from "./types";
 
 export default class ComponentStorage {
   private components: ComponentStore;
