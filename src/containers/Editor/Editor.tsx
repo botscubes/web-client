@@ -46,7 +46,7 @@ export default function Editor() {
     y: 0,
   });
   const [userSelect, setUserSelect] = createSignal(true);
-
+  const [scale, setScale] = createSignal(1);
   //const editorStore = createStore<EditorData>({
   //components: {},
   //    componentStyle: {
@@ -78,6 +78,10 @@ export default function Editor() {
         setPosition: setAddingComponentPosition,
       },
       setUserSelect: setUserSelect,
+      scale: {
+        get: scale,
+        set: setScale,
+      },
     },
     appState.logger
   );
@@ -115,8 +119,8 @@ export default function Editor() {
           // </div>
         }
         <div class="scale-buttons events">
-          <button onClick={handleZoomIn}> + </button>
-          <button onClick={handleZoomOut}> - </button>
+          <button onClick={() => editor.zoomIn()}> + </button>
+          <button onClick={() => editor.zoomOut()}> - </button>
         </div>
         <div id="editor-menu-panel" class="events">
           <button id="save-button">Get Bot</button>
@@ -161,23 +165,28 @@ export default function Editor() {
         </Show>
         <Show when={addingComponentContent()}>
           <div
-            class="component absolute adding-component"
+            class="scaling"
             style={{
-              top: addingComponentPosition().y + "px",
-              left: addingComponentPosition().x + "px",
+              transform: `scale(${scale()})`,
             }}
           >
-            {addingComponentContent()?.()}
+            <div
+              class="component absolute adding-component"
+              style={{
+                top: addingComponentPosition().y + "px",
+                left: addingComponentPosition().x + "px",
+              }}
+            >
+              {addingComponentContent()?.()}
+            </div>
           </div>
         </Show>
       </div>
       <div
         class="scaling"
-        style={
-          {
-            //transform: `scale(${editor.getEditorData().scale})`,
-          }
-        }
+        style={{
+          transform: `scale(${scale()})`,
+        }}
       >
         <For each={Object.values(componentStore)}>
           {(component) => {
@@ -188,7 +197,7 @@ export default function Editor() {
             };
             return (
               <Component
-                scale={1} //editor.getEditorData().scale}
+                scale={scale()} //editor.getEditorData().scale}
                 componentData={component}
                 componentStyle={componentStyle}
                 deleteComponent={getDeleteComponentHandler(editor)}

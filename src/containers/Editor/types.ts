@@ -2,7 +2,7 @@ import Logger from "~/logging/Logger";
 import { ComponentData, ComponentStyle } from "./components/Component/types";
 import { LinePosition } from "./components/Line";
 import { SetStoreFunction, Store } from "solid-js/store";
-import { JSX, Setter } from "solid-js";
+import { Accessor, JSX, Setter } from "solid-js";
 import { ExtendedComponentData } from "./EditorController/EditorStorage/ComponentStorage/types";
 import { Position } from "./shared/types";
 
@@ -16,6 +16,10 @@ export interface EditorData {
     setPosition: Setter<Position>;
   };
   setUserSelect: Setter<boolean>;
+  scale: {
+    set: Setter<number>;
+    get: Accessor<number>;
+  };
   //componentStyle: ComponentStyle;
   //lines: Record<number, LinePosition>;
   //line: LinePosition;

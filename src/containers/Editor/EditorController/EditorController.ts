@@ -9,7 +9,7 @@ import { JSX } from "solid-js";
 import AddingComponentState from "./states/AddingComponentState";
 
 export default class EditorController {
-  //private readonly zoomSize = 0.05;
+  private readonly zoomSize = 0.05;
   private editorState: EditorState = new WaitingState(this);
   private editorArea?: HTMLElement;
   private _components: ComponentController;
@@ -114,13 +114,14 @@ export default class EditorController {
   // ) {
   //   this.editorStorage.setLinePosition(fn, commandId);
   // }
+
   getRelativeMousePosition(mousePosition: Position): Position {
     let relativeMousePosition = { x: 0, y: 0 };
     if (this.editorArea) {
       relativeMousePosition = getRelativeMousePosition(
         this.editorArea,
         mousePosition,
-        1 //this.getEditorData().scale
+        this.editor.scale.get()
       );
     }
     return relativeMousePosition;
@@ -132,4 +133,11 @@ export default class EditorController {
   // getEditorStorage(): EditorStorage {
   //   return this.editorStorage;
   // }
+
+  zoomIn() {
+    this.editor.scale.set((scale) => scale + this.zoomSize);
+  }
+  zoomOut() {
+    this.editor.scale.set((scale) => scale - this.zoomSize);
+  }
 }
