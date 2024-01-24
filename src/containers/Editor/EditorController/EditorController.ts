@@ -34,6 +34,12 @@ export default class EditorController {
   get addingComponent() {
     return this.editor.addingComponent;
   }
+  get area() {
+    return this.editorArea;
+  }
+  get setUserSelect() {
+    return this.editor.setUserSelect;
+  }
 
   selectComponent(id: number, mousePosition: Position) {
     this.editorState.selectComponent(id, mousePosition);

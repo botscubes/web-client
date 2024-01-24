@@ -24,11 +24,10 @@ export default class ComponentController {
   }
 
   add(position: Position, content: () => JSX.Element) {
-    this.selectedComponents.deselectAll();
+    this.deselectAll();
     const id: number = this.storage.add(position, content);
     this.storage.select(id);
     this.selectedComponents.select(id);
-    this.editor.setState(new WaitingState(this.editor));
   }
   delete(id: number) {
     this.deselectAll();
@@ -41,6 +40,11 @@ export default class ComponentController {
     this.selectedComponents.select(id);
     this.storage.select(id);
   }
+  deselect(id: number) {
+    this.storage.deselect(id);
+    this.selectedComponents.deselect(id);
+  }
+
   deselectAll() {
     for (const id of this.selectedComponents.getKeys()) {
       this.storage.deselect(id);
@@ -49,11 +53,9 @@ export default class ComponentController {
   }
   markAsSelected(id: number) {
     if (this.selectedComponents.isSelected(id)) {
-      this.storage.deselect(id);
-      this.selectedComponents.deselect(id);
+      this.deselect(id);
     } else {
-      this.storage.select(id);
-      this.selectedComponents.select(id);
+      this.select(id);
     }
     if (this.selectedComponents.haveSelected()) {
       this.editor.setState(new ComponentMoveState(this.editor));

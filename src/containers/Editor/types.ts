@@ -15,6 +15,7 @@ export interface EditorData {
     setContent: Setter<(() => JSX.Element) | undefined>;
     setPosition: Setter<Position>;
   };
+  setUserSelect: Setter<boolean>;
   //componentStyle: ComponentStyle;
   //lines: Record<number, LinePosition>;
   //line: LinePosition;

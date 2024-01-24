@@ -6,6 +6,8 @@ import WaitingState from "./WaitingState";
 export default class ComponentMoveState extends EditorState {
   constructor(editor: EditorController) {
     super(editor);
+
+    editor.setUserSelect(false);
   }
   get name() {
     return "ComponentMoveState";
@@ -18,6 +20,7 @@ export default class ComponentMoveState extends EditorState {
     this.editor.components.move(relativeMousePosition);
   }
   handleMouseUp(_event: MouseEvent) {
+    this.editor.setUserSelect(true);
     this.editor.setState(new WaitingState(this.editor));
   }
 }

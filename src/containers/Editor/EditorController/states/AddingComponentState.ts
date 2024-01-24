@@ -12,6 +12,7 @@ export default class AddingComponentState extends EditorState {
     private content: () => JSX.Element
   ) {
     super(editor);
+    editor.setUserSelect(false);
 
     this.editor.addingComponent.setPosition(
       this.getRelativeMousePosition(event)
@@ -28,10 +29,13 @@ export default class AddingComponentState extends EditorState {
     );
   }
   handleMouseUp(event: MouseEvent) {
-    this.editor.components.add(
-      this.getRelativeMousePosition(event),
-      this.content
-    );
+    if (event.target == this.editor.area) {
+      this.editor.components.add(
+        this.getRelativeMousePosition(event),
+        this.content
+      );
+    }
+    this.editor.setUserSelect(true);
 
     this.editor.addingComponent.setContent(undefined);
 

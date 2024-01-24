@@ -15,9 +15,9 @@ export function handleMouseMove(
   editorController.handleMouseMove(event);
 }
 
-export function handleAddComponent(editorController: EditorController) {
-  editorController.components.add();
-}
+//export function handleAddComponent(editorController: EditorController) {
+//  editorController.components.add();
+//}
 export function getDeleteComponentHandler(editorController: EditorController) {
   return (id: number) => editorController.components.delete(id);
 }

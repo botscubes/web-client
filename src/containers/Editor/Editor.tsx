@@ -2,7 +2,6 @@ import { For, JSX, Show, createSignal, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 import {
   handleMouseMove,
-  handleAddComponent,
   getDeleteComponentHandler,
   getAddSelectedComponentHandler,
   getSelectComponentHandler,
@@ -19,7 +18,6 @@ import EditorController from "./EditorController";
 
 import "./Editor.css";
 import { useAppState } from "~/AppContext";
-import { ComponentData } from "./components/Component";
 import FormatContent from "./components/ComponentContent/contents/FormatContent";
 import { ExtendedComponentData } from "./EditorController/EditorStorage/ComponentStorage/types";
 
@@ -47,6 +45,7 @@ export default function Editor() {
     x: 0,
     y: 0,
   });
+  const [userSelect, setUserSelect] = createSignal(true);
 
   //const editorStore = createStore<EditorData>({
   //components: {},
@@ -78,6 +77,7 @@ export default function Editor() {
         setContent: setAddingComponentContent,
         setPosition: setAddingComponentPosition,
       },
+      setUserSelect: setUserSelect,
     },
     appState.logger
   );
@@ -99,6 +99,9 @@ export default function Editor() {
       onMouseMove={[handleMouseMove, editor]}
       onMouseUp={[handleMouseUp, editor]}
       onMouseDown={[handleMouseDown, editor]}
+      style={{
+        "user-select": !userSelect() ? "none" : undefined,
+      }}
     >
       <div class="fixed-area no-events">
         {
