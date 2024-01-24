@@ -58,7 +58,7 @@ export default function Component(props: ComponentProps) {
   const c = children(() => props.children);
   return (
     <div
-      class="component"
+      class="component absolute"
       classList={{ selected: props.componentData.selected }}
       style={{
         left: props.componentData.position.x.toString() + "px",
@@ -70,24 +70,25 @@ export default function Component(props: ComponentProps) {
       onMouseUp={handleMouseUp}
       onMouseDown={handleMouseDown}
     >
-      <div class="component-content">{c()}</div>
+      {c()}
 
       <button class="delete-button" onClick={handleDeleteButtonClick}>
         ✖
       </button>
-      <ConnectionArea
-        scale={props.scale}
-        connectionAreaData={{
-          visible: props.componentData.connectionAreaVisible,
-        }}
-        connectionAreaStyle={{
-          connectionPointSize: props.componentStyle.connectionPointSize,
-          componentWidth: props.componentStyle.width,
-          componentHeight: 100, //height(),
-        }}
-        finishConnection={handleFinishConnection}
-      />
-
+      {
+        //      <ConnectionArea
+        //        scale={props.scale}
+        //        connectionAreaData={{
+        //          visible: props.componentData.connectionAreaVisible,
+        //        }}
+        //        connectionAreaStyle={{
+        //          connectionPointSize: props.componentStyle.connectionPointSize,
+        //          componentWidth: props.componentStyle.width,
+        //          componentHeight: 100, //height(),
+        //        }}
+        //        finishConnection={handleFinishConnection}
+        //      />
+      }
       <For each={Object.values(props.componentData.connectionPoints)}>
         {(point) => {
           return (

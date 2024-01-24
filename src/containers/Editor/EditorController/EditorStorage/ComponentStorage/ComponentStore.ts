@@ -19,7 +19,7 @@ export default class ComponentStore {
     return this.componentStore;
   }
 
-  add(content: () => JSX.Element): number {
+  add(position: Position, content: () => JSX.Element): number {
     const id: number = this.id;
     this.setComponentStore(
       (
@@ -28,10 +28,7 @@ export default class ComponentStore {
         ...components,
         [id]: {
           id: id,
-          position: {
-            x: 100,
-            y: 100,
-          },
+          position: position,
           selected: false,
           connectionPoints: {},
           connectionAreaVisible: false,

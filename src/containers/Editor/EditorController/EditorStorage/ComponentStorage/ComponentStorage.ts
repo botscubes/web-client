@@ -21,8 +21,8 @@ export default class ComponentStorage {
     return this.components.get();
   }
 
-  add(content: () => JSX.Element): number {
-    return this.components.add(content);
+  add(position: Position, content: () => JSX.Element): number {
+    return this.components.add(position, content);
   }
 
   clone(id: number): number {

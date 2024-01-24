@@ -6,8 +6,8 @@ import WaitingState from "./states/WaitingState";
 import { Position } from "../shared/types";
 import ComponentMoveState from "./states/ComponentMoveState";
 import Logger from "~/logging/Logger";
-import { ComponentData } from "../components/Component";
 import { ExtendedComponentData } from "./EditorStorage/ComponentStorage/types";
+import { JSX } from "solid-js";
 
 export default class ComponentController {
   private selectedComponents = new SelectedComponents();
@@ -23,9 +23,9 @@ export default class ComponentController {
     this.storage = new ComponentStorage(componentStore);
   }
 
-  add() {
+  add(position: Position, content: () => JSX.Element) {
     this.selectedComponents.deselectAll();
-    const id: number = this.storage.add(() => <>aaa</>);
+    const id: number = this.storage.add(position, content);
     this.storage.select(id);
     this.selectedComponents.select(id);
     this.editor.setState(new WaitingState(this.editor));

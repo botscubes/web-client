@@ -1,4 +1,4 @@
-import { For, Show, createSignal, onMount } from "solid-js";
+import { For, JSX, Show, createSignal, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 import {
   handleMouseMove,
@@ -40,6 +40,13 @@ export default function Editor() {
   const [componentStore, setComponentStore] = createStore<
     Record<number, ExtendedComponentData>
   >({});
+  const [addingComponentContent, setAddingComponentContent] = createSignal<
+    (() => JSX.Element) | undefined
+  >(undefined);
+  const [addingComponentPosition, setAddingComponentPosition] = createSignal({
+    x: 0,
+    y: 0,
+  });
 
   //const editorStore = createStore<EditorData>({
   //components: {},
@@ -67,6 +74,10 @@ export default function Editor() {
   const editor: EditorController = new EditorController(
     {
       componentStore: [componentStore, setComponentStore],
+      addingComponent: {
+        setContent: setAddingComponentContent,
+        setPosition: setAddingComponentPosition,
+      },
     },
     appState.logger
   );
@@ -77,7 +88,7 @@ export default function Editor() {
   //  let commandConnectionPosition: Position | undefined = undefined;
   const [showComponentSelection, setShowComponentSelection] =
     createSignal(false);
-  const componentList = [<FormatContent />];
+  const componentList = [() => <FormatContent />];
   return (
     <div
       id="editor-area"
@@ -134,15 +145,26 @@ export default function Editor() {
                 {(component) => (
                   <div
                     class="component reduce"
-                    onClick={() => {
-                      console.log("aaaa");
+                    onMouseDown={(event: MouseEvent) => {
+                      editor.startAddingComponent(event, component);
                     }}
                   >
-                    <div class="no-events">{component}</div>
+                    <div class="no-events">{component()}</div>
                   </div>
                 )}
               </For>
             </div>
+          </div>
+        </Show>
+        <Show when={addingComponentContent()}>
+          <div
+            class="component absolute adding-component"
+            style={{
+              top: addingComponentPosition().y + "px",
+              left: addingComponentPosition().x + "px",
+            }}
+          >
+            {addingComponentContent()?.()}
           </div>
         </Show>
       </div>

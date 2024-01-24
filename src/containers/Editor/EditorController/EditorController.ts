@@ -5,6 +5,8 @@ import WaitingState from "./states/WaitingState";
 import { getRelativeMousePosition } from "./halpers/mouse";
 import ComponentController from "./ComponentController";
 import Logger from "~/logging/Logger";
+import { JSX } from "solid-js";
+import AddingComponentState from "./states/AddingComponentState";
 
 export default class EditorController {
   //private readonly zoomSize = 0.05;
@@ -13,7 +15,7 @@ export default class EditorController {
   private _components: ComponentController;
 
   constructor(
-    editor: EditorData,
+    private editor: EditorData,
     private logger: Logger
   ) {
     this._components = new ComponentController(
@@ -28,6 +30,9 @@ export default class EditorController {
   }
   get state() {
     return this.editorState;
+  }
+  get addingComponent() {
+    return this.editor.addingComponent;
   }
 
   selectComponent(id: number, mousePosition: Position) {
@@ -113,6 +118,10 @@ export default class EditorController {
       );
     }
     return relativeMousePosition;
+  }
+
+  startAddingComponent(event: MouseEvent, content: () => JSX.Element) {
+    this.setState(new AddingComponentState(this, event, content));
   }
   // getEditorStorage(): EditorStorage {
   //   return this.editorStorage;

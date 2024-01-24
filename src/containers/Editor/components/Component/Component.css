@@ -7,10 +7,6 @@
   outline: 1px solid teal;
 }
 
-.absolute {
-  position: absolute;
-}
-
 .selected {
   box-shadow: 0 0 4px 4px teal;
   outline: 2px solid teal;
