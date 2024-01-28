@@ -1,9 +1,7 @@
+import { InputHandlers } from "../../../Input";
+
 export interface FormatContentHandlers {
-  formatString: {
-    onMount(setter: (str: string) => void): void;
-    onChange(str: string): void;
-    onInput(str: string): void;
-  };
+  formatString?: InputHandlers;
 }
 
 export interface FormatContentProps {

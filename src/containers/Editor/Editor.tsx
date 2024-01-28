@@ -25,6 +25,11 @@ import {
 import { ExtendedComponentData } from "./EditorController/EditorStorage/ComponentStorage/types";
 import { SpecificComponent } from "./EditorController/SpecificComponent";
 import { FormatController } from "./EditorController/components/FormatController";
+import { ConditionController } from "./EditorController/components/ConditionController";
+import {
+  ConditionContent,
+  ConditionContentHandlers,
+} from "./components/ComponentContent/contents/ConditionContent";
 
 export default function Editor() {
   //  const zoomSize = 0.05;
@@ -102,6 +107,12 @@ export default function Editor() {
       controller: FormatController,
       content: (handlers?: FormatContentHandlers) => (
         <FormatContent handlers={handlers} />
+      ),
+    },
+    {
+      controller: ConditionController,
+      content: (handlers?: ConditionContentHandlers) => (
+        <ConditionContent handlers={handlers} />
       ),
     },
   ];
