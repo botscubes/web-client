@@ -14,10 +14,13 @@ export default function Component(props: ComponentProps) {
   };
   const handleMouseDown = (event: MouseEvent) => {
     if (!(event.ctrlKey || event.metaKey) && event.button == MouseButton.LEFT) {
-      props.selectComponent(props.componentData.id, {
-        x: event.clientX,
-        y: event.clientY,
-      });
+      const element = event.target as HTMLElement;
+      if (element.tagName != "INPUT") {
+        props.selectComponent(props.componentData.id, {
+          x: event.clientX,
+          y: event.clientY,
+        });
+      }
     }
   };
   const handleMouseUp = (event: MouseEvent) => {
