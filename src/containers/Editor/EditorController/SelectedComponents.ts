@@ -34,15 +34,4 @@ export default class SelectedComponents {
     this.selectedComponents.set(id, position);
   }
 
-  // TODO: what is it???
-  //  fixMouseShiftsRelativeToComponents(mousePos: Position) {
-  //    for (const id of this.selectedComponents.keys()) {
-  //      const position = this.editorData.components[id].position;
-  //      const shift: Position = {
-  //        x: mousePos.x - position.x,
-  //        y: mousePos.y - position.y,
-  //      };
-  //      this.selectedComponents.set(id, shift);
-  //    }
-  //  }
 }

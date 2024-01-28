@@ -7,6 +7,7 @@ import ComponentController from "./ComponentController";
 import Logger from "~/logging/Logger";
 import { JSX } from "solid-js";
 import AddingComponentState from "./states/AddingComponentState";
+import { SpecificComponent } from "./SpecificComponent";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
@@ -127,8 +128,8 @@ export default class EditorController {
     return relativeMousePosition;
   }
 
-  startAddingComponent(event: MouseEvent, content: () => JSX.Element) {
-    this.setState(new AddingComponentState(this, event, content));
+  startAddingComponent(event: MouseEvent, component: SpecificComponent) {
+    this.setState(new AddingComponentState(this, event, component));
   }
   // getEditorStorage(): EditorStorage {
   //   return this.editorStorage;

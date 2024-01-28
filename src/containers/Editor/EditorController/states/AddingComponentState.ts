@@ -1,15 +1,15 @@
-import { JSX } from "solid-js";
 import EditorController from "..";
 import EditorState from "../EditorState";
 import WaitingState from "./WaitingState";
 import { getMousePosition } from "../halpers/mouse";
 import { Position } from "../../shared/types";
+import { SpecificComponent } from "../SpecificComponent";
 
 export default class AddingComponentState extends EditorState {
   constructor(
     editor: EditorController,
     event: MouseEvent,
-    private content: () => JSX.Element
+    private component: SpecificComponent
   ) {
     super(editor);
     editor.setUserSelect(false);
@@ -17,7 +17,8 @@ export default class AddingComponentState extends EditorState {
     this.editor.addingComponent.setPosition(
       this.getRelativeMousePosition(event)
     );
-    editor.addingComponent.setContent(() => content);
+
+    editor.addingComponent.setContent(() => component.content);
   }
   get name() {
     return "AddingComponentState";
@@ -32,7 +33,7 @@ export default class AddingComponentState extends EditorState {
     if (event.target == this.editor.area) {
       this.editor.components.add(
         this.getRelativeMousePosition(event),
-        this.content
+        this.component
       );
     }
     this.editor.setUserSelect(true);

@@ -18,8 +18,13 @@ import EditorController from "./EditorController";
 
 import "./Editor.css";
 import { useAppState } from "~/AppContext";
-import FormatContent from "./components/ComponentContent/contents/FormatContent";
+import {
+  FormatContent,
+  FormatContentHandlers,
+} from "./components/ComponentContent/contents/FormatContent";
 import { ExtendedComponentData } from "./EditorController/EditorStorage/ComponentStorage/types";
+import { SpecificComponent } from "./EditorController/SpecificComponent";
+import { FormatController } from "./EditorController/components/FormatController";
 
 export default function Editor() {
   //  const zoomSize = 0.05;
@@ -92,7 +97,14 @@ export default function Editor() {
   //  let commandConnectionPosition: Position | undefined = undefined;
   const [showComponentSelection, setShowComponentSelection] =
     createSignal(false);
-  const componentList = [() => <FormatContent />];
+  const componentList: Array<SpecificComponent> = [
+    {
+      controller: FormatController,
+      content: (handlers?: FormatContentHandlers) => (
+        <FormatContent handlers={handlers} />
+      ),
+    },
+  ];
   return (
     <div
       id="editor-area"
@@ -156,7 +168,7 @@ export default function Editor() {
                       editor.startAddingComponent(event, component);
                     }}
                   >
-                    <div class="no-events">{component()}</div>
+                    <div class="no-events">{component.content()}</div>
                   </div>
                 )}
               </For>

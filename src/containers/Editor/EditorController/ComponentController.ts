@@ -7,7 +7,7 @@ import { Position } from "../shared/types";
 import ComponentMoveState from "./states/ComponentMoveState";
 import Logger from "~/logging/Logger";
 import { ExtendedComponentData } from "./EditorStorage/ComponentStorage/types";
-import { JSX } from "solid-js";
+import { SpecificComponent } from "./SpecificComponent";
 
 export default class ComponentController {
   private selectedComponents = new SelectedComponents();
@@ -23,9 +23,12 @@ export default class ComponentController {
     this.storage = new ComponentStorage(componentStore);
   }
 
-  add(position: Position, content: () => JSX.Element) {
+  add(position: Position, component: SpecificComponent) {
     this.deselectAll();
-    const id: number = this.storage.add(position, content);
+    const controller = new component.controller();
+    const content = () => component.content(controller.getHandlers());
+
+    const id: number = this.storage.add(position, controller, content);
     this.storage.select(id);
     this.selectedComponents.select(id);
   }

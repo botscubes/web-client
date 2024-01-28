@@ -4,6 +4,7 @@ import { SetStoreFunction, Store } from "solid-js/store";
 import { ComponentData } from "~/containers/Editor/components/Component";
 import { Position } from "~/containers/Editor/shared/types";
 import { ExtendedComponentData } from "./types";
+import { SpecificComponentController } from "../../SpecificComponent";
 
 export default class ComponentStore {
   private id = 0;
@@ -19,7 +20,11 @@ export default class ComponentStore {
     return this.componentStore;
   }
 
-  add(position: Position, content: () => JSX.Element): number {
+  add(
+    position: Position,
+    controller: SpecificComponentController,
+    content: () => JSX.Element
+  ): number {
     const id: number = this.id;
     this.setComponentStore(
       (
@@ -32,6 +37,7 @@ export default class ComponentStore {
           selected: false,
           connectionPoints: {},
           connectionAreaVisible: false,
+          controller: controller,
           content: content,
         },
       })
