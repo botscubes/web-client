@@ -11,7 +11,7 @@
 .component-content {
   width: auto;
   height: auto;
-  padding: 30px 20px 30px 20px;
+  padding: 40px 30px 40px 30px;
 }
 
 .component-name {
@@ -20,4 +20,23 @@
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.output-points {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 20px;
+  right: -10px;
+  justify-content: space-around;
+  align-items: flex-end;
+  bottom: 0;
+}
+
+.error-point {
+  background-color: red;
+}
+
+.output-point {
+  background-color: green;
 }

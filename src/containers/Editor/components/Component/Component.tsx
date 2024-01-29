@@ -4,7 +4,7 @@ import { ConnectionArea } from "./components/ConnectionArea";
 import "./Component.css";
 import { MouseButton, Position } from "../../shared/types";
 import { For, children } from "solid-js";
-import { ConnectionPoint } from "./components/ConnectionPoint";
+//import { ConnectionPoint } from "./components/ConnectionPoint";
 import { getConnectionPointMouseDownHandler } from "./eventHandlers";
 import { Dynamic } from "solid-js/web";
 
@@ -91,24 +91,24 @@ export default function Component(props: ComponentProps) {
         //        }}
         //        finishConnection={handleFinishConnection}
         //      />
+        //  <For each={Object.values(props.componentData.connectionPoints)}>
+        //    {(point) => {
+        //      return (
+        //        <ConnectionPoint
+        //          connectionPointStyle={{
+        //            size: props.componentStyle.connectionPointSize,
+        //          }}
+        //          connectionPointData={point}
+        //          onMouseDown={getConnectionPointMouseDownHandler(
+        //            props.deleteConnection,
+        //            point.componentId,
+        //            point.commandId
+        //          )}
+        //        />
+        //      );
+        //    }}
+        //  </For>
       }
-      <For each={Object.values(props.componentData.connectionPoints)}>
-        {(point) => {
-          return (
-            <ConnectionPoint
-              connectionPointStyle={{
-                size: props.componentStyle.connectionPointSize,
-              }}
-              connectionPointData={point}
-              onMouseDown={getConnectionPointMouseDownHandler(
-                props.deleteConnection,
-                point.componentId,
-                point.commandId
-              )}
-            />
-          );
-        }}
-      </For>
     </div>
   );
 }
