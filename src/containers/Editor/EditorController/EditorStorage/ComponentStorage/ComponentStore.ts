@@ -1,4 +1,4 @@
-import { cloneDeep, create } from "lodash";
+import { cloneDeep } from "lodash";
 import { SetStoreFunction, Store } from "solid-js/store";
 import { ComponentData } from "~/containers/Editor/components/Component";
 import { Position } from "~/containers/Editor/shared/types";
@@ -33,6 +33,7 @@ export default class ComponentStore {
           selected: false,
           connectionPoints: {},
           connectionAreaVisible: false,
+          nextComponentId: undefined,
           controller: controller,
           content: content,
         },
@@ -110,22 +111,9 @@ export default class ComponentStore {
     });
   }
 
-  //  setNextComponentId(
-  //    componentId: number,
-  //    commandId: number,
-  //    nextComponentID?: number
-  //  ) {
-  //    this.setEditorData(
-  //      "components",
-  //      componentId,
-  //      "commands",
-  //      commandId,
-  //      (command) => ({
-  //        ...command,
-  //        nextComponentId: nextComponentID,
-  //      })
-  //    );
-  //  }
+  setNextComponentId(componentId: number, nextComponentId?: number) {
+    this.setComponentStore(componentId, "nextComponentId", nextComponentId);
+  }
   setConnectionAreaVisible(componentId: number, value: boolean) {
     this.setComponentStore(componentId, (component) => ({
       ...component,
@@ -161,4 +149,31 @@ export default class ComponentStore {
   //   }
   //   return { x: 0, y: 0 };
   // }
+  addConnectionPoint(
+    componentId: number,
+    sourceComponentId: number,
+    sourcePointId: number,
+    relativePointPosition: Position
+  ) {
+    this.setComponentStore(componentId, "connectionPoints", (points) => ({
+      ...points,
+      [sourceComponentId.toString() + " " + sourcePointId.toString()]: {
+        componentid: sourceComponentId,
+        commandid: sourcePointId,
+        position: relativePointPosition,
+      },
+    }));
+  }
+
+  deleteConnectionPoint(
+    componentId: number,
+    sourceComponentId: number,
+    sourcePointId: number
+  ) {
+    this.setComponentStore(componentId, "connectionPoints", (points) => ({
+      ...points,
+      [sourceComponentId.toString() + " " + sourcePointId.toString()]:
+        undefined,
+    }));
+  }
 }

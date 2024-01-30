@@ -6,7 +6,7 @@ export interface ComponentData {
   id: number;
   position: Position;
   selected: boolean;
-  connectionPoints: Record<number, ConnectionPointData>;
+  connectionPoints: Record<string, ConnectionPointData>;
   connectionAreaVisible: boolean;
 }
 

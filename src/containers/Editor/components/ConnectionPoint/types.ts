@@ -2,7 +2,8 @@ import { Position } from "~/containers/Editor/shared/types";
 
 export interface ConnectionPointData {
   position?: Position;
-  componentId?: number;
+  sourceComponentId?: number;
+  sourcePointId?: number;
 }
 
 export interface ConnectionPointHandlers {
