@@ -1,3 +1,0 @@
-import { SpecificComponent } from "../../SpecificComponent";
-
-export class FormatComponenta implements SpecificComponent {}
