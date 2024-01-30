@@ -25,10 +25,8 @@ export default class ComponentController {
 
   add(position: Position, component: SpecificComponent) {
     this.deselectAll();
-    const controller = new component.controller();
-    const content = () => component.content(controller.getHandlers());
 
-    const id: number = this.storage.add(position, controller, content);
+    const id: number = this.storage.add(position, component);
     this.storage.select(id);
     this.selectedComponents.select(id);
   }

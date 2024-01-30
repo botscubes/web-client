@@ -1,6 +1,8 @@
-import { FormatContentHandlers } from "../../components/ComponentContent/contents/FormatContent";
-import { SpecificComponentController } from "../SpecificComponent";
-import { SpecificComponentHandlers } from "../SpecificComponent/types";
+import { FormatContentHandlers } from "~/containers/Editor/components/ComponentContent/contents/FormatContent";
+import {
+  SpecificComponentController,
+  SpecificComponentHandlers,
+} from "../../SpecificComponent/types";
 
 export class FormatController
   implements

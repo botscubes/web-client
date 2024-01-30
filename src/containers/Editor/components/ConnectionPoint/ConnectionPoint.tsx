@@ -1,6 +1,16 @@
 import { createSignal } from "solid-js";
 import "./ConnectionPoint.css";
 import { ConnectionPointProps } from "./types";
+import { Position } from "../../shared/types";
+
+function getClientPosition(event: MouseEvent): Position {
+  const element = event.target as HTMLElement;
+  const rect = element.getBoundingClientRect();
+  return {
+    x: rect.x - rect.width / 2,
+    y: rect.y - rect.height / 2,
+  };
+}
 
 export default function ConnectionPoint(props: ConnectionPointProps) {
   const [focus, setFocus] = createSignal(false);
@@ -12,10 +22,10 @@ export default function ConnectionPoint(props: ConnectionPointProps) {
     setFocus(false);
   };
   const handleMouseDown = (event: MouseEvent) => {
-    props.handlers?.onMouseDown?.(event);
+    props.handlers?.onMouseDown?.(getClientPosition(event));
   };
   const handleMouseUp = (event: MouseEvent) => {
-    props.handlers?.onMouseUp?.(event);
+    props.handlers?.onMouseUp?.(getClientPosition(event));
   };
 
   const size = () => {

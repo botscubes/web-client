@@ -6,8 +6,8 @@ export interface ConnectionPointData {
 }
 
 export interface ConnectionPointHandlers {
-  onMouseDown?(event: MouseEvent): void;
-  onMouseUp?(event: MouseEvent): void;
+  onMouseDown?(clientPosition: Position): void;
+  onMouseUp?(clientPosition: Position): void;
 }
 
 export interface ConnectionPointStyle {

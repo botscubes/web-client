@@ -1,6 +1,9 @@
-import { ConditionContentHandlers } from "../../components/ComponentContent/contents/ConditionContent";
-import { SpecificComponentController } from "../SpecificComponent";
-import { SpecificComponentHandlers } from "../SpecificComponent/types";
+import { ConditionContentHandlers } from "~/containers/Editor/components/ComponentContent/contents/ConditionContent";
+import {
+  SpecificComponentController,
+  SpecificComponentHandlers,
+} from "../../SpecificComponent";
+import { Position } from "~/containers/Editor/shared/types";
 
 export class ConditionController
   implements
@@ -9,6 +12,8 @@ export class ConditionController
 {
   private setExpression: (str: string) => void = (_str: string) => {};
   private expression = "";
+
+  constructor() {} //   private component: ComponentData //   private editor: EditorController,
 
   getHandlers(): ConditionContentHandlers {
     return {
@@ -21,6 +26,11 @@ export class ConditionController
         },
         onChange: (_str: string) => {},
         onInput: (_str: string) => {},
+      },
+      points: {
+        error: {
+          onMouseDown: (clientPosition: Position) => {},
+        },
       },
     };
   }

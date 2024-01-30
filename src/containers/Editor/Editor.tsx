@@ -24,12 +24,12 @@ import {
 } from "./components/ComponentContent/contents/FormatContent";
 import { ExtendedComponentData } from "./EditorController/EditorStorage/ComponentStorage/types";
 import { SpecificComponent } from "./EditorController/SpecificComponent";
-import { FormatController } from "./EditorController/components/FormatController";
-import { ConditionController } from "./EditorController/components/ConditionController";
 import {
   ConditionContent,
   ConditionContentHandlers,
 } from "./components/ComponentContent/contents/ConditionContent";
+import { FormatComponent } from "./EditorController/components/FormatComponent";
+import { ConditionComponent } from "./EditorController/components/ConditionComponent";
 
 export default function Editor() {
   //  const zoomSize = 0.05;
@@ -103,18 +103,8 @@ export default function Editor() {
   const [showComponentSelection, setShowComponentSelection] =
     createSignal(false);
   const componentList: Array<SpecificComponent> = [
-    {
-      controller: FormatController,
-      content: (handlers?: FormatContentHandlers) => (
-        <FormatContent handlers={handlers} />
-      ),
-    },
-    {
-      controller: ConditionController,
-      content: (handlers?: ConditionContentHandlers) => (
-        <ConditionContent handlers={handlers} />
-      ),
-    },
+    new FormatComponent(editor),
+    new ConditionComponent(editor),
   ];
   return (
     <div
