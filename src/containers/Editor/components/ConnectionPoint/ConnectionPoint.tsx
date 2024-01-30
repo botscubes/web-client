@@ -57,7 +57,7 @@ export default function ConnectionPoint(props: ConnectionPointProps) {
   return (
     <div data-tooltip={props.tooltip}>
       <div
-        class={"connection-point " + props.class}
+        class={"connection-point" + (props.class ? " " + props.class : "")}
         style={{
           "background-color": props.style?.color,
           left: left(),

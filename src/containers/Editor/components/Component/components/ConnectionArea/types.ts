@@ -8,11 +8,13 @@ export interface ConnectionAreaStyle {
   componentWidth: number;
   componentHeight: number;
   connectionPointSize: number;
+  scale: number;
 }
 
 export interface ConnectionAreaProps {
-  connectionAreaData: ConnectionAreaData;
-  connectionAreaStyle: ConnectionAreaStyle;
-  scale: number;
-  finishConnection: (pointPosition: Position) => void;
+  data: ConnectionAreaData;
+  styles: ConnectionAreaStyle;
+  handlers: {
+    finishConnection: (pointPosition: Position) => void;
+  };
 }

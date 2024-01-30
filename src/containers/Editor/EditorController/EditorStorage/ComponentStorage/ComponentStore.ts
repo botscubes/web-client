@@ -161,16 +161,4 @@ export default class ComponentStore {
   //   }
   //   return { x: 0, y: 0 };
   // }
-  showConnectionAreas(excludedComponentId: Set<number> = new Set()) {
-    for (const component of Object.values(this.componentStore)) {
-      if (!excludedComponentId.has(component.id)) {
-        this.setConnectionAreaVisible(component.id, true);
-      }
-    }
-  }
-  hideConnectionAreas() {
-    for (const component of Object.values(this.componentStore)) {
-      this.setConnectionAreaVisible(component.id, false);
-    }
-  }
 }

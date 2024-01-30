@@ -3,12 +3,24 @@ import { handleDragStart } from "./events";
 import { ConnectionArea } from "./components/ConnectionArea";
 import "./Component.css";
 import { MouseButton, Position } from "../../shared/types";
-import { For, children } from "solid-js";
+import { For, children, createSignal, onMount } from "solid-js";
 //import { ConnectionPoint } from "./components/ConnectionPoint";
 import { getConnectionPointMouseDownHandler } from "./eventHandlers";
 import { Dynamic } from "solid-js/web";
 
 export default function Component(props: ComponentProps) {
+  const [width, setWidth] = createSignal(0);
+  const [height, setHeight] = createSignal(0);
+
+  const resizeObserver = new ResizeObserver((entries, _observer) => {
+    entries.forEach((entry) => {
+      const height = entry.borderBoxSize[0].blockSize;
+      const width = entry.borderBoxSize[0].inlineSize;
+      setWidth(width);
+      setHeight(height);
+    });
+  });
+
   const handleDeleteButtonClick = () => {
     props.deleteComponent(props.componentData.id);
   };
@@ -58,6 +70,7 @@ export default function Component(props: ComponentProps) {
       }
     );
   };
+
   const c = children(() => props.children);
   return (
     <div
@@ -66,31 +79,35 @@ export default function Component(props: ComponentProps) {
       style={{
         left: props.componentData.position.x.toString() + "px",
         top: props.componentData.position.y.toString() + "px",
-        //width: props.componentStyle.width.toString() + "px",
-        //height: height().toString() + "px",
       }}
       onDragStart={handleDragStart}
       onMouseUp={handleMouseUp}
       onMouseDown={handleMouseDown}
+      ref={(el) => {
+        resizeObserver.observe(el);
+      }}
     >
       {c()}
 
       <button class="delete-button" onClick={handleDeleteButtonClick}>
         ✖
       </button>
+
+      <ConnectionArea
+        data={{
+          visible: props.componentData.connectionAreaVisible,
+        }}
+        styles={{
+          connectionPointSize: props.componentStyle.connectionPointSize,
+          componentWidth: width(),
+          componentHeight: height(),
+          scale: props.scale,
+        }}
+        handlers={{
+          finishConnection: handleFinishConnection,
+        }}
+      />
       {
-        //      <ConnectionArea
-        //        scale={props.scale}
-        //        connectionAreaData={{
-        //          visible: props.componentData.connectionAreaVisible,
-        //        }}
-        //        connectionAreaStyle={{
-        //          connectionPointSize: props.componentStyle.connectionPointSize,
-        //          componentWidth: props.componentStyle.width,
-        //          componentHeight: 100, //height(),
-        //        }}
-        //        finishConnection={handleFinishConnection}
-        //      />
         //  <For each={Object.values(props.componentData.connectionPoints)}>
         //    {(point) => {
         //      return (

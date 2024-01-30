@@ -80,7 +80,7 @@
 }
 
 .component-list {
-  height: auto;
+  flex-grow: 1;
   width: auto;
   display: flex;
   flex-direction: column;

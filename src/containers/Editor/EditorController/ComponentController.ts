@@ -11,7 +11,7 @@ import { SpecificComponent } from "./SpecificComponent";
 
 export default class ComponentController {
   private selectedComponents = new SelectedComponents();
-  private storage: ComponentStorage;
+  private components: ComponentStorage;
   constructor(
     private editor: EditorController,
     componentStore: [
@@ -20,35 +20,35 @@ export default class ComponentController {
     ],
     private logger: Logger
   ) {
-    this.storage = new ComponentStorage(componentStore);
+    this.components = new ComponentStorage(componentStore);
   }
 
   add(position: Position, component: SpecificComponent) {
     this.deselectAll();
 
-    const id: number = this.storage.add(position, component);
-    this.storage.select(id);
+    const id: number = this.components.add(position, component);
+    this.components.select(id);
     this.selectedComponents.select(id);
   }
   delete(id: number) {
     this.deselectAll();
-    this.storage.delete(id);
+    this.components.delete(id);
   }
   move(mousePosition: Position) {
-    this.storage.move(this.selectedComponents.get(), mousePosition);
+    this.components.move(this.selectedComponents.get(), mousePosition);
   }
   select(id: number) {
     this.selectedComponents.select(id);
-    this.storage.select(id);
+    this.components.select(id);
   }
   deselect(id: number) {
-    this.storage.deselect(id);
+    this.components.deselect(id);
     this.selectedComponents.deselect(id);
   }
 
   deselectAll() {
     for (const id of this.selectedComponents.getKeys()) {
-      this.storage.deselect(id);
+      this.components.deselect(id);
     }
     this.selectedComponents.deselectAll();
   }
@@ -69,7 +69,7 @@ export default class ComponentController {
   }
   fixMouseShiftsRelative(mousePos: Position) {
     for (const id of this.selectedComponents.getKeys()) {
-      const component = this.storage.get()[id];
+      const component = this.components.get()[id];
       if (component) {
         const position = component.position;
         const shift: Position = {
@@ -80,6 +80,18 @@ export default class ComponentController {
       } else {
         this.logger.error(`Editor: component ${id} not found`);
       }
+    }
+  }
+  showConnectionAreas(excludedComponentId: Set<number> = new Set()) {
+    for (const component of Object.values(this.components.get())) {
+      if (!excludedComponentId.has(component.id)) {
+        this.components.setConnectionAreaVisible(component.id, true);
+      }
+    }
+  }
+  hideConnectionAreas() {
+    for (const component of Object.values(this.components.get())) {
+      this.components.setConnectionAreaVisible(component.id, false);
     }
   }
 }

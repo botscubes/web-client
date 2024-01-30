@@ -47,4 +47,7 @@ export default class ComponentStorage {
   deselect(id: number) {
     this.components.deselect(id);
   }
+  setConnectionAreaVisible(id: number, value: boolean) {
+    this.components.setConnectionAreaVisible(id, value);
+  }
 }

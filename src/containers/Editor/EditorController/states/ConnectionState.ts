@@ -13,12 +13,17 @@ export default class ConnectionState extends EditorState {
   ) {
     super(editor);
 
+    this.editor.components.deselectAll();
+    this.editor.components.select(connectionData.componentId);
     this.editor.setUserSelect(false);
 
     this.editor.line.set({
       start: connectionData.position,
       end: connectionData.position,
     });
+    editor.components.showConnectionAreas(
+      new Set([connectionData.componentId])
+    );
     //  this.editor
     //    .getEditorStorage()
     //    .deleteConnection(
@@ -64,6 +69,7 @@ export default class ConnectionState extends EditorState {
     //  this.editorController.setEditorState(
     //    new WaitingState(this.editorController)
     //  );
+    this.editor.components.hideConnectionAreas();
     this.editor.setUserSelect(true);
     this.editor.line.set(undefined);
     this.editor.setState(new WaitingState(this.editor));

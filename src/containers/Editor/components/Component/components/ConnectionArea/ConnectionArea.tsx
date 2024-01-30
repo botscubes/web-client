@@ -1,28 +1,24 @@
 import "./ConnectionArea.css";
-import { createMemo, createSignal } from "solid-js";
+import { createSignal } from "solid-js";
 import { ConnectionAreaProps } from "./types";
-import { ConnectionPoint } from "../ConnectionPoint";
+import { ConnectionPoint } from "../../../ConnectionPoint";
 
 export default function ConnectionArea(props: ConnectionAreaProps) {
   const [pointPos, setPointPos] = createSignal({
     x: 0,
     y: 0,
   });
-  const areaWidth = createMemo(
-    () =>
-      props.connectionAreaStyle.componentWidth +
-      props.connectionAreaStyle.connectionPointSize
-  );
-  const areaHeight = createMemo(
-    () =>
-      props.connectionAreaStyle.componentHeight +
-      props.connectionAreaStyle.connectionPointSize
-  );
+  const areaWidth = () =>
+    props.styles.componentWidth + props.styles.connectionPointSize;
+
+  const areaHeight = () =>
+    props.styles.componentHeight + props.styles.connectionPointSize;
+
   const handleMouseMove = (event: MouseEvent) => {
     const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
-    const x = (event.clientX - rect.x) / props.scale;
-    const y = (event.clientY - rect.y) / props.scale;
-    const pointSize = props.connectionAreaStyle.connectionPointSize;
+    const x = (event.clientX - rect.x) / props.styles.scale;
+    const y = (event.clientY - rect.y) / props.styles.scale;
+    const pointSize = props.styles.connectionPointSize;
     const bordersX = x >= pointSize / 2 && x <= areaWidth() - pointSize / 2;
     const bordersY = y >= pointSize / 2 && y <= areaHeight() - pointSize / 2;
 
@@ -50,33 +46,32 @@ export default function ConnectionArea(props: ConnectionAreaProps) {
     }
   };
   const handleConnectionPointMouseUp = () => {
-    props.finishConnection(pointPos());
+    props.handlers.finishConnection(pointPos());
   };
 
   return (
     <div
       class="connection-area"
       style={{
-        left:
-          (-props.connectionAreaStyle.connectionPointSize / 2).toString() +
-          "px",
-        top:
-          (-props.connectionAreaStyle.connectionPointSize / 2).toString() +
-          "px",
-        //width: areaWidth().toString() + "px",
-        //height: areaHeight().toString() + "px",
-        //visibility: props.connectionAreaData.visible ? "visible" : "hidden",
+        left: (-props.styles.connectionPointSize / 2).toString() + "px",
+        top: (-props.styles.connectionPointSize / 2).toString() + "px",
+        width: areaWidth().toString() + "px",
+        height: areaHeight().toString() + "px",
+        visibility: props.data.visible ? "visible" : "hidden",
       }}
       onMouseMove={handleMouseMove}
     >
       <ConnectionPoint
-        connectionPointStyle={{
-          size: props.connectionAreaStyle.connectionPointSize,
+        class="target-point absolute"
+        style={{
+          size: props.styles.connectionPointSize,
         }}
-        connectionPointData={{
+        data={{
           position: pointPos(),
         }}
-        onMouseUp={handleConnectionPointMouseUp}
+        handlers={{
+          onMouseUp: handleConnectionPointMouseUp,
+        }}
       />
     </div>
   );

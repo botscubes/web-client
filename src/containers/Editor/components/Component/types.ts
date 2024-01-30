@@ -1,6 +1,6 @@
 import { JSX } from "solid-js";
 import { Position } from "../../shared/types";
-import { ConnectionPointData } from "./components/ConnectionPoint/types";
+import { ConnectionPointData } from "../ConnectionPoint/types";
 
 export interface ComponentData {
   id: number;
