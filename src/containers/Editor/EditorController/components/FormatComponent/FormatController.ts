@@ -3,6 +3,7 @@ import {
   SpecificComponentController,
   SpecificComponentHandlers,
 } from "../../SpecificComponent/types";
+import EditorController from "../..";
 
 export class FormatController
   implements
@@ -11,6 +12,15 @@ export class FormatController
 {
   private setFormatString: (str: string) => void = (_str: string) => {};
   private formatString = "";
+
+  constructor(
+    private editor: EditorController,
+    private id: number
+  ) {}
+
+  setId(id: number) {
+    this.id = id;
+  }
 
   getHandlers(): FormatContentHandlers {
     return {

@@ -7,8 +7,8 @@ function getClientPosition(event: MouseEvent): Position {
   const element = event.target as HTMLElement;
   const rect = element.getBoundingClientRect();
   return {
-    x: rect.x - rect.width / 2,
-    y: rect.y - rect.height / 2,
+    x: rect.x + rect.width / 2,
+    y: rect.y + rect.height / 2,
   };
 }
 

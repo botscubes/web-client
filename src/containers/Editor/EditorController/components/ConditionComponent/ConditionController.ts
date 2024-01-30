@@ -4,6 +4,7 @@ import {
   SpecificComponentHandlers,
 } from "../../SpecificComponent";
 import { Position } from "~/containers/Editor/shared/types";
+import EditorController from "../..";
 
 export class ConditionController
   implements
@@ -13,8 +14,14 @@ export class ConditionController
   private setExpression: (str: string) => void = (_str: string) => {};
   private expression = "";
 
-  constructor() {} //   private component: ComponentData //   private editor: EditorController,
+  constructor(
+    private editor: EditorController,
+    private id: number
+  ) {}
 
+  setId(id: number) {
+    this.id = id;
+  }
   getHandlers(): ConditionContentHandlers {
     return {
       expression: {
@@ -29,7 +36,9 @@ export class ConditionController
       },
       points: {
         error: {
-          onMouseDown: (clientPosition: Position) => {},
+          onMouseDown: (clientPosition: Position) => {
+            this.editor.startConnection(this.id, 1, clientPosition);
+          },
         },
       },
     };

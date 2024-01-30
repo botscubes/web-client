@@ -13,7 +13,7 @@ export class ConditionComponent implements SpecificComponent {
     return () => <ConditionContent />;
   }
   create(id: number): [SpecificComponentController, () => JSX.Element] {
-    const controller = new ConditionController();
+    const controller = new ConditionController(this.editor, id);
     return [
       controller,
       () => <ConditionContent handlers={controller.getHandlers()} />,

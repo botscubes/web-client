@@ -30,6 +30,7 @@ import {
 } from "./components/ComponentContent/contents/ConditionContent";
 import { FormatComponent } from "./EditorController/components/FormatComponent";
 import { ConditionComponent } from "./EditorController/components/ConditionComponent";
+import { Line, LinePosition } from "./components/Line";
 
 export default function Editor() {
   //  const zoomSize = 0.05;
@@ -57,6 +58,8 @@ export default function Editor() {
   });
   const [userSelect, setUserSelect] = createSignal(true);
   const [scale, setScale] = createSignal(1);
+  const [line, setLine] = createSignal<LinePosition | undefined>(undefined);
+
   //const editorStore = createStore<EditorData>({
   //components: {},
   //    componentStyle: {
@@ -91,6 +94,9 @@ export default function Editor() {
       scale: {
         get: scale,
         set: setScale,
+      },
+      line: {
+        set: setLine,
       },
     },
     appState.logger
@@ -228,9 +234,9 @@ export default function Editor() {
           }}
         </For>
         {
-          //<Show when={editor.getEditorData().showLine}>
-          //  <Line position={editor.getEditorData().line} />
-          //</Show>
+          <Show when={line()}>
+            <Line position={line()!} />
+          </Show>
           //<For each={Object.values(editor.getEditorData().lines)}>
           //  {(line) => <Line position={line} />}
           //</For>

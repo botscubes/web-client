@@ -20,6 +20,9 @@ export interface EditorData {
     set: Setter<number>;
     get: Accessor<number>;
   };
+  line: {
+    set: Setter<LinePosition | undefined>;
+  };
   //componentStyle: ComponentStyle;
   //lines: Record<number, LinePosition>;
   //line: LinePosition;

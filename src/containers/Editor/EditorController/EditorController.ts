@@ -41,6 +41,9 @@ export default class EditorController {
   get setUserSelect() {
     return this.editor.setUserSelect;
   }
+  get line() {
+    return this.editor.line;
+  }
 
   selectComponent(id: number, mousePosition: Position) {
     this.editorState.selectComponent(id, mousePosition);
@@ -55,15 +58,13 @@ export default class EditorController {
 
   startConnection(
     componentId: number,
-    commandId: number,
-    connectionPosition: Position,
-    relativeConnectionPosition: Position
+    pointId: number,
+    clientPosition: Position
   ) {
     this.editorState.startConnection(
       componentId,
-      commandId,
-      connectionPosition,
-      relativeConnectionPosition
+      pointId,
+      this.getRelativeMousePosition(clientPosition)
     );
   }
   finishConnection(
