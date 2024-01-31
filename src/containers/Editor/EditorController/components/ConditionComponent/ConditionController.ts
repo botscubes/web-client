@@ -6,29 +6,26 @@ import {
 import { Position } from "~/containers/Editor/shared/types";
 import EditorController from "../..";
 import { OutputPoint, OutputPointType } from "../../SpecificComponent/types";
-import { ConditionComponentPoints } from "./types";
 
 export class ConditionController
-  implements
-    SpecificComponentHandlers<ConditionContentHandlers>,
-    SpecificComponentController
+  extends SpecificComponentController
+  implements SpecificComponentHandlers<ConditionContentHandlers>
 {
   private setExpression: (str: string) => void = (_str: string) => {};
   private expression = "";
-  private points: ConditionComponentPoints = {
-    error: {
-      id: OutputPointType.Error,
-    },
-  };
 
   constructor(
     private editor: EditorController,
-    private id: number
-  ) {}
-
-  setId(id: number) {
-    this.id = id;
+    id: number
+  ) {
+    super(id, {
+      [OutputPointType.Error]: new OutputPoint(
+        OutputPointType.Error,
+        (_componentId?: number) => {}
+      ),
+    });
   }
+
   getHandlers(): ConditionContentHandlers {
     return {
       expression: {
@@ -45,19 +42,13 @@ export class ConditionController
         error: {
           onMouseDown: (clientPosition: Position) => {
             this.editor.startConnection(
-              this.id,
-              this.points.error.id,
-              clientPosition,
-              (componentId?: number) => {
-                this.points.error.targetComponentId = componentId;
-              }
+              this.getId(),
+              this.getPoint(OutputPointType.Error).id,
+              clientPosition
             );
           },
         },
       },
     };
-  }
-  getOutputPoints(): Array<OutputPoint> {
-    return Object.values(this.points);
   }
 }

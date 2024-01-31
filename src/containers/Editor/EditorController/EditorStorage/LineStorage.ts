@@ -9,21 +9,21 @@ export default class LineStorage {
     private setLines: SetStoreFunction<Record<string, LinePosition>>
   ) {}
 
-  get(componentId: number, pointId: number): LinePosition {
+  get(componentId: number, pointId: string): LinePosition {
     return this._lines[componentId.toString() + " " + pointId.toString()];
   }
 
-  set(componentId: number, pointId: number, linePosition: LinePosition) {
+  set(componentId: number, pointId: string, linePosition: LinePosition) {
     this.setLines((lines) => ({
       ...lines,
-      [componentId.toString() + " " + pointId.toString()]: linePosition,
+      [componentId.toString() + " " + pointId]: linePosition,
     }));
   }
 
-  delete(componentId: number, pointId: number) {
+  delete(componentId: number, pointId: string) {
     this.setLines((lines) => ({
       ...lines,
-      [componentId.toString() + " " + pointId.toString()]: undefined,
+      [componentId.toString() + " " + pointId]: undefined,
     }));
   }
   //  setPosition(

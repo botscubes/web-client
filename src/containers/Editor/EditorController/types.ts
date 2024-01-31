@@ -2,7 +2,7 @@ import { Position } from "../shared/types";
 
 export interface SourceConnectionData {
   componentId: number;
-  pointId: number;
+  pointId: string;
   pointPosition: Position;
 }
 

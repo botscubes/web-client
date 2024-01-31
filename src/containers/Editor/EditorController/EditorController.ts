@@ -66,7 +66,7 @@ export default class EditorController {
 
   startConnection(
     componentId: number,
-    pointId: number,
+    pointId: string,
     clientPosition: Position
   ) {
     this.editorState.startConnection(
@@ -89,7 +89,7 @@ export default class EditorController {
   deleteConnection(
     targetComponentId: number,
     sourceComponentId: number,
-    sourcePointId: number,
+    sourcePointId: string,
     clientPosition: Position
   ) {
     const line = this.connections.getLine(sourceComponentId, sourcePointId);

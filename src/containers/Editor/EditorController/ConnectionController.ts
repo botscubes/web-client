@@ -33,7 +33,7 @@ export default class ConnectionController {
   delete(
     targetComponentId: number,
     sourceComponentId: number,
-    sourcePointId: number
+    sourcePointId: string
   ) {
     this.lines.delete(sourceComponentId, sourcePointId);
     this.components.deleteConnectionPoint(
@@ -57,7 +57,7 @@ export default class ConnectionController {
     //  );
   }
 
-  getLine(componentId: number, pointId: number): LinePosition {
+  getLine(componentId: number, pointId: string): LinePosition {
     return this.lines.get(componentId, pointId);
   }
 

@@ -3,7 +3,7 @@ import { Position } from "~/containers/Editor/shared/types";
 export interface ConnectionPointData {
   position?: Position;
   componentId?: number;
-  pointId?: number;
+  pointId?: string;
 }
 
 export interface ConnectionPointHandlers {

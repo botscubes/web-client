@@ -58,7 +58,7 @@ export default class ComponentStorage {
   addConnectionPoint(
     componentId: number,
     sourceComponentId: number,
-    sourcePointId: number,
+    sourcePointId: string,
     relativePointPosition: Position
   ) {
     this.components.addConnectionPoint(
@@ -72,7 +72,7 @@ export default class ComponentStorage {
   deleteConnectionPoint(
     componentId: number,
     sourceComponentId: number,
-    sourcePointId: number
+    sourcePointId: string
   ) {
     this.components.deleteConnectionPoint(
       componentId,

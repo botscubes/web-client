@@ -37,7 +37,7 @@ export interface ComponentProps {
   deleteConnection: (
     targetComponentId: number,
     sourceComponentId: number,
-    sourceCommandId: number,
+    sourcePointId: string,
     clientPointPositin: Position
   ) => void;
   //  moveConnection: (commandId: number, connectionPosition: Position) => void;

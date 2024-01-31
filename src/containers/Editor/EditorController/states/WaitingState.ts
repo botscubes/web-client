@@ -26,7 +26,7 @@ export default class WaitingState extends EditorState {
 
     this.editor.setState(new ComponentMoveState(this.editor));
   }
-  startConnection(componentId: number, pointId: number, position: Position) {
+  startConnection(componentId: number, pointId: string, position: Position) {
     const connectionData = {
       componentId: componentId,
       pointId: pointId,

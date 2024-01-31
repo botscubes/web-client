@@ -1,14 +1,41 @@
 import { JSX } from "solid-js";
 import EditorController from "..";
 
-export interface OutputPoint {
-  id: number;
-  targetComponentId?: number;
+export class OutputPoint {
+  private _targetComponentId?: number = undefined;
+  constructor(
+    private _id: string,
+    private onSetTargetComponentId: (componentId?: number) => void
+  ) {}
+  get id() {
+    return this._id;
+  }
+  get targetComponentId(): number | undefined {
+    return this._targetComponentId;
+  }
+  set targetComponentId(componentId: number | undefined) {
+    this._targetComponentId = componentId;
+    this.onSetTargetComponentId(componentId);
+  }
 }
 
-export interface SpecificComponentController {
-  setId(id: number): void;
-  getOutputPoints(): Array<OutputPoint>;
+export abstract class SpecificComponentController {
+  constructor(
+    private id: number,
+    private outputPoints: Record<string, OutputPoint>
+  ) {}
+  getPoint(id: string): OutputPoint {
+    return this.outputPoints[id];
+  }
+  setId(id: number) {
+    this.id = id;
+  }
+  getId(): number {
+    return this.id;
+  }
+  getOutputPoints(): Array<OutputPoint> {
+    return Object.values(this.outputPoints);
+  }
 }
 
 export interface SpecificComponentHandlers<T> {
@@ -21,7 +48,7 @@ export interface SpecificComponent {
 }
 
 export enum OutputPointType {
-  Error = -1,
-  Next = 0,
-  Else = -2,
+  Error = "Error",
+  Next = "Mext",
+  Else = "Else",
 }

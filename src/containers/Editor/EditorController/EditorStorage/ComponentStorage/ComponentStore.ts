@@ -152,12 +152,12 @@ export default class ComponentStore {
   addConnectionPoint(
     componentId: number,
     sourceComponentId: number,
-    sourcePointId: number,
+    sourcePointId: string,
     relativePointPosition: Position
   ) {
     this.setComponentStore(componentId, "connectionPoints", (points) => ({
       ...points,
-      [sourceComponentId.toString() + " " + sourcePointId.toString()]: {
+      [sourceComponentId.toString() + " " + sourcePointId]: {
         componentId: sourceComponentId,
         pointId: sourcePointId,
         position: relativePointPosition,
@@ -168,12 +168,11 @@ export default class ComponentStore {
   deleteConnectionPoint(
     componentId: number,
     sourceComponentId: number,
-    sourcePointId: number
+    sourcePointId: string
   ) {
     this.setComponentStore(componentId, "connectionPoints", (points) => ({
       ...points,
-      [sourceComponentId.toString() + " " + sourcePointId.toString()]:
-        undefined,
+      [sourceComponentId.toString() + " " + sourcePointId]: undefined,
     }));
   }
 }

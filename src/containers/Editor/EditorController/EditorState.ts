@@ -21,11 +21,7 @@ export default abstract class EditorState {
     //
   }
 
-  startConnection(
-    _componentId: number,
-    _pointId: number,
-    _position: Position,
-  ) {
+  startConnection(_componentId: number, _pointId: string, _position: Position) {
     //
   }
   finishConnection(

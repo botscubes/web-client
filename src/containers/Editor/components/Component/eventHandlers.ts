@@ -4,16 +4,16 @@ export function getConnectionPointMouseDownHandler(
   fn: (
     targetComponentId: number,
     sourceComponentId: number,
-    sourceCommandId: number,
+    sourcePointId: string,
     clientMousePositin: Position
   ) => void,
   targetComponentId: number,
   componentId?: number,
-  commandId?: number
+  pointId?: string
 ) {
-  if (componentId != undefined && commandId != undefined) {
+  if (componentId != undefined && pointId != undefined) {
     return (clientPosition: Position) => {
-      fn(targetComponentId, componentId, commandId, clientPosition);
+      fn(targetComponentId, componentId, pointId, clientPosition);
     };
   }
   return undefined;
