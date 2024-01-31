@@ -3,26 +3,27 @@ import { Position } from "../../shared/types";
 import EditorController from "../EditorController";
 import EditorState from "../EditorState";
 import { getMousePosition } from "../halpers/mouse";
-import { ConnectionData } from "../types";
+import { SourceConnectionData } from "../types";
 import WaitingState from "./WaitingState";
 
 export default class ConnectionState extends EditorState {
   constructor(
     editor: EditorController,
-    private connectionData: ConnectionData
+    private sourceConnectionData: SourceConnectionData,
+    mousePosition: Position
   ) {
     super(editor);
 
     this.editor.components.deselectAll();
-    this.editor.components.select(connectionData.componentId);
+    this.editor.components.select(sourceConnectionData.componentId);
     this.editor.setUserSelect(false);
 
     this.editor.line.set({
-      start: connectionData.position,
-      end: connectionData.position,
+      start: sourceConnectionData.pointPosition,
+      end: mousePosition,
     });
     editor.components.showConnectionAreas(
-      new Set([connectionData.componentId])
+      new Set([sourceConnectionData.componentId])
     );
     //  this.editor
     //    .getEditorStorage()
@@ -76,9 +77,21 @@ export default class ConnectionState extends EditorState {
   }
   finishConnection(
     componentId: number,
-    connectionPosition: Position,
+    pointPosition: Position,
     relativePointPosition: Position
   ) {
+    this.editor.components.hideConnectionAreas();
+    this.editor.setUserSelect(true);
+    this.editor.line.set(undefined);
+
+    this.editor.connections.add(this.sourceConnectionData, {
+      componentId: componentId,
+      pointPosition: pointPosition,
+      relativePointPosition: relativePointPosition,
+    });
+
+    this.editor.setState(new WaitingState(this.editor));
+
     //    const editorStorage = this.editorController.getEditorStorage();
     //    editorStorage.addConnection(
     //      this.connectionData.sourceComponentId,

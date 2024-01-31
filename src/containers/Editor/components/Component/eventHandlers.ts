@@ -1,11 +1,19 @@
+import { Position } from "../../shared/types";
+
 export function getConnectionPointMouseDownHandler(
-  fn: (sourceComponentId: number, sourceCommandId: number) => void,
+  fn: (
+    targetComponentId: number,
+    sourceComponentId: number,
+    sourceCommandId: number,
+    clientMousePositin: Position
+  ) => void,
+  targetComponentId: number,
   componentId?: number,
   commandId?: number
 ) {
   if (componentId != undefined && commandId != undefined) {
-    return () => {
-      fn(componentId, commandId);
+    return (clientPosition: Position) => {
+      fn(targetComponentId, componentId, commandId, clientPosition);
     };
   }
   return undefined;

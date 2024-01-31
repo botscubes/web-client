@@ -50,4 +50,34 @@ export default class ComponentStorage {
   setConnectionAreaVisible(id: number, value: boolean) {
     this.components.setConnectionAreaVisible(id, value);
   }
+
+  setNextComponentId(componentId: number, nextComponentId?: number) {
+    this.components.setNextComponentId(componentId, nextComponentId);
+  }
+
+  addConnectionPoint(
+    componentId: number,
+    sourceComponentId: number,
+    sourcePointId: number,
+    relativePointPosition: Position
+  ) {
+    this.components.addConnectionPoint(
+      componentId,
+      sourceComponentId,
+      sourcePointId,
+      relativePointPosition
+    );
+  }
+
+  deleteConnectionPoint(
+    componentId: number,
+    sourceComponentId: number,
+    sourcePointId: number
+  ) {
+    this.components.deleteConnectionPoint(
+      componentId,
+      sourceComponentId,
+      sourcePointId
+    );
+  }
 }

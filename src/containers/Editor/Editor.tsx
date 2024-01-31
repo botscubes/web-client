@@ -59,7 +59,7 @@ export default function Editor() {
   const [userSelect, setUserSelect] = createSignal(true);
   const [scale, setScale] = createSignal(1);
   const [line, setLine] = createSignal<LinePosition | undefined>(undefined);
-
+  const [lines, setLines] = createStore<Record<string, LinePosition>>({});
   //const editorStore = createStore<EditorData>({
   //components: {},
   //    componentStyle: {
@@ -98,6 +98,7 @@ export default function Editor() {
       line: {
         set: setLine,
       },
+      lineStore: [lines, setLines],
     },
     appState.logger
   );
@@ -233,14 +234,13 @@ export default function Editor() {
             );
           }}
         </For>
-        {
-          <Show when={line()}>
-            <Line position={line()!} />
-          </Show>
-          //<For each={Object.values(editor.getEditorData().lines)}>
-          //  {(line) => <Line position={line} />}
-          //</For>
-        }
+
+        <Show when={line()}>
+          <Line position={line()!} />
+        </Show>
+        <For each={Object.values(lines)}>
+          {(line) => <Line position={line} />}
+        </For>
       </div>
     </div>
   );

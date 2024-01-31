@@ -5,27 +5,35 @@ import WaitingState from "./states/WaitingState";
 import { getRelativeMousePosition } from "./halpers/mouse";
 import ComponentController from "./ComponentController";
 import Logger from "~/logging/Logger";
-import { JSX } from "solid-js";
 import AddingComponentState from "./states/AddingComponentState";
 import { SpecificComponent } from "./SpecificComponent";
+import ConnectionController from "./ConnectionController";
+import LineStorage from "./EditorStorage/LineStorage";
+import { ComponentStorage } from "./EditorStorage/ComponentStorage";
+import ConnectionState from "./states/ConnectionState";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
   private editorState: EditorState = new WaitingState(this);
   private editorArea?: HTMLElement;
   private _components: ComponentController;
+  private _connections: ConnectionController;
 
   constructor(
     private editor: EditorData,
     private logger: Logger
   ) {
-    this._components = new ComponentController(
-      this,
-      editor.componentStore,
-      logger
+    const componentStorage = new ComponentStorage(editor.componentStore);
+    this._components = new ComponentController(this, componentStorage, logger);
+    this._connections = new ConnectionController(
+      new LineStorage(...editor.lineStore),
+      componentStorage
     );
   }
 
+  get connections() {
+    return this._connections;
+  }
   get components() {
     return this._components;
   }
@@ -78,22 +86,46 @@ export default class EditorController {
       relativePointPosition
     );
   }
-  //  deleteConnection(sourceComponentId: number, sourceCommandId: number) {
-  //    const linePosition = this.editorStorage.getLinePosition(sourceCommandId);
-  //    const commandConnectionPosition: Position =
-  //      this.editorStorage.getCommandConnectionPosition(
-  //        sourceComponentId,
-  //        sourceCommandId
-  //      );
-  //    this.setEditorState(
-  //      new ConnectionState(this, {
-  //        sourceComponentId: sourceComponentId,
-  //        sourceCommandId: sourceCommandId,
-  //        commandConnectionPosition: commandConnectionPosition,
-  //        linePosition: linePosition,
-  //      })
-  //    );
-  //  }
+  deleteConnection(
+    targetComponentId: number,
+    sourceComponentId: number,
+    sourcePointId: number,
+    clientPosition: Position
+  ) {
+    const line = this.connections.getLine(sourceComponentId, sourcePointId);
+
+    this.connections.delete(
+      targetComponentId,
+      sourceComponentId,
+      sourcePointId
+    );
+
+    this.setState(
+      new ConnectionState(
+        this,
+        {
+          componentId: sourceComponentId,
+          pointId: sourcePointId,
+          pointPosition: line.start,
+        },
+        this.getRelativeMousePosition(clientPosition)
+      )
+    );
+    //    const linePosition = this.editorStorage.getLinePosition(sourceCommandId);
+    //    const commandConnectionPosition: Position =
+    //      this.editorStorage.getCommandConnectionPosition(
+    //        sourceComponentId,
+    //        sourceCommandId
+    //      );
+    //    this.setEditorState(
+    //      new ConnectionState(this, {
+    //        sourceComponentId: sourceComponentId,
+    //        sourceCommandId: sourceCommandId,
+    //        commandConnectionPosition: commandConnectionPosition,
+    //        linePosition: linePosition,
+    //      })
+    //    );
+  }
   handleMouseDown(event: MouseEvent) {
     this.editorState.handleMouseDown(event);
   }

@@ -11,17 +11,11 @@ import { SpecificComponent } from "./SpecificComponent";
 
 export default class ComponentController {
   private selectedComponents = new SelectedComponents();
-  private components: ComponentStorage;
   constructor(
     private editor: EditorController,
-    componentStore: [
-      Store<Record<number, ExtendedComponentData>>,
-      SetStoreFunction<Record<number, ExtendedComponentData>>,
-    ],
+    private components: ComponentStorage,
     private logger: Logger
-  ) {
-    this.components = new ComponentStorage(componentStore);
-  }
+  ) {}
 
   add(position: Position, component: SpecificComponent) {
     this.deselectAll();

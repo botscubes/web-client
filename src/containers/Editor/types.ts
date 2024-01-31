@@ -23,10 +23,10 @@ export interface EditorData {
   line: {
     set: Setter<LinePosition | undefined>;
   };
-  lines: {
-    set: Setter<Record<string, LinePosition>>;
-    get: Accessor<Record<string, LinePosition>>;
-  };
+  lineStore: [
+    Store<Record<string, LinePosition>>,
+    SetStoreFunction<Record<string, LinePosition>>,
+  ];
   //componentStyle: ComponentStyle;
   //lines: Record<number, LinePosition>;
   //line: LinePosition;

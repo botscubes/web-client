@@ -31,12 +31,14 @@ export interface ComponentProps {
   ) => void;
   finishConnection: (
     componentId: number,
-    connectionPosition: Position,
+    pointPosition: Position,
     relativePointPosition: Position
   ) => void;
   deleteConnection: (
+    targetComponentId: number,
     sourceComponentId: number,
-    sourceCommandId: number
+    sourceCommandId: number,
+    clientPointPositin: Position
   ) => void;
   //  moveConnection: (commandId: number, connectionPosition: Position) => void;
   //  moveCommandConnection: (

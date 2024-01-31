@@ -57,8 +57,18 @@ export function getFinishConnectionHandler(editorController: EditorController) {
     );
 }
 export function getDeleteConnectionHandler(editorController: EditorController) {
-  return (sourceComponentId: number, sourceCommandId: number) =>
-    editorController.deleteConnection(sourceComponentId, sourceCommandId);
+  return (
+    targetComponentId: number,
+    sourceComponentId: number,
+    sourceCommandId: number,
+    clientPosition: Position
+  ) =>
+    editorController.deleteConnection(
+      targetComponentId,
+      sourceComponentId,
+      sourceCommandId,
+      clientPosition
+    );
 }
 export function handleMouseUp(
   editorController: EditorController,

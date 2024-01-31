@@ -158,8 +158,8 @@ export default class ComponentStore {
     this.setComponentStore(componentId, "connectionPoints", (points) => ({
       ...points,
       [sourceComponentId.toString() + " " + sourcePointId.toString()]: {
-        componentid: sourceComponentId,
-        commandid: sourcePointId,
+        componentId: sourceComponentId,
+        pointId: sourcePointId,
         position: relativePointPosition,
       },
     }));

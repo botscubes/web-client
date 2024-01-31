@@ -7,6 +7,7 @@ import { For, children, createSignal, onMount } from "solid-js";
 //import { ConnectionPoint } from "./components/ConnectionPoint";
 import { getConnectionPointMouseDownHandler } from "./eventHandlers";
 import { Dynamic } from "solid-js/web";
+import { ConnectionPoint } from "../ConnectionPoint";
 
 export default function Component(props: ComponentProps) {
   const [width, setWidth] = createSignal(0);
@@ -107,25 +108,28 @@ export default function Component(props: ComponentProps) {
           finishConnection: handleFinishConnection,
         }}
       />
-      {
-        //  <For each={Object.values(props.componentData.connectionPoints)}>
-        //    {(point) => {
-        //      return (
-        //        <ConnectionPoint
-        //          connectionPointStyle={{
-        //            size: props.componentStyle.connectionPointSize,
-        //          }}
-        //          connectionPointData={point}
-        //          onMouseDown={getConnectionPointMouseDownHandler(
-        //            props.deleteConnection,
-        //            point.componentId,
-        //            point.commandId
-        //          )}
-        //        />
-        //      );
-        //    }}
-        //  </For>
-      }
+
+      <For each={Object.values(props.componentData.connectionPoints)}>
+        {(point) => {
+          return (
+            <ConnectionPoint
+              class="target-point absolute"
+              style={{
+                size: props.componentStyle.connectionPointSize,
+              }}
+              data={point}
+              handlers={{
+                onMouseDown: getConnectionPointMouseDownHandler(
+                  props.deleteConnection,
+                  props.componentData.id,
+                  point.componentId,
+                  point.pointId
+                ),
+              }}
+            />
+          );
+        }}
+      </For>
     </div>
   );
 }

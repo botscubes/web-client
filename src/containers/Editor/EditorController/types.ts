@@ -1,7 +1,13 @@
 import { Position } from "../shared/types";
 
-export interface ConnectionData {
+export interface SourceConnectionData {
   componentId: number;
   pointId: number;
-  position: Position;
+  pointPosition: Position;
+}
+
+export interface TargetConnectionData {
+  componentId: number;
+  pointPosition: Position;
+  relativePointPosition: Position;
 }
