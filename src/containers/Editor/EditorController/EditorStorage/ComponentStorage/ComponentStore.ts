@@ -162,6 +162,18 @@ export default class ComponentStore {
         componentId: sourceComponentId,
         pointId: sourcePointId,
         position: relativePointPosition,
+        getClientPosition: () => ({ x: 0, y: 0 }),
+        setHandlerOnGetClientPosition: (handler: () => Position) => {
+          this.setComponentStore(
+            componentId,
+            "connectionPoints",
+            sourceComponentId.toString() + " " + sourcePointId,
+            (point) => ({
+              ...point,
+              getClientPosition: handler,
+            })
+          );
+        },
       },
     }));
   }

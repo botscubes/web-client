@@ -62,6 +62,9 @@ export default function ConnectionPoint(props: ConnectionPointProps) {
       <div
         ref={(el) => {
           props.handlers?.onMount?.(() => getClientPositionFromElement(el));
+          props.data?.setHandlerOnGetClientPosition?.(() =>
+            getClientPositionFromElement(el)
+          );
         }}
         class={"connection-point" + (props.class ? " " + props.class : "")}
         style={{

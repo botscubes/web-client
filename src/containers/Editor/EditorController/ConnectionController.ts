@@ -141,9 +141,18 @@ export default class ConnectionController {
   //  }
 
   setLinesForComponent(componentId: number) {
-    const points = this.components
-      .component(componentId)
-      .controller.getOutputPoints();
+    const component = this.components.component(componentId);
+
+    for (const point of Object.values(component.connectionPoints)) {
+      if (point.componentId != undefined && point.pointId != undefined) {
+        const linePosition = this.lines.get(point.componentId, point.pointId);
+        this.lines.set(point.componentId, point.pointId, {
+          ...linePosition,
+          end: this.editor.getRelativeMousePosition(point.getClientPosition()),
+        });
+      }
+    }
+    const points = component.controller.getOutputPoints();
     for (const point of points) {
       if (point.targetComponentId != undefined) {
         const linePosition = this.lines.get(componentId, point.id);
