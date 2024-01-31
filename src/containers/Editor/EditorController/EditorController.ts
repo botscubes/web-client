@@ -67,14 +67,12 @@ export default class EditorController {
   startConnection(
     componentId: number,
     pointId: number,
-    clientPosition: Position,
-    setTargetComponentId: (componentId?: number) => void
+    clientPosition: Position
   ) {
     this.editorState.startConnection(
       componentId,
       pointId,
-      this.getRelativeMousePosition(clientPosition),
-      setTargetComponentId
+      this.getRelativeMousePosition(clientPosition)
     );
   }
   finishConnection(

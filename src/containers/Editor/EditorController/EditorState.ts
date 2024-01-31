@@ -25,7 +25,6 @@ export default abstract class EditorState {
     _componentId: number,
     _pointId: number,
     _position: Position,
-    _setTargetComponentId: (componentId: number) => void
   ) {
     //
   }

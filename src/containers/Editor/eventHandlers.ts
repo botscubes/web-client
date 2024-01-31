@@ -61,15 +61,13 @@ export function getDeleteConnectionHandler(editorController: EditorController) {
     targetComponentId: number,
     sourceComponentId: number,
     sourceCommandId: number,
-    clientPosition: Position,
-    setTargetComponentId: (componentId?: number) => void
+    clientPosition: Position
   ) =>
     editorController.deleteConnection(
       targetComponentId,
       sourceComponentId,
       sourceCommandId,
-      clientPosition,
-      setTargetComponentId
+      clientPosition
     );
 }
 export function handleMouseUp(
