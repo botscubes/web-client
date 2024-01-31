@@ -123,8 +123,7 @@ export default function Component(props: ComponentProps) {
                   props.deleteConnection,
                   props.componentData.id,
                   point.componentId,
-                  point.pointId,
-                  point.setTargetComponentId
+                  point.pointId
                 ),
               }}
             />

@@ -153,8 +153,7 @@ export default class ComponentStore {
     componentId: number,
     sourceComponentId: number,
     sourcePointId: number,
-    relativePointPosition: Position,
-    setTargetComponentId: (componentId?: number) => void
+    relativePointPosition: Position
   ) {
     this.setComponentStore(componentId, "connectionPoints", (points) => ({
       ...points,
@@ -162,7 +161,6 @@ export default class ComponentStore {
         componentId: sourceComponentId,
         pointId: sourcePointId,
         position: relativePointPosition,
-        setTargetComponentId: setTargetComponentId,
       },
     }));
   }

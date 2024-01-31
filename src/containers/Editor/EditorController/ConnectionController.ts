@@ -26,8 +26,7 @@ export default class ConnectionController {
       targetConnectionData.componentId,
       sourceConnectionData.componentId,
       sourceConnectionData.pointId,
-      targetConnectionData.relativePointPosition,
-      sourceConnectionData.setTargetComponentId
+      targetConnectionData.relativePointPosition
     );
   }
 

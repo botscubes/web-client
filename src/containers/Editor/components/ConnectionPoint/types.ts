@@ -4,7 +4,6 @@ export interface ConnectionPointData {
   position?: Position;
   componentId?: number;
   pointId?: number;
-  setTargetComponentId?(componentId?: number): void;
 }
 
 export interface ConnectionPointHandlers {

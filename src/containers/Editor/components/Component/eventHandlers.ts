@@ -5,23 +5,15 @@ export function getConnectionPointMouseDownHandler(
     targetComponentId: number,
     sourceComponentId: number,
     sourceCommandId: number,
-    clientMousePositin: Position,
-    setTargetComponentId: (componentId?: number) => void
+    clientMousePositin: Position
   ) => void,
   targetComponentId: number,
   componentId?: number,
-  commandId?: number,
-  setTargetComponentId?: (componentId?: number) => void
+  commandId?: number
 ) {
   if (componentId != undefined && commandId != undefined) {
     return (clientPosition: Position) => {
-      fn(
-        targetComponentId,
-        componentId,
-        commandId,
-        clientPosition,
-        setTargetComponentId ? setTargetComponentId : () => {}
-      );
+      fn(targetComponentId, componentId, commandId, clientPosition);
     };
   }
   return undefined;

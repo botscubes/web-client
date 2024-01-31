@@ -38,8 +38,7 @@ export interface ComponentProps {
     targetComponentId: number,
     sourceComponentId: number,
     sourceCommandId: number,
-    clientPointPositin: Position,
-    setTargetComponentId: (componentId?: number) => void
+    clientPointPositin: Position
   ) => void;
   //  moveConnection: (commandId: number, connectionPosition: Position) => void;
   //  moveCommandConnection: (

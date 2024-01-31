@@ -92,8 +92,7 @@ export default class EditorController {
     targetComponentId: number,
     sourceComponentId: number,
     sourcePointId: number,
-    clientPosition: Position,
-    setTargetComponentId: (componentId?: number) => void
+    clientPosition: Position
   ) {
     const line = this.connections.getLine(sourceComponentId, sourcePointId);
 
@@ -110,7 +109,6 @@ export default class EditorController {
           componentId: sourceComponentId,
           pointId: sourcePointId,
           pointPosition: line.start,
-          setTargetComponentId: setTargetComponentId,
         },
         this.getRelativeMousePosition(clientPosition)
       )
