@@ -30,20 +30,20 @@ export function getSelectComponentHandler(editorController: EditorController) {
   return (id: number, mousePosition: Position) =>
     editorController.selectComponent(id, mousePosition);
 }
-export function getStartConnectionHandler(editorController: EditorController) {
-  return (
-    componentId: number,
-    commandId: number,
-    connectionPosition: Position,
-    relativeConnectionPosition: Position
-  ) =>
-    editorController.startConnection(
-      componentId,
-      commandId,
-      connectionPosition,
-      relativeConnectionPosition
-    );
-}
+//export function getStartConnectionHandler(editorController: EditorController) {
+//  return (
+//    componentId: number,
+//    commandId: number,
+//    connectionPosition: Position,
+//    relativeConnectionPosition: Position
+//  ) =>
+//    editorController.startConnection(
+//      componentId,
+//      commandId,
+//      connectionPosition,
+//      relativeConnectionPosition
+//    );
+//}
 export function getFinishConnectionHandler(editorController: EditorController) {
   return (
     componentId: number,
@@ -61,13 +61,15 @@ export function getDeleteConnectionHandler(editorController: EditorController) {
     targetComponentId: number,
     sourceComponentId: number,
     sourceCommandId: number,
-    clientPosition: Position
+    clientPosition: Position,
+    setTargetComponentId: (componentId?: number) => void
   ) =>
     editorController.deleteConnection(
       targetComponentId,
       sourceComponentId,
       sourceCommandId,
-      clientPosition
+      clientPosition,
+      setTargetComponentId
     );
 }
 export function handleMouseUp(

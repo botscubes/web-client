@@ -1,10 +1,6 @@
-import { SetStoreFunction, Store } from "solid-js/store";
 import { LinePosition } from "~/containers/Editor/components/Line";
-import { Position } from "~/containers/Editor/shared/types";
-import { EditorData } from "~/containers/Editor/types";
 import { ComponentStorage } from "./EditorStorage/ComponentStorage";
 import LineStorage from "./EditorStorage/LineStorage";
-import ComponentController from "./ComponentController";
 import { SourceConnectionData, TargetConnectionData } from "./types";
 
 export default class ConnectionController {
@@ -26,15 +22,12 @@ export default class ConnectionController {
       }
     );
 
-    this.components.setNextComponentId(
-      sourceConnectionData.componentId,
-      targetConnectionData.componentId
-    );
     this.components.addConnectionPoint(
       targetConnectionData.componentId,
       sourceConnectionData.componentId,
       sourceConnectionData.pointId,
-      targetConnectionData.relativePointPosition
+      targetConnectionData.relativePointPosition,
+      sourceConnectionData.setTargetComponentId
     );
   }
 
@@ -49,7 +42,6 @@ export default class ConnectionController {
       sourceComponentId,
       sourcePointId
     );
-    this.components.setNextComponentId(sourceComponentId, undefined);
     //  const linePosition = this.editorStorage.getLinePosition(sourceCommandId);
     //  const commandConnectionPosition: Position =
     //    this.editorStorage.getCommandConnectionPosition(
@@ -65,8 +57,26 @@ export default class ConnectionController {
     //    })
     //  );
   }
+
   getLine(componentId: number, pointId: number): LinePosition {
     return this.lines.get(componentId, pointId);
+  }
+
+  deleteAllFromComponent(componentId: number) {
+    const component = this.components.get()[componentId];
+    if (component) {
+      const points = component.controller.getOutputPoints();
+      for (const point of points) {
+        if (point.targetComponentId != undefined) {
+          this.delete(point.targetComponentId, componentId, point.id);
+        }
+      }
+      for (const point of Object.values(component.connectionPoints)) {
+        if (point.componentId != undefined && point.pointId != undefined) {
+          this.delete(componentId, point.componentId, point.pointId);
+        }
+      }
+    }
   }
 
   //  add(

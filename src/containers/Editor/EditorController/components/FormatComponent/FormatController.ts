@@ -1,5 +1,6 @@
 import { FormatContentHandlers } from "~/containers/Editor/components/ComponentContent/contents/FormatContent";
 import {
+  OutputPoint,
   SpecificComponentController,
   SpecificComponentHandlers,
 } from "../../SpecificComponent/types";
@@ -35,5 +36,8 @@ export class FormatController
         onInput: (_str: string) => {},
       },
     };
+  }
+  getOutputPoints(): Array<OutputPoint> {
+    return [];
   }
 }

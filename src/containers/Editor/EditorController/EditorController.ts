@@ -67,12 +67,14 @@ export default class EditorController {
   startConnection(
     componentId: number,
     pointId: number,
-    clientPosition: Position
+    clientPosition: Position,
+    setTargetComponentId: (componentId?: number) => void
   ) {
     this.editorState.startConnection(
       componentId,
       pointId,
-      this.getRelativeMousePosition(clientPosition)
+      this.getRelativeMousePosition(clientPosition),
+      setTargetComponentId
     );
   }
   finishConnection(
@@ -90,7 +92,8 @@ export default class EditorController {
     targetComponentId: number,
     sourceComponentId: number,
     sourcePointId: number,
-    clientPosition: Position
+    clientPosition: Position,
+    setTargetComponentId: (componentId?: number) => void
   ) {
     const line = this.connections.getLine(sourceComponentId, sourcePointId);
 
@@ -107,6 +110,7 @@ export default class EditorController {
           componentId: sourceComponentId,
           pointId: sourcePointId,
           pointPosition: line.start,
+          setTargetComponentId: setTargetComponentId,
         },
         this.getRelativeMousePosition(clientPosition)
       )

@@ -59,13 +59,15 @@ export default class ComponentStorage {
     componentId: number,
     sourceComponentId: number,
     sourcePointId: number,
-    relativePointPosition: Position
+    relativePointPosition: Position,
+    setTargetComponentId: (componentId?: number) => void
   ) {
     this.components.addConnectionPoint(
       componentId,
       sourceComponentId,
       sourcePointId,
-      relativePointPosition
+      relativePointPosition,
+      setTargetComponentId
     );
   }
 

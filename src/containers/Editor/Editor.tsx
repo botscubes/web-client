@@ -5,7 +5,6 @@ import {
   getDeleteComponentHandler,
   getAddSelectedComponentHandler,
   getSelectComponentHandler,
-  getStartConnectionHandler,
   getFinishConnectionHandler,
   handleMouseUp,
   handleMouseDown,
@@ -223,7 +222,6 @@ export default function Editor() {
                 deleteComponent={getDeleteComponentHandler(editor)}
                 selectComponent={getSelectComponentHandler(editor)}
                 addSelectedComponent={getAddSelectedComponentHandler(editor)}
-                startConnection={getStartConnectionHandler(editor)}
                 finishConnection={getFinishConnectionHandler(editor)}
                 deleteConnection={getDeleteConnectionHandler(editor)}
                 //moveConnection={handleMoveConnection}

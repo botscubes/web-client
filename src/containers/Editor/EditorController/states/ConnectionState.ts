@@ -73,6 +73,7 @@ export default class ConnectionState extends EditorState {
     this.editor.components.hideConnectionAreas();
     this.editor.setUserSelect(true);
     this.editor.line.set(undefined);
+    this.sourceConnectionData.setTargetComponentId(undefined);
     this.editor.setState(new WaitingState(this.editor));
   }
   finishConnection(
@@ -89,7 +90,7 @@ export default class ConnectionState extends EditorState {
       pointPosition: pointPosition,
       relativePointPosition: relativePointPosition,
     });
-
+    this.sourceConnectionData.setTargetComponentId(componentId);
     this.editor.setState(new WaitingState(this.editor));
 
     //    const editorStorage = this.editorController.getEditorStorage();

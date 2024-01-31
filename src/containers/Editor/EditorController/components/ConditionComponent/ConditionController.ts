@@ -5,6 +5,8 @@ import {
 } from "../../SpecificComponent";
 import { Position } from "~/containers/Editor/shared/types";
 import EditorController from "../..";
+import { OutputPoint, OutputPointType } from "../../SpecificComponent/types";
+import { ConditionComponentPoints } from "./types";
 
 export class ConditionController
   implements
@@ -13,6 +15,11 @@ export class ConditionController
 {
   private setExpression: (str: string) => void = (_str: string) => {};
   private expression = "";
+  private points: ConditionComponentPoints = {
+    error: {
+      id: OutputPointType.Error,
+    },
+  };
 
   constructor(
     private editor: EditorController,
@@ -37,10 +44,20 @@ export class ConditionController
       points: {
         error: {
           onMouseDown: (clientPosition: Position) => {
-            this.editor.startConnection(this.id, 1, clientPosition);
+            this.editor.startConnection(
+              this.id,
+              this.points.error.id,
+              clientPosition,
+              (componentId?: number) => {
+                this.points.error.targetComponentId = componentId;
+              }
+            );
           },
         },
       },
     };
+  }
+  getOutputPoints(): Array<OutputPoint> {
+    return Object.values(this.points);
   }
 }

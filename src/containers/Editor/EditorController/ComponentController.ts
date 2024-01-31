@@ -25,6 +25,7 @@ export default class ComponentController {
     this.selectedComponents.select(id);
   }
   delete(id: number) {
+    this.editor.connections.deleteAllFromComponent(id);
     this.deselectAll();
     this.components.delete(id);
   }
