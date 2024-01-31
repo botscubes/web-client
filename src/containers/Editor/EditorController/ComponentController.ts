@@ -30,7 +30,10 @@ export default class ComponentController {
     this.components.delete(id);
   }
   move(mousePosition: Position) {
-    this.components.move(this.selectedComponents.get(), mousePosition);
+    for (const [id, position] of this.selectedComponents.get()) {
+      this.components.move(id, position, mousePosition);
+      this.editor.connections.setLinesForComponent(id);
+    }
   }
   select(id: number) {
     this.selectedComponents.select(id);

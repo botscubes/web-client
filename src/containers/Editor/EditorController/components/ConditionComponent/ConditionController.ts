@@ -43,9 +43,14 @@ export class ConditionController
           onMouseDown: (clientPosition: Position) => {
             this.editor.startConnection(
               this.getId(),
-              this.getPoint(OutputPointType.Error).id,
+              this.getOutputPoint(OutputPointType.Error).id,
               clientPosition
             );
+          },
+          onMount: (getPointClientPosition: () => Position) => {
+            this.getOutputPoint(
+              OutputPointType.Error
+            ).setHandlerOnGetClientPosition(getPointClientPosition);
           },
         },
       },

@@ -6,6 +6,7 @@ export interface ConditionContentHandlers {
   points?: {
     error?: {
       onMouseDown?: (clientPosition: Position) => void;
+      onMount?: (getPointClientPosition: () => Position) => void;
     };
   };
 }

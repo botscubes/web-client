@@ -17,7 +17,10 @@ export default function ConditionContent(props: ConditionContentProps) {
         <ConnectionPoint
           class="error-point"
           tooltip="error"
-          handlers={{ onMouseDown: props.handlers?.points?.error?.onMouseDown }}
+          handlers={{
+            onMouseDown: props.handlers?.points?.error?.onMouseDown,
+            onMount: props.handlers?.points?.error?.onMount,
+          }}
         />
       </div>
     </>

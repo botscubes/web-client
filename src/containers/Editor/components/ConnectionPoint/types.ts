@@ -7,6 +7,7 @@ export interface ConnectionPointData {
 }
 
 export interface ConnectionPointHandlers {
+  onMount?(getClientPosition: () => Position): void;
   onMouseDown?(clientPosition: Position): void;
   onMouseUp?(clientPosition: Position): void;
 }

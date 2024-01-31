@@ -1,8 +1,10 @@
 import { JSX } from "solid-js";
 import EditorController from "..";
+import { Position } from "../../shared/types";
 
 export class OutputPoint {
   private _targetComponentId?: number = undefined;
+  private _getClientPosition = () => ({ x: 0, y: 0 });
   constructor(
     private _id: string,
     private onSetTargetComponentId: (componentId?: number) => void
@@ -17,6 +19,12 @@ export class OutputPoint {
     this._targetComponentId = componentId;
     this.onSetTargetComponentId(componentId);
   }
+  getClientPosition(): Position {
+    return this._getClientPosition();
+  }
+  setHandlerOnGetClientPosition(handler: () => Position) {
+    this._getClientPosition = handler;
+  }
 }
 
 export abstract class SpecificComponentController {
@@ -24,7 +32,7 @@ export abstract class SpecificComponentController {
     private id: number,
     private outputPoints: Record<string, OutputPoint>
   ) {}
-  getPoint(id: string): OutputPoint {
+  getOutputPoint(id: string): OutputPoint {
     return this.outputPoints[id];
   }
   setId(id: number) {

@@ -5,6 +5,9 @@ import { Position } from "../../shared/types";
 
 function getClientPosition(event: MouseEvent): Position {
   const element = event.target as HTMLElement;
+  return getClientPositionFromElement(element);
+}
+function getClientPositionFromElement(element: HTMLElement) {
   const rect = element.getBoundingClientRect();
   return {
     x: rect.x + rect.width / 2,
@@ -57,6 +60,9 @@ export default function ConnectionPoint(props: ConnectionPointProps) {
   return (
     <div data-tooltip={props.tooltip}>
       <div
+        ref={(el) => {
+          props.handlers?.onMount?.(() => getClientPositionFromElement(el));
+        }}
         class={"connection-point" + (props.class ? " " + props.class : "")}
         style={{
           "background-color": props.style?.color,

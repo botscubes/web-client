@@ -2,9 +2,11 @@ import { LinePosition } from "~/containers/Editor/components/Line";
 import { ComponentStorage } from "./EditorStorage/ComponentStorage";
 import LineStorage from "./EditorStorage/LineStorage";
 import { SourceConnectionData, TargetConnectionData } from "./types";
+import EditorController from ".";
 
 export default class ConnectionController {
   constructor(
+    private editor: EditorController,
     private lines: LineStorage,
     private components: ComponentStorage
   ) {}
@@ -23,8 +25,9 @@ export default class ConnectionController {
     );
     this.components
       .component(sourceConnectionData.componentId)
-      .controller.getPoint(sourceConnectionData.pointId).targetComponentId =
-      targetConnectionData.componentId;
+      .controller.getOutputPoint(
+        sourceConnectionData.pointId
+      ).targetComponentId = targetConnectionData.componentId;
 
     this.components.addConnectionPoint(
       targetConnectionData.componentId,
@@ -42,7 +45,7 @@ export default class ConnectionController {
     this.lines.delete(sourceComponentId, sourcePointId);
     this.components
       .component(sourceComponentId)
-      .controller.getPoint(sourcePointId).targetComponentId = undefined;
+      .controller.getOutputPoint(sourcePointId).targetComponentId = undefined;
 
     this.components.deleteConnectionPoint(
       targetComponentId,
@@ -136,7 +139,23 @@ export default class ConnectionController {
   //    }
   //    this.setNextComponentId(componentId, commandId, undefined);
   //  }
-  //
+
+  setLinesForComponent(componentId: number) {
+    const points = this.components
+      .component(componentId)
+      .controller.getOutputPoints();
+    for (const point of points) {
+      if (point.targetComponentId != undefined) {
+        const linePosition = this.lines.get(componentId, point.id);
+        this.lines.set(componentId, point.id, {
+          ...linePosition,
+          start: this.editor.getRelativeMousePosition(
+            point.getClientPosition()
+          ),
+        });
+      }
+    }
+  }
   //  setConnectionLines(componentId: number) {
   //    const component = this.editorData.components[componentId];
   //    if (component) {

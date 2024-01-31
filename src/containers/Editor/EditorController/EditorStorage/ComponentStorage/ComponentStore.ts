@@ -87,14 +87,12 @@ export default class ComponentStore {
     });
   }
 
-  move(selected: Array<[number, Position]>, mousePos: Position) {
-    for (const [id, position] of selected) {
-      this.setPosition(id, {
-        x: mousePos.x - position.x,
-        y: mousePos.y - position.y,
-      });
-      //this.setConnectionLines(id);
-    }
+  move(id: number, position: Position, mousePos: Position) {
+    this.setPosition(id, {
+      x: mousePos.x - position.x,
+      y: mousePos.y - position.y,
+    });
+    //this.setConnectionLines(id);
   }
 
   select(id: number) {

@@ -26,6 +26,7 @@ export default class EditorController {
     const componentStorage = new ComponentStorage(editor.componentStore);
     this._components = new ComponentController(this, componentStorage, logger);
     this._connections = new ConnectionController(
+      this,
       new LineStorage(...editor.lineStore),
       componentStorage
     );

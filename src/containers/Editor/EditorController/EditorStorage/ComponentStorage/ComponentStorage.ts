@@ -39,8 +39,8 @@ export default class ComponentStorage {
     this.components.setPosition(id, position);
   }
 
-  move(selected: Array<[number, Position]>, mousePos: Position) {
-    this.components.move(selected, mousePos);
+  move(id: number, position: Position, mousePos: Position) {
+    this.components.move(id, position, mousePos);
   }
 
   select(id: number) {
