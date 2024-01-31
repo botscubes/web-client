@@ -21,6 +21,10 @@ export default class ConnectionController {
         end: targetConnectionData.pointPosition,
       }
     );
+    this.components
+      .component(sourceConnectionData.componentId)
+      .controller.getPoint(sourceConnectionData.pointId).targetComponentId =
+      targetConnectionData.componentId;
 
     this.components.addConnectionPoint(
       targetConnectionData.componentId,
@@ -36,6 +40,10 @@ export default class ConnectionController {
     sourcePointId: string
   ) {
     this.lines.delete(sourceComponentId, sourcePointId);
+    this.components
+      .component(sourceComponentId)
+      .controller.getPoint(sourcePointId).targetComponentId = undefined;
+
     this.components.deleteConnectionPoint(
       targetComponentId,
       sourceComponentId,

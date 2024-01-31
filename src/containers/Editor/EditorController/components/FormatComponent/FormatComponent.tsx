@@ -13,7 +13,7 @@ export class FormatComponent implements SpecificComponent {
     return () => <FormatContent />;
   }
   create(id: number): [SpecificComponentController, () => JSX.Element] {
-    const controller = new FormatController();
+    const controller = new FormatController(this.editor, id);
     return [
       controller,
       () => <FormatContent handlers={controller.getHandlers()} />,

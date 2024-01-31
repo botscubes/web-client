@@ -19,6 +19,9 @@ export default class ComponentStorage {
   get() {
     return this.components.get();
   }
+  component(id: number) {
+    return this.components.component(id);
+  }
 
   add(position: Position, component: SpecificComponent): number {
     return this.components.add(position, component);

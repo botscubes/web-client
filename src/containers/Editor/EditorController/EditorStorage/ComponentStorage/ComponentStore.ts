@@ -18,6 +18,9 @@ export default class ComponentStore {
   get() {
     return this.componentStore;
   }
+  component(id: number) {
+    return this.componentStore[id];
+  }
 
   add(position: Position, component: SpecificComponent): number {
     const id: number = this.id;

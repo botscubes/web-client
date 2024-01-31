@@ -7,20 +7,17 @@ import {
 import EditorController from "../..";
 
 export class FormatController
-  implements
-    SpecificComponentHandlers<FormatContentHandlers>,
-    SpecificComponentController
+  extends SpecificComponentController
+  implements SpecificComponentHandlers<FormatContentHandlers>
 {
   private setFormatString: (str: string) => void = (_str: string) => {};
   private formatString = "";
 
   constructor(
     private editor: EditorController,
-    private id: number
-  ) {}
-
-  setId(id: number) {
-    this.id = id;
+    id: number
+  ) {
+    super(id, {});
   }
 
   getHandlers(): FormatContentHandlers {
@@ -36,8 +33,5 @@ export class FormatController
         onInput: (_str: string) => {},
       },
     };
-  }
-  getOutputPoints(): Array<OutputPoint> {
-    return [];
   }
 }
