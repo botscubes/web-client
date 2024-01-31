@@ -17,6 +17,9 @@ export default class ComponentController {
     private logger: Logger
   ) {}
 
+  component(id: number) {
+    return this.components.component(id);
+  }
   add(position: Position, component: SpecificComponent) {
     this.deselectAll();
 

@@ -25,6 +25,18 @@ export default class ConnectionState extends EditorState {
     editor.components.showConnectionAreas(
       new Set([sourceConnectionData.componentId])
     );
+    const targetComponentId = editor.components
+      .component(sourceConnectionData.componentId)
+      .controller.getOutputPoint(
+        sourceConnectionData.pointId
+      ).targetComponentId;
+    if (targetComponentId != undefined) {
+      this.editor.connections.delete(
+        targetComponentId,
+        sourceConnectionData.componentId,
+        sourceConnectionData.pointId
+      );
+    }
     //  this.editor
     //    .getEditorStorage()
     //    .deleteConnection(
