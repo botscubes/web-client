@@ -30,8 +30,11 @@ import {
 import { FormatComponent } from "./EditorController/components/FormatComponent";
 import { ConditionComponent } from "./EditorController/components/ConditionComponent";
 import { Line, LinePosition } from "./components/Line";
+import { EditorProps } from "./types";
+import { EditorClient } from "./EditorController/api/EditorClient";
+import { useNavigate } from "@solidjs/router";
 
-export default function Editor() {
+export default function Editor(props: EditorProps) {
   //  const zoomSize = 0.05;
   //  let [fixedPosition, setFixedPosition] = createSignal({
   //    x: 0,
@@ -59,6 +62,7 @@ export default function Editor() {
   const [scale, setScale] = createSignal(1);
   const [line, setLine] = createSignal<LinePosition | undefined>(undefined);
   const [lines, setLines] = createStore<Record<string, LinePosition>>({});
+  const [loading, setLoading] = createSignal(false);
   //const editorStore = createStore<EditorData>({
   //components: {},
   //    componentStyle: {
@@ -81,7 +85,11 @@ export default function Editor() {
   //    showLine: false,
   //    scale: 1,
   //});
-  const appState = useAppState();
+
+  // eslint-disable-next-line solid/reactivity
+  const logger = props.logger;
+
+  const navigate = useNavigate();
   const editor: EditorController = new EditorController(
     {
       componentStore: [componentStore, setComponentStore],
@@ -98,9 +106,17 @@ export default function Editor() {
         set: setLine,
       },
       lineStore: [lines, setLines],
+      setLoading: setLoading,
+      navigate: navigate,
     },
-    appState.logger
+    // eslint-disable-next-line solid/reactivity
+    new EditorClient(props.httpClient, props.token, props.botId, 1),
+    logger
   );
+  onMount(() => {
+    editor.init();
+  });
+
   //  const [editorState, setEditorState] = createSignal(EditorState.NONE);
   //  const [scale, setScale] = createSignal(1);
   //  let sourceComponentId: number | undefined = undefined;
@@ -145,6 +161,8 @@ export default function Editor() {
           <button id="save-button">Get Bot</button>
           <button id="save-button">Start Bot</button>
           <button id="save-button">Stop Bot</button>
+
+          <Show when={loading()}>loading...</Show>
         </div>
         <Show
           when={showComponentSelection()}

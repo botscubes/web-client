@@ -11,6 +11,13 @@ import ConnectionController from "./ConnectionController";
 import LineStorage from "./EditorStorage/LineStorage";
 import { ComponentStorage } from "./EditorStorage/ComponentStorage";
 import ConnectionState from "./states/ConnectionState";
+import {
+  HTTPResponse,
+  checkPromise,
+  checkResponsePromise,
+} from "~/api/HTTPResponse";
+import { useNavigate } from "@solidjs/router";
+import { EditorClient } from "./api/EditorClient";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
@@ -21,6 +28,7 @@ export default class EditorController {
 
   constructor(
     private editor: EditorData,
+    private client: EditorClient,
     private logger: Logger
   ) {
     const componentStorage = new ComponentStorage(editor.componentStore);
@@ -52,6 +60,13 @@ export default class EditorController {
   }
   get line() {
     return this.editor.line;
+  }
+
+  async init() {
+    const [data, ok] = await this.HTTPRequest(() =>
+      this.client.getComponents()
+    );
+    console.log(data);
   }
 
   selectComponent(id: number, mousePosition: Position) {
@@ -174,5 +189,21 @@ export default class EditorController {
   }
   zoomOut() {
     this.editor.scale.set((scale) => scale - this.zoomSize);
+  }
+  async HTTPRequest<T>(
+    request: () => Promise<HTTPResponse<T>>
+  ): Promise<[T | undefined, boolean]> {
+    this.editor.setLoading(true);
+    try {
+      const response = await checkPromise(request(), this.logger);
+      if (response.statusUnauthorized()) {
+        this.editor.navigate("/signin");
+      }
+      return [response.data, true];
+    } catch (e) {
+      return [undefined, false];
+    } finally {
+      this.editor.setLoading(false);
+    }
   }
 }

@@ -60,13 +60,13 @@ export function getDeleteConnectionHandler(editorController: EditorController) {
   return (
     targetComponentId: number,
     sourceComponentId: number,
-    sourceCommandId: number,
+    sourcePointId: string,
     clientPosition: Position
   ) =>
     editorController.deleteConnection(
       targetComponentId,
       sourceComponentId,
-      sourceCommandId,
+      sourcePointId,
       clientPosition
     );
 }

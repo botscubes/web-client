@@ -5,6 +5,8 @@ import { SetStoreFunction, Store } from "solid-js/store";
 import { Accessor, JSX, Setter } from "solid-js";
 import { ExtendedComponentData } from "./EditorController/EditorStorage/ComponentStorage/types";
 import { Position } from "./shared/types";
+import { HTTPClient } from "~/api/HTTPClient";
+import { Navigator } from "@solidjs/router";
 
 export interface EditorData {
   componentStore: [
@@ -27,6 +29,8 @@ export interface EditorData {
     Store<Record<string, LinePosition>>,
     SetStoreFunction<Record<string, LinePosition>>,
   ];
+  setLoading: Setter<boolean>;
+  navigate: Navigator;
   //componentStyle: ComponentStyle;
   //lines: Record<number, LinePosition>;
   //line: LinePosition;
@@ -36,6 +40,9 @@ export interface EditorData {
 
 export interface EditorProps {
   logger: Logger;
+  botId: number;
+  httpClient: HTTPClient;
+  token: string;
 }
 
 //export enum EditorState {
