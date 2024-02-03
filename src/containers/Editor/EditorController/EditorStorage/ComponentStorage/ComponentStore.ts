@@ -25,7 +25,8 @@ export default class ComponentStore {
     id: number,
     position: Position,
     component: SpecificComponent,
-    connectionPoints: Record<string, ConnectionPointData> = {}
+    connectionPoints: Record<string, ConnectionPointData> = {},
+    possibilityToDelete: boolean = true
   ) {
     const [controller, content] = component;
     this.setComponentStore(
@@ -41,6 +42,7 @@ export default class ComponentStore {
           connectionAreaVisible: false,
           controller: controller,
           content: content,
+          abilityToDelete: possibilityToDelete,
         },
       })
     );

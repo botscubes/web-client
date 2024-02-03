@@ -8,6 +8,7 @@ export interface ComponentData {
   selected: boolean;
   connectionPoints: Record<string, ConnectionPointData>;
   connectionAreaVisible: boolean;
+  abilityToDelete: boolean;
 }
 
 export interface ComponentStyle {

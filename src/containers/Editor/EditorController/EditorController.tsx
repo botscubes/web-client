@@ -81,15 +81,21 @@ export default class EditorController {
             component.id,
             component.nextComponentId
           );
-          this.components.add(component.id, component.position, [
-            controller,
-            () => (
-              <StartContent
-                data={{ nextComponentId: component.nextComponentId }}
-                handlers={controller.getHandlers()}
-              />
-            ),
-          ]);
+          this.components.add(
+            component.id,
+            component.position,
+            [
+              controller,
+              () => (
+                <StartContent
+                  data={{ nextComponentId: component.nextComponentId }}
+                  handlers={controller.getHandlers()}
+                />
+              ),
+            ],
+            {},
+            false
+          );
         }
       }
     }

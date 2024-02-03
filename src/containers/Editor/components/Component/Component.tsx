@@ -3,7 +3,7 @@ import { handleDragStart } from "./events";
 import { ConnectionArea } from "./components/ConnectionArea";
 import "./Component.css";
 import { MouseButton, Position } from "../../shared/types";
-import { For, children, createSignal, onMount } from "solid-js";
+import { For, Show, children, createSignal, onMount } from "solid-js";
 //import { ConnectionPoint } from "./components/ConnectionPoint";
 import { getConnectionPointMouseDownHandler } from "./eventHandlers";
 import { Dynamic } from "solid-js/web";
@@ -89,10 +89,11 @@ export default function Component(props: ComponentProps) {
       }}
     >
       {c()}
-
-      <button class="delete-button" onClick={handleDeleteButtonClick}>
-        ✖
-      </button>
+      <Show when={props.componentData.abilityToDelete}>
+        <button class="delete-button" onClick={handleDeleteButtonClick}>
+          ✖
+        </button>
+      </Show>
 
       <ConnectionArea
         data={{
