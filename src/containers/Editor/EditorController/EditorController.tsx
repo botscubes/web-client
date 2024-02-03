@@ -22,6 +22,9 @@ import {
 import { useNavigate } from "@solidjs/router";
 import { EditorClient } from "./api/EditorClient";
 import ComponentStore from "./EditorStorage/ComponentStorage/ComponentStore";
+import { StartComponentController } from "./components/StartComponent";
+import { APIComponentType } from "./api/types";
+import { StartContent } from "../components/ComponentContent/contents/StartContent";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
@@ -72,7 +75,22 @@ export default class EditorController {
     );
     if (components) {
       for (const component of components) {
-        //this.components.add(component.id, component.position, []);
+        if (APIComponentType.Start) {
+          const controller = new StartComponentController(
+            this,
+            component.id,
+            component.nextComponentId
+          );
+          this.components.add(component.id, component.position, [
+            controller,
+            () => (
+              <StartContent
+                data={{ nextComponentId: component.nextComponentId }}
+                handlers={controller.getHandlers()}
+              />
+            ),
+          ]);
+        }
       }
     }
   }

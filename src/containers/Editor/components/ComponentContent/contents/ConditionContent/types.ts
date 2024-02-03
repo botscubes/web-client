@@ -6,6 +6,11 @@ export interface ConditionContentHandlers {
   outputPoint: ContentPointHandlers;
 }
 
+export interface ConditionContentData {
+  idIfFalse?: number;
+}
+
 export interface ConditionContentProps {
+  data?: ConditionContentData;
   handlers?: ConditionContentHandlers;
 }

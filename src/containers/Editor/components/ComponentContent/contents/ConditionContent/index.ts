@@ -1,4 +1,4 @@
 import ConditionContent from "./ConditionContent";
-export type { ConditionContentHandlers } from "./types";
+export type { ConditionContentHandlers, ConditionContentData } from "./types";
 
 export { ConditionContent };

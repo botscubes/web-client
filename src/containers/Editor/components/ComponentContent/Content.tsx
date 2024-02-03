@@ -20,6 +20,7 @@ export function Content(props: {
 
 export function ContentConnectionPoint(props: {
   pointId: string;
+  targetComponentId: number | undefined;
   class: string;
   tooltip: string;
   handlers?: ContentPointHandlers;
@@ -30,7 +31,11 @@ export function ContentConnectionPoint(props: {
       tooltip={props.tooltip}
       handlers={{
         onMount: (getClientPosition: () => Position) => {
-          props.handlers?.onMount(props.pointId, getClientPosition);
+          props.handlers?.onMount(
+            props.pointId,
+            props.targetComponentId,
+            getClientPosition
+          );
         },
         onMouseDown: (clientPosition: Position) => {
           props.handlers?.onMouseDown(props.pointId, clientPosition);

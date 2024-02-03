@@ -9,7 +9,7 @@ export class StartComponentController
   extends SpecificComponentController
   implements SpecificComponentHandlers<StartContentHandlers>
 {
-  constructor(editor: EditorController, id: number) {
+  constructor(editor: EditorController, id: number, nextComponentId?: number) {
     super(editor, id);
 
     this.bindHandlerToPoints({});

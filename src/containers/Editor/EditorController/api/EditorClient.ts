@@ -1,5 +1,5 @@
 import { HTTPClient, HTTPResponse } from "~/api/HTTPClient";
-import { APIComponent } from "./data";
+import { APIComponentData } from "./types";
 
 export class EditorClient {
   constructor(
@@ -9,7 +9,7 @@ export class EditorClient {
     private groupId: number
   ) {}
 
-  async getComponents(): Promise<HTTPResponse<APIComponent[]>> {
+  async getComponents(): Promise<HTTPResponse<APIComponentData[]>> {
     return this.httpClient.GET(
       `/api/bots/${this.botId}/groups/${this.groupId}/components`,
       this.token

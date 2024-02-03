@@ -16,6 +16,7 @@ export default function ConditionContent(props: ConditionContentProps) {
           // <ContentConnectionPoint class="false-point" tooltip="false" />
         }
         <ContentConnectionPoint
+          targetComponentId={props.data?.idIfFalse}
           pointId="error"
           class="error-point"
           tooltip="error"

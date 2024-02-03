@@ -4,9 +4,9 @@ import { Position } from "../../shared/types";
 import { ContentPointHandlers } from "../../components/ComponentContent";
 
 export class OutputPoint {
-  private _targetComponentId?: number = undefined;
   constructor(
     private _id: string,
+    private _targetComponentId: number | undefined,
     private _getClientPosition: () => Position
   ) {}
   get id() {
@@ -50,9 +50,14 @@ export abstract class SpecificComponentController {
       onMouseDown: (pointId: string, clientPosition: Position) => {
         this._editor.startConnection(this.getId(), pointId, clientPosition);
       },
-      onMount: (pointId: string, getPointClientPosition: () => Position) => {
+      onMount: (
+        pointId: string,
+        targetComponentId: number | undefined,
+        getPointClientPosition: () => Position
+      ) => {
         this.outputPoints[pointId] = new OutputPoint(
           pointId,
+          targetComponentId,
           getPointClientPosition
         );
       },

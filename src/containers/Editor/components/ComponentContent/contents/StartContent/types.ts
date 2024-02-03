@@ -6,6 +6,11 @@ export interface StartContentHandlers {
   outputPoint: ContentPointHandlers;
 }
 
+export interface StartContentData {
+  nextComponentId?: number;
+}
+
 export interface StartContentProps {
+  data?: StartContentData;
   handlers?: StartContentHandlers;
 }
