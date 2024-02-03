@@ -40,16 +40,9 @@ export default class ComponentController {
     id: number,
     position: Position,
     component: SpecificComponent,
-    nextComponentId?: number,
     connectonPoints: Record<string, ConnectionPointData> = {}
   ) {
-    this.components.add(
-      id,
-      position,
-      component,
-      nextComponentId,
-      connectonPoints
-    );
+    this.components.add(id, position, component, connectonPoints);
   }
 
   delete(id: number) {

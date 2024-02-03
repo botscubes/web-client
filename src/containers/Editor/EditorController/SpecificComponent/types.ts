@@ -2,6 +2,7 @@ import { JSX } from "solid-js";
 import EditorController from "..";
 import { Position } from "../../shared/types";
 import { ContentPointHandlers } from "../../components/ComponentContent";
+import { SpecificComponentController } from ".";
 
 export class OutputPoint {
   private _targetComponentId?: number = undefined;
@@ -20,59 +21,6 @@ export class OutputPoint {
   }
   getClientPosition(): Position {
     return this._getClientPosition();
-  }
-}
-
-export abstract class SpecificComponentController {
-  private outputPoints: Record<string, OutputPoint> = {};
-  private handlers: Record<string, (componentId?: number) => void> = {};
-  constructor(
-    private _editor: EditorController,
-    private id: number
-  ) {}
-  get editor() {
-    return this._editor;
-  }
-  getOutputPoint(id: string): OutputPoint {
-    return this.outputPoints[id];
-  }
-  setId(id: number) {
-    this.id = id;
-  }
-  getId(): number {
-    return this.id;
-  }
-  getOutputPoints(): Array<OutputPoint> {
-    return Object.values(this.outputPoints);
-  }
-  getPointHandlers(): ContentPointHandlers {
-    return {
-      onMouseDown: (pointId: string, clientPosition: Position) => {
-        this._editor.startConnection(this.getId(), pointId, clientPosition);
-      },
-      onMount: (pointId: string, getPointClientPosition: () => Position) => {
-        this.outputPoints[pointId] = new OutputPoint(
-          pointId,
-          getPointClientPosition
-        );
-      },
-    };
-  }
-  setHandlerWhenSettingTargetComponentId(
-    pointId: number,
-    handler: (componentId?: number) => void
-  ) {
-    this.handlers[pointId] = handler;
-  }
-  setTargetComponentId(pointId: string, componentId?: number) {
-    const outputPoint = this.outputPoints[pointId];
-    if (outputPoint) {
-      outputPoint.targetComponentId = componentId;
-      const handler = this.handlers[pointId];
-      if (handler) {
-        handler(componentId);
-      }
-    }
   }
 }
 

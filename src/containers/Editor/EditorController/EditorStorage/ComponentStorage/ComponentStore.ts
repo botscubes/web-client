@@ -25,7 +25,6 @@ export default class ComponentStore {
     id: number,
     position: Position,
     component: SpecificComponent,
-    nextComponentId?: number,
     connectionPoints: Record<string, ConnectionPointData> = {}
   ) {
     const [controller, content] = component;
@@ -40,7 +39,6 @@ export default class ComponentStore {
           selected: false,
           connectionPoints: connectionPoints,
           connectionAreaVisible: false,
-          nextComponentId: nextComponentId,
           controller: controller,
           content: content,
         },
@@ -114,9 +112,6 @@ export default class ComponentStore {
     });
   }
 
-  setNextComponentId(componentId: number, nextComponentId?: number) {
-    this.setComponentStore(componentId, "nextComponentId", nextComponentId);
-  }
   setConnectionAreaVisible(componentId: number, value: boolean) {
     this.setComponentStore(componentId, (component) => ({
       ...component,

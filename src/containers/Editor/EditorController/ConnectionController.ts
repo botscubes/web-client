@@ -26,9 +26,10 @@ export default class ConnectionController {
     );
     this.components
       .component(sourceConnectionData.componentId)
-      .controller.getOutputPoint(
-        sourceConnectionData.pointId
-      ).targetComponentId = targetConnectionData.componentId;
+      .controller.setTargetComponentId(
+        sourceConnectionData.pointId,
+        targetConnectionData.componentId
+      );
 
     this.components.addConnectionPoint(
       targetConnectionData.componentId,
@@ -46,7 +47,7 @@ export default class ConnectionController {
     this.lines.delete(sourceComponentId, sourcePointId);
     this.components
       .component(sourceComponentId)
-      .controller.getOutputPoint(sourcePointId).targetComponentId = undefined;
+      .controller.setTargetComponentId(sourcePointId, undefined);
 
     this.components.deleteConnectionPoint(
       targetComponentId,

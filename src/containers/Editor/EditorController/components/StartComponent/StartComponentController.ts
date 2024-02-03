@@ -3,7 +3,6 @@ import {
   SpecificComponentController,
   SpecificComponentHandlers,
 } from "../../SpecificComponent";
-import { Position } from "~/containers/Editor/shared/types";
 import EditorController from "../..";
 
 export class StartComponentController
@@ -12,6 +11,8 @@ export class StartComponentController
 {
   constructor(editor: EditorController, id: number) {
     super(editor, id);
+
+    this.bindHandlerToPoints({});
   }
 
   getHandlers(): StartContentHandlers {
