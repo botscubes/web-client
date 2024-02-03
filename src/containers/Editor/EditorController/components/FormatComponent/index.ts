@@ -1,2 +1,2 @@
 export { FormatController } from "./FormatController";
-export { FormatComponentCreator } from "./FormatComponent";
+export { FormatComponentCreator } from "./FormatComponentCreator";

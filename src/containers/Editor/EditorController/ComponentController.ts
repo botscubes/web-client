@@ -12,8 +12,10 @@ import {
   SpecificComponentCreator,
 } from "./SpecificComponent";
 import ComponentStore from "./EditorStorage/ComponentStorage/ComponentStore";
+import { ConnectionPointData } from "../components/ConnectionPoint/types";
 
 export default class ComponentController {
+  private id = 0;
   private selectedComponents = new SelectedComponents();
   constructor(
     private editor: EditorController,
@@ -24,13 +26,32 @@ export default class ComponentController {
   component(id: number) {
     return this.components.component(id);
   }
-  add(position: Position, component: SpecificComponentCreator) {
+  create(position: Position, component: SpecificComponentCreator) {
     this.deselectAll();
 
-    const id: number = this.components.add(position, component.create(1));
+    const id: number = this.id;
+    this.components.add(id, position, component.create(id));
+    this.id++;
     this.components.select(id);
     this.selectedComponents.select(id);
   }
+
+  add(
+    id: number,
+    position: Position,
+    component: SpecificComponent,
+    nextComponentId?: number,
+    connectonPoints: Record<string, ConnectionPointData> = {}
+  ) {
+    this.components.add(
+      id,
+      position,
+      component,
+      nextComponentId,
+      connectonPoints
+    );
+  }
+
   delete(id: number) {
     this.editor.connections.deleteAllFromComponent(id);
     this.deselectAll();

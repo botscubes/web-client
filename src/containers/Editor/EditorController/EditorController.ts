@@ -67,10 +67,14 @@ export default class EditorController {
   }
 
   async init() {
-    const [data, ok] = await this.HTTPRequest(() =>
+    const [components, error] = await this.HTTPRequest(() =>
       this.client.getComponents()
     );
-    console.log(data);
+    if (components) {
+      for (const component of components) {
+        //this.components.add(component.id, component.position, []);
+      }
+    }
   }
 
   selectComponent(id: number, mousePosition: Position) {
@@ -196,16 +200,16 @@ export default class EditorController {
   }
   async HTTPRequest<T>(
     request: () => Promise<HTTPResponse<T>>
-  ): Promise<[T | undefined, boolean]> {
+  ): Promise<[T | undefined, Error | undefined]> {
     this.editor.setLoading(true);
     try {
       const response = await checkPromise(request(), this.logger);
       if (response.statusUnauthorized()) {
         this.editor.navigate("/signin");
       }
-      return [response.data, true];
+      return [response.data, undefined];
     } catch (e) {
-      return [undefined, false];
+      return [undefined, e as Error];
     } finally {
       this.editor.setLoading(false);
     }

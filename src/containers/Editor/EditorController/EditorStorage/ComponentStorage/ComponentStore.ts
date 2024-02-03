@@ -4,10 +4,9 @@ import { ComponentData } from "~/containers/Editor/components/Component";
 import { Position } from "~/containers/Editor/shared/types";
 import { ExtendedComponentData } from "./types";
 import { SpecificComponent } from "../../SpecificComponent";
+import { ConnectionPointData } from "~/containers/Editor/components/ConnectionPoint/types";
 
 export default class ComponentStore {
-  private id = 0;
-
   constructor(
     private componentStore: Store<Record<number, ExtendedComponentData>>,
     private setComponentStore: SetStoreFunction<
@@ -22,8 +21,13 @@ export default class ComponentStore {
     return this.componentStore[id];
   }
 
-  add(position: Position, component: SpecificComponent): number {
-    const id: number = this.id;
+  add(
+    id: number,
+    position: Position,
+    component: SpecificComponent,
+    nextComponentId?: number,
+    connectionPoints: Record<string, ConnectionPointData> = {}
+  ) {
     const [controller, content] = component;
     this.setComponentStore(
       (
@@ -34,31 +38,29 @@ export default class ComponentStore {
           id: id,
           position: position,
           selected: false,
-          connectionPoints: {},
+          connectionPoints: connectionPoints,
           connectionAreaVisible: false,
-          nextComponentId: undefined,
+          nextComponentId: nextComponentId,
           controller: controller,
           content: content,
         },
       })
     );
-    this.id++;
-    return id;
   }
 
-  clone(id: number): number {
-    const component: ComponentData = cloneDeep(this.componentStore[id]);
-    const newId = this.id;
-    component.id = newId;
-    this.setComponentStore((components) => {
-      return {
-        ...components,
-        component,
-      };
-    });
-    this.id++;
-    return newId;
-  }
+  //  clone(id: number): number {
+  //    const component: ComponentData = cloneDeep(this.componentStore[id]);
+  //    const newId = id;
+  //    component.id = newId;
+  //    this.setComponentStore((components) => {
+  //      return {
+  //        ...components,
+  //        component,
+  //      };
+  //    });
+  //    this.id++;
+  //    return newId;
+  //  }
 
   delete(id: number) {
     const component = this.componentStore[id];

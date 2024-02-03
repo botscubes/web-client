@@ -9,7 +9,7 @@ export default class AddingComponentState extends EditorState {
   constructor(
     editor: EditorController,
     event: MouseEvent,
-    private component: SpecificComponentCreator
+    private creator: SpecificComponentCreator
   ) {
     super(editor);
     editor.setUserSelect(false);
@@ -18,7 +18,7 @@ export default class AddingComponentState extends EditorState {
       this.getRelativeMousePosition(event)
     );
 
-    editor.addingComponent.setContent(() => component.content);
+    editor.addingComponent.setContent(() => creator.content);
   }
   get name() {
     return "AddingComponentState";
@@ -31,9 +31,9 @@ export default class AddingComponentState extends EditorState {
   }
   handleMouseUp(event: MouseEvent) {
     if (event.target == this.editor.area) {
-      this.editor.components.add(
+      this.editor.components.create(
         this.getRelativeMousePosition(event),
-        this.component
+        this.creator
       );
     }
     this.editor.setUserSelect(true);
