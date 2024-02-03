@@ -1,0 +1,1 @@
+export { StartComponentController } from "./StartComponentController";

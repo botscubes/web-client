@@ -5,9 +5,9 @@ import {
 } from "../../SpecificComponent";
 import { Position } from "~/containers/Editor/shared/types";
 import EditorController from "../..";
-import { OutputPoint, OutputPointType } from "../../SpecificComponent/types";
+import { OutputPoint } from "../../SpecificComponent/types";
 
-export class ConditionController
+export class ConditionComponentController
   extends SpecificComponentController
   implements SpecificComponentHandlers<ConditionContentHandlers>
 {

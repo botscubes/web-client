@@ -1,4 +1,4 @@
-import ConditionContent from "./StartContent";
-export type { ConditionContentHandlers } from "./types";
+import StartContent from "./StartContent";
+export type { StartContentHandlers } from "./types";
 
-export { ConditionContent };
+export { StartContent };

@@ -1,16 +1,11 @@
 import { Position } from "~/containers/Editor/shared/types";
 import { InputHandlers } from "../../../Input";
+import { ContentPointHandlers } from "../..";
 
-export interface ConditionContentHandlers {
-  expression?: InputHandlers;
-  points?: {
-    error?: {
-      onMouseDown?: (clientPosition: Position) => void;
-      onMount?: (getPointClientPosition: () => Position) => void;
-    };
-  };
+export interface StartContentHandlers {
+  outputPoint: ContentPointHandlers;
 }
 
-export interface ConditionContentProps {
-  handlers?: ConditionContentHandlers;
+export interface StartContentProps {
+  handlers?: StartContentHandlers;
 }

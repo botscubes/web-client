@@ -5,7 +5,7 @@ import {
   SpecificComponent,
 } from "../../SpecificComponent";
 import { ConditionContent } from "~/containers/Editor/components/ComponentContent/contents/ConditionContent";
-import { ConditionController } from "./ConditionController";
+import { ConditionComponentController } from "./ConditionController";
 
 export class ConditionComponentCreator implements SpecificComponentCreator {
   constructor(private editor: EditorController) {}
@@ -13,7 +13,7 @@ export class ConditionComponentCreator implements SpecificComponentCreator {
     return () => <ConditionContent />;
   }
   create(id: number): SpecificComponent {
-    const controller = new ConditionController(this.editor, id);
+    const controller = new ConditionComponentController(this.editor, id);
     return [
       controller,
       () => <ConditionContent handlers={controller.getHandlers()} />,

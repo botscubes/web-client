@@ -89,9 +89,3 @@ export interface SpecificComponentCreator {
   get content(): () => JSX.Element;
   create(id: number): SpecificComponent;
 }
-
-export enum OutputPointType {
-  Error = "Error",
-  Next = "Mext",
-  Else = "Else",
-}

@@ -1,26 +1,23 @@
-import Content from "../../Content";
+import { Content, ContentConnectionPoint } from "../../Content";
 import "../../Content.css";
-import { ConditionContentProps } from "./types";
+import { StartContentProps } from "./types";
 import { Input } from "../../../Input";
 import { ConnectionPoint } from "../../../ConnectionPoint";
-import "./ConditionContent.css";
+import "./StartContent.css";
+import { OutputPointType } from "../../types";
 
-export default function StartContent(props: ConditionContentProps) {
+export default function StartContent(props: StartContentProps) {
   return (
     <>
-      <Content componentName={"Condition"}>
-        <Input class="component-input" handlers={props.handlers?.expression} />
+      <Content componentName={"Start"}>
+        <></>
       </Content>
       <div class="output-points">
-        <ConnectionPoint class="next-component-point" tooltip="true" />
-        <ConnectionPoint class="false-point" tooltip="false" />
-        <ConnectionPoint
-          class="error-point"
+        <ContentConnectionPoint
+          pointId={OutputPointType.Next}
+          class="next-component-point"
           tooltip="error"
-          handlers={{
-            onMouseDown: props.handlers?.points?.error?.onMouseDown,
-            onMount: props.handlers?.points?.error?.onMount,
-          }}
+          handlers={props.handlers?.outputPoint}
         />
       </div>
     </>
