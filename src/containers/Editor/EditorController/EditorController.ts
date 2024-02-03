@@ -6,9 +6,12 @@ import { getRelativeMousePosition } from "./halpers/mouse";
 import ComponentController from "./ComponentController";
 import Logger from "~/logging/Logger";
 import AddingComponentState from "./states/AddingComponentState";
-import { SpecificComponent } from "./SpecificComponent";
+import {
+  SpecificComponent,
+  SpecificComponentCreator,
+} from "./SpecificComponent";
 import ConnectionController from "./ConnectionController";
-import LineStorage from "./EditorStorage/LineStorage";
+import LineStore from "./EditorStorage/LineStore";
 import { ComponentStorage } from "./EditorStorage/ComponentStorage";
 import ConnectionState from "./states/ConnectionState";
 import {
@@ -18,6 +21,7 @@ import {
 } from "~/api/HTTPResponse";
 import { useNavigate } from "@solidjs/router";
 import { EditorClient } from "./api/EditorClient";
+import ComponentStore from "./EditorStorage/ComponentStorage/ComponentStore";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
@@ -31,12 +35,12 @@ export default class EditorController {
     private client: EditorClient,
     private logger: Logger
   ) {
-    const componentStorage = new ComponentStorage(editor.componentStore);
-    this._components = new ComponentController(this, componentStorage, logger);
+    const componentStore = new ComponentStore(...editor.componentStore);
+    this._components = new ComponentController(this, componentStore, logger);
     this._connections = new ConnectionController(
       this,
-      new LineStorage(...editor.lineStore),
-      componentStorage
+      new LineStore(...editor.lineStore),
+      componentStore
     );
   }
 
@@ -177,8 +181,8 @@ export default class EditorController {
     return relativeMousePosition;
   }
 
-  startAddingComponent(event: MouseEvent, component: SpecificComponent) {
-    this.setState(new AddingComponentState(this, event, component));
+  startAddingComponent(event: MouseEvent, creator: SpecificComponentCreator) {
+    this.setState(new AddingComponentState(this, event, creator));
   }
   // getEditorStorage(): EditorStorage {
   //   return this.editorStorage;

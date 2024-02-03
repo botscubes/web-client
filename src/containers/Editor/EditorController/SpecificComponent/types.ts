@@ -50,9 +50,14 @@ export interface SpecificComponentHandlers<T> {
   getHandlers(): T;
 }
 
-export interface SpecificComponent {
+export type SpecificComponent = [
+  SpecificComponentController,
+  () => JSX.Element,
+];
+
+export interface SpecificComponentCreator {
   get content(): () => JSX.Element;
-  create(id: number): [SpecificComponentController, () => JSX.Element];
+  create(id: number): SpecificComponent;
 }
 
 export enum OutputPointType {

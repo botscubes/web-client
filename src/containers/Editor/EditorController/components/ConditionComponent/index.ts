@@ -1,2 +1,2 @@
 export { ConditionController } from "./ConditionController";
-export { ConditionComponent } from "./ConditionComponent";
+export { ConditionComponentCreator } from "./ConditionComponent";

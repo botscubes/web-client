@@ -24,7 +24,7 @@ export default class ComponentStore {
 
   add(position: Position, component: SpecificComponent): number {
     const id: number = this.id;
-    const [controller, content] = component.create(id);
+    const [controller, content] = component;
     this.setComponentStore(
       (
         components: Record<number, ExtendedComponentData>

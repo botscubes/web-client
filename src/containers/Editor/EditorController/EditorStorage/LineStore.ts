@@ -3,7 +3,7 @@ import { EditorData } from "../../types";
 import { LinePosition } from "../../components/Line";
 import { Accessor, Setter } from "solid-js";
 
-export default class LineStorage {
+export default class LineStore {
   constructor(
     private _lines: Store<Record<string, LinePosition>>,
     private setLines: SetStoreFunction<Record<string, LinePosition>>

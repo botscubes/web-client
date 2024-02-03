@@ -22,13 +22,13 @@ import {
   FormatContentHandlers,
 } from "./components/ComponentContent/contents/FormatContent";
 import { ExtendedComponentData } from "./EditorController/EditorStorage/ComponentStorage/types";
-import { SpecificComponent } from "./EditorController/SpecificComponent";
+import { SpecificComponentCreator } from "./EditorController/SpecificComponent";
 import {
   ConditionContent,
   ConditionContentHandlers,
 } from "./components/ComponentContent/contents/ConditionContent";
-import { FormatComponent } from "./EditorController/components/FormatComponent";
-import { ConditionComponent } from "./EditorController/components/ConditionComponent";
+import { FormatComponentCreator } from "./EditorController/components/FormatComponent";
+import { ConditionComponentCreator } from "./EditorController/components/ConditionComponent";
 import { Line, LinePosition } from "./components/Line";
 import { EditorProps } from "./types";
 import { EditorClient } from "./EditorController/api/EditorClient";
@@ -124,9 +124,9 @@ export default function Editor(props: EditorProps) {
   //  let commandConnectionPosition: Position | undefined = undefined;
   const [showComponentSelection, setShowComponentSelection] =
     createSignal(false);
-  const componentList: Array<SpecificComponent> = [
-    new FormatComponent(editor),
-    new ConditionComponent(editor),
+  const componentCreatorList: Array<SpecificComponentCreator> = [
+    new FormatComponentCreator(editor),
+    new ConditionComponentCreator(editor),
   ];
   return (
     <div
@@ -185,15 +185,15 @@ export default function Editor(props: EditorProps) {
               {"<-"}
             </button>
             <div class="component-list">
-              <For each={componentList}>
-                {(component) => (
+              <For each={componentCreatorList}>
+                {(creator) => (
                   <div
                     class="component reduce"
                     onMouseDown={(event: MouseEvent) => {
-                      editor.startAddingComponent(event, component);
+                      editor.startAddingComponent(event, creator);
                     }}
                   >
-                    <div class="no-events">{component.content()}</div>
+                    <div class="no-events">{creator.content()}</div>
                   </div>
                 )}
               </For>

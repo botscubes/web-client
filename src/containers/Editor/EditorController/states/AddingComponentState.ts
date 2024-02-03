@@ -3,13 +3,13 @@ import EditorState from "../EditorState";
 import WaitingState from "./WaitingState";
 import { getMousePosition } from "../halpers/mouse";
 import { Position } from "../../shared/types";
-import { SpecificComponent } from "../SpecificComponent";
+import { SpecificComponentCreator } from "../SpecificComponent";
 
 export default class AddingComponentState extends EditorState {
   constructor(
     editor: EditorController,
     event: MouseEvent,
-    private component: SpecificComponent
+    private component: SpecificComponentCreator
   ) {
     super(editor);
     editor.setUserSelect(false);

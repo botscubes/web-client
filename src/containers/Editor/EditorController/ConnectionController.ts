@@ -1,14 +1,15 @@
 import { LinePosition } from "~/containers/Editor/components/Line";
 import { ComponentStorage } from "./EditorStorage/ComponentStorage";
-import LineStorage from "./EditorStorage/LineStorage";
+import LineStore from "./EditorStorage/LineStore";
 import { SourceConnectionData, TargetConnectionData } from "./types";
 import EditorController from ".";
+import ComponentStore from "./EditorStorage/ComponentStorage/ComponentStore";
 
 export default class ConnectionController {
   constructor(
     private editor: EditorController,
-    private lines: LineStorage,
-    private components: ComponentStorage
+    private lines: LineStore,
+    private components: ComponentStore
   ) {}
 
   add(

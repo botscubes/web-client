@@ -7,23 +7,27 @@ import { Position } from "../shared/types";
 import ComponentMoveState from "./states/ComponentMoveState";
 import Logger from "~/logging/Logger";
 import { ExtendedComponentData } from "./EditorStorage/ComponentStorage/types";
-import { SpecificComponent } from "./SpecificComponent";
+import {
+  SpecificComponent,
+  SpecificComponentCreator,
+} from "./SpecificComponent";
+import ComponentStore from "./EditorStorage/ComponentStorage/ComponentStore";
 
 export default class ComponentController {
   private selectedComponents = new SelectedComponents();
   constructor(
     private editor: EditorController,
-    private components: ComponentStorage,
+    private components: ComponentStore,
     private logger: Logger
   ) {}
 
   component(id: number) {
     return this.components.component(id);
   }
-  add(position: Position, component: SpecificComponent) {
+  add(position: Position, component: SpecificComponentCreator) {
     this.deselectAll();
 
-    const id: number = this.components.add(position, component);
+    const id: number = this.components.add(position, component.create(1));
     this.components.select(id);
     this.selectedComponents.select(id);
   }
