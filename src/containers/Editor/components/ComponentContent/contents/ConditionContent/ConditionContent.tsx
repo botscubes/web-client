@@ -1,8 +1,7 @@
-import Content from "../../Content";
+import { Content, ContentConnectionPoint } from "../../Content";
 import "../../Content.css";
 import { ConditionContentProps } from "./types";
 import { Input } from "../../../Input";
-import { ConnectionPoint } from "../../../ConnectionPoint";
 import "./ConditionContent.css";
 
 export default function ConditionContent(props: ConditionContentProps) {
@@ -12,15 +11,15 @@ export default function ConditionContent(props: ConditionContentProps) {
         <Input class="component-input" handlers={props.handlers?.expression} />
       </Content>
       <div class="output-points">
-        <ConnectionPoint class="next-component-point" tooltip="true" />
-        <ConnectionPoint class="false-point" tooltip="false" />
-        <ConnectionPoint
+        {
+          // <ContentConnectionPoint class="next-component-point" tooltip="true" />
+          // <ContentConnectionPoint class="false-point" tooltip="false" />
+        }
+        <ContentConnectionPoint
+          pointId="error"
           class="error-point"
           tooltip="error"
-          handlers={{
-            onMouseDown: props.handlers?.points?.error?.onMouseDown,
-            onMount: props.handlers?.points?.error?.onMount,
-          }}
+          handlers={props.handlers?.outputPoint}
         />
       </div>
     </>

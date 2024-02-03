@@ -125,7 +125,7 @@ export default function Editor(props: EditorProps) {
   const [showComponentSelection, setShowComponentSelection] =
     createSignal(false);
   const componentCreatorList: Array<SpecificComponentCreator> = [
-    new FormatComponentCreator(editor),
+    //new FormatComponentCreator(editor),
     new ConditionComponentCreator(editor),
   ];
   return (

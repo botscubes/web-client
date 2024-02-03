@@ -14,16 +14,8 @@ export class ConditionController
   private setExpression: (str: string) => void = (_str: string) => {};
   private expression = "";
 
-  constructor(
-    private editor: EditorController,
-    id: number
-  ) {
-    super(id, {
-      [OutputPointType.Error]: new OutputPoint(
-        OutputPointType.Error,
-        (_componentId?: number) => {}
-      ),
-    });
+  constructor(editor: EditorController, id: number) {
+    super(editor, id);
   }
 
   getHandlers(): ConditionContentHandlers {
@@ -38,22 +30,7 @@ export class ConditionController
         onChange: (_str: string) => {},
         onInput: (_str: string) => {},
       },
-      points: {
-        error: {
-          onMouseDown: (clientPosition: Position) => {
-            this.editor.startConnection(
-              this.getId(),
-              this.getOutputPoint(OutputPointType.Error).id,
-              clientPosition
-            );
-          },
-          onMount: (getPointClientPosition: () => Position) => {
-            this.getOutputPoint(
-              OutputPointType.Error
-            ).setHandlerOnGetClientPosition(getPointClientPosition);
-          },
-        },
-      },
+      outputPoint: this.getPointHandlers(),
     };
   }
 }

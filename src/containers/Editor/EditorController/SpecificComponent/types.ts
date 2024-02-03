@@ -1,13 +1,13 @@
 import { JSX } from "solid-js";
 import EditorController from "..";
 import { Position } from "../../shared/types";
+import { ContentPointHandlers } from "../../components/ComponentContent";
 
 export class OutputPoint {
   private _targetComponentId?: number = undefined;
-  private _getClientPosition = () => ({ x: 0, y: 0 });
   constructor(
     private _id: string,
-    private onSetTargetComponentId: (componentId?: number) => void
+    private _getClientPosition: () => Position
   ) {}
   get id() {
     return this._id;
@@ -17,21 +17,22 @@ export class OutputPoint {
   }
   set targetComponentId(componentId: number | undefined) {
     this._targetComponentId = componentId;
-    this.onSetTargetComponentId(componentId);
   }
   getClientPosition(): Position {
     return this._getClientPosition();
   }
-  setHandlerOnGetClientPosition(handler: () => Position) {
-    this._getClientPosition = handler;
-  }
 }
 
 export abstract class SpecificComponentController {
+  private outputPoints: Record<string, OutputPoint> = {};
+  private handlers: Record<string, (componentId?: number) => void> = {};
   constructor(
-    private id: number,
-    private outputPoints: Record<string, OutputPoint>
+    private _editor: EditorController,
+    private id: number
   ) {}
+  get editor() {
+    return this._editor;
+  }
   getOutputPoint(id: string): OutputPoint {
     return this.outputPoints[id];
   }
@@ -43,6 +44,35 @@ export abstract class SpecificComponentController {
   }
   getOutputPoints(): Array<OutputPoint> {
     return Object.values(this.outputPoints);
+  }
+  getPointHandlers(): ContentPointHandlers {
+    return {
+      onMouseDown: (pointId: string, clientPosition: Position) => {
+        this._editor.startConnection(this.getId(), pointId, clientPosition);
+      },
+      onMount: (pointId: string, getPointClientPosition: () => Position) => {
+        this.outputPoints[pointId] = new OutputPoint(
+          pointId,
+          getPointClientPosition
+        );
+      },
+    };
+  }
+  setHandlerWhenSettingTargetComponentId(
+    pointId: number,
+    handler: (componentId?: number) => void
+  ) {
+    this.handlers[pointId] = handler;
+  }
+  setTargetComponentId(pointId: string, componentId?: number) {
+    const outputPoint = this.outputPoints[pointId];
+    if (outputPoint) {
+      outputPoint.targetComponentId = componentId;
+      const handler = this.handlers[pointId];
+      if (handler) {
+        handler(componentId);
+      }
+    }
   }
 }
 
