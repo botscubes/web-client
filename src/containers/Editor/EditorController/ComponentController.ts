@@ -15,7 +15,6 @@ import ComponentStore from "./EditorStorage/ComponentStorage/ComponentStore";
 import { ConnectionPointData } from "../components/ConnectionPoint/types";
 
 export default class ComponentController {
-  private id = 0;
   private selectedComponents = new SelectedComponents();
   constructor(
     private editor: EditorController,
@@ -26,14 +25,25 @@ export default class ComponentController {
   component(id: number) {
     return this.components.component(id);
   }
-  create(position: Position, component: SpecificComponentCreator) {
+  async create(position: Position, creator: SpecificComponentCreator) {
     this.deselectAll();
 
-    const id: number = this.id;
-    this.components.add(id, position, component.create(id));
-    this.id++;
-    this.components.select(id);
-    this.selectedComponents.select(id);
+    const [data, error] = await this.editor.HTTPRequest(() =>
+      this.editor.client.addComponent({
+        type: creator.type,
+        position: position,
+      })
+    );
+    if (error) {
+      this.editor.error.set(error);
+      return;
+    }
+    if (data) {
+      const id = data.id;
+      this.components.add(id, position, creator.create(id));
+      this.components.select(id);
+      this.selectedComponents.select(id);
+    }
   }
 
   add(

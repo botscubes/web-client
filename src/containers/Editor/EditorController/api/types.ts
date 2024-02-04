@@ -13,3 +13,12 @@ export enum APIComponentType {
   Format = "format",
   Condition = "condition",
 }
+
+export interface APIAddComponentRequestData {
+  type: APIComponentType;
+  position: Position;
+}
+
+export interface APIAddComponentResponseData {
+  id: number;
+}

@@ -23,7 +23,7 @@ import { useNavigate } from "@solidjs/router";
 import { EditorClient } from "./api/EditorClient";
 import ComponentStore from "./EditorStorage/ComponentStorage/ComponentStore";
 import { StartComponentController } from "./components/StartComponent";
-import { APIComponentType } from "./api/types";
+import { APIComponentData, APIComponentType } from "./api/types";
 import { StartContent } from "../components/ComponentContent/contents/StartContent";
 
 export default class EditorController {
@@ -35,7 +35,7 @@ export default class EditorController {
 
   constructor(
     private editor: EditorData,
-    private client: EditorClient,
+    private _client: EditorClient,
     private logger: Logger
   ) {
     const componentStore = new ComponentStore(...editor.componentStore);
@@ -46,7 +46,9 @@ export default class EditorController {
       componentStore
     );
   }
-
+  get client() {
+    return this._client;
+  }
   get connections() {
     return this._connections;
   }
@@ -68,33 +70,32 @@ export default class EditorController {
   get line() {
     return this.editor.line;
   }
+  get error() {
+    return this.editor.error;
+  }
 
   async init() {
     const [components, error] = await this.HTTPRequest(() =>
-      this.client.getComponents()
+      this._client.getComponents()
     );
+    if (error) {
+      this.editor.error.set(error);
+      return;
+    }
     if (components) {
       for (const component of components) {
-        if (APIComponentType.Start) {
-          const controller = new StartComponentController(
-            this,
-            component.id,
-            component.nextComponentId
-          );
+        const specificComponent = this.createSpecificComponent(component);
+        if (specificComponent) {
           this.components.add(
             component.id,
             component.position,
-            [
-              controller,
-              () => (
-                <StartContent
-                  data={{ nextComponentId: component.nextComponentId }}
-                  handlers={controller.getHandlers()}
-                />
-              ),
-            ],
+            specificComponent,
             {},
             false
+          );
+        } else {
+          this.editor.error.set(
+            new Error("This type of component does not exist")
           );
         }
       }
@@ -236,6 +237,32 @@ export default class EditorController {
       return [undefined, e as Error];
     } finally {
       this.editor.setLoading(false);
+    }
+  }
+  createSpecificComponent(
+    component: APIComponentData
+  ): SpecificComponent | undefined {
+    switch (component.type) {
+      case APIComponentType.Start: {
+        const controller = new StartComponentController(
+          this,
+          component.id,
+          component.nextComponentId
+        );
+
+        return [
+          controller,
+          () => (
+            <StartContent
+              data={{ nextComponentId: component.nextComponentId }}
+              handlers={controller.getHandlers()}
+            />
+          ),
+        ];
+      }
+      default: {
+        return undefined;
+      }
     }
   }
 }

@@ -3,6 +3,7 @@ import EditorController from "..";
 import { Position } from "../../shared/types";
 import { ContentPointHandlers } from "../../components/ComponentContent";
 import { SpecificComponentController } from ".";
+import { APIComponentType } from "../api/types";
 
 export class OutputPoint {
   private _targetComponentId?: number = undefined;
@@ -34,6 +35,7 @@ export type SpecificComponent = [
 ];
 
 export interface SpecificComponentCreator {
+  get type(): APIComponentType;
   get content(): () => JSX.Element;
   create(id: number): SpecificComponent;
 }

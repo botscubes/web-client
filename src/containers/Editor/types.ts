@@ -31,6 +31,9 @@ export interface EditorData {
   ];
   setLoading: Setter<boolean>;
   navigate: Navigator;
+  error: {
+    set: Setter<Error | undefined>;
+  };
   //componentStyle: ComponentStyle;
   //lines: Record<number, LinePosition>;
   //line: LinePosition;

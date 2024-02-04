@@ -1,4 +1,4 @@
-import { For, JSX, Show, createSignal, onMount } from "solid-js";
+import { For, JSX, Show, createEffect, createSignal, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 import {
   handleMouseMove,
@@ -63,6 +63,18 @@ export default function Editor(props: EditorProps) {
   const [line, setLine] = createSignal<LinePosition | undefined>(undefined);
   const [lines, setLines] = createStore<Record<string, LinePosition>>({});
   const [loading, setLoading] = createSignal(false);
+  const [error, setError] = createSignal<Error | undefined>();
+  const [errors, setErrors] = createSignal<Array<Error>>([]);
+  createEffect(() => {
+    if (error()) {
+      const err = error() as Error;
+      setErrors((errors) => [...errors, err]);
+
+      setTimeout(() => {
+        setErrors((errors) => errors.filter((error) => error != err));
+      }, 5000);
+    }
+  });
   //const editorStore = createStore<EditorData>({
   //components: {},
   //    componentStyle: {
@@ -108,6 +120,9 @@ export default function Editor(props: EditorProps) {
       lineStore: [lines, setLines],
       setLoading: setLoading,
       navigate: navigate,
+      error: {
+        set: setError,
+      },
     },
     // eslint-disable-next-line solid/reactivity
     new EditorClient(props.httpClient, props.token, props.botId, 1),
@@ -143,6 +158,15 @@ export default function Editor(props: EditorProps) {
       }}
     >
       <div class="fixed-area no-events">
+        <div class="editor-errors">
+          <For each={errors()}>
+            {(error) => (
+              <div class="editor-error">
+                <div class="error">{error.message}</div>
+              </div>
+            )}
+          </For>
+        </div>
         {
           //<div class="control-buttons">
           //<button onClick={[handleAddComponent, editor]} id="add-button">

@@ -6,9 +6,13 @@ import {
 } from "../../SpecificComponent";
 import { ConditionContent } from "~/containers/Editor/components/ComponentContent/contents/ConditionContent";
 import { ConditionComponentController } from "./ConditionController";
+import { APIComponentType } from "../../api/types";
 
 export class ConditionComponentCreator implements SpecificComponentCreator {
   constructor(private editor: EditorController) {}
+  get type(): APIComponentType {
+    return APIComponentType.Condition;
+  }
   get content(): () => JSX.Element {
     return () => <ConditionContent />;
   }
