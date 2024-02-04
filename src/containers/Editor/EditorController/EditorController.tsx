@@ -25,6 +25,8 @@ import ComponentStore from "./EditorStorage/ComponentStorage/ComponentStore";
 import { StartComponentController } from "./components/StartComponent";
 import { APIComponentData, APIComponentType } from "./api/types";
 import { StartContent } from "../components/ComponentContent/contents/StartContent";
+import { ConditionComponentController } from "./components/ConditionComponent";
+import { ConditionContent } from "../components/ComponentContent/contents/ConditionContent";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
@@ -84,6 +86,10 @@ export default class EditorController {
     }
     if (components) {
       for (const component of components) {
+        let abitityToDelete = true;
+        if (component.type == APIComponentType.Start) {
+          abitityToDelete = false;
+        }
         const specificComponent = this.createSpecificComponent(component);
         if (specificComponent) {
           this.components.add(
@@ -91,11 +97,13 @@ export default class EditorController {
             component.position,
             specificComponent,
             {},
-            false
+            abitityToDelete
           );
         } else {
           this.editor.error.set(
-            new Error("This type of component does not exist")
+            new Error(
+              `This type of component does not exist: ${component.type}`
+            )
           );
         }
       }
@@ -232,6 +240,7 @@ export default class EditorController {
       if (response.statusUnauthorized()) {
         this.editor.navigate("/signin");
       }
+      response.check();
       return [response.data, undefined];
     } catch (e) {
       return [undefined, e as Error];
@@ -244,11 +253,7 @@ export default class EditorController {
   ): SpecificComponent | undefined {
     switch (component.type) {
       case APIComponentType.Start: {
-        const controller = new StartComponentController(
-          this,
-          component.id,
-          component.nextComponentId
-        );
+        const controller = new StartComponentController(this, component.id);
 
         return [
           controller,
@@ -258,6 +263,14 @@ export default class EditorController {
               handlers={controller.getHandlers()}
             />
           ),
+        ];
+      }
+      case APIComponentType.Condition: {
+        const controller = new ConditionComponentController(this, component.id);
+
+        return [
+          controller,
+          () => <ConditionContent handlers={controller.getHandlers()} />,
         ];
       }
       default: {

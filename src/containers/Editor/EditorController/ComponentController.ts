@@ -62,9 +62,17 @@ export default class ComponentController {
     );
   }
 
-  delete(id: number) {
+  async delete(id: number) {
     this.editor.connections.deleteAllFromComponent(id);
     this.deselectAll();
+
+    const [_, error] = await this.editor.HTTPRequest(() =>
+      this.editor.client.deleteComponent(id)
+    );
+    if (error) {
+      this.editor.error.set(error);
+      return;
+    }
     this.components.delete(id);
   }
   move(mousePosition: Position) {

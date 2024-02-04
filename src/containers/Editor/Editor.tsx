@@ -251,7 +251,6 @@ export default function Editor(props: EditorProps) {
       >
         <For each={Object.values(componentStore)}>
           {(component) => {
-            console.log(component.id);
             const componentStyle = {
               width: 100, //px
               connectionPointSize: 20, //px
