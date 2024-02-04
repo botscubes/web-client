@@ -138,4 +138,16 @@ export default class ComponentController {
       this.components.setConnectionAreaVisible(component.id, false);
     }
   }
+  async completeMove() {
+    for (let [id, _] of this.selectedComponents.get()) {
+      const position = this.components.component(id).position;
+      const [_, error] = await this.editor.HTTPRequest(() =>
+        this.editor.client.setComponentPosition(id, position)
+      );
+      if (error) {
+        this.editor.error.set(error);
+        return;
+      }
+    }
+  }
 }

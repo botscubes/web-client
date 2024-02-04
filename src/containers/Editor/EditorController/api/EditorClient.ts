@@ -4,6 +4,7 @@ import {
   APIAddComponentResponseData,
   APIComponentData,
 } from "./types";
+import { Position } from "../../shared/types";
 
 export class EditorClient {
   constructor(
@@ -31,6 +32,16 @@ export class EditorClient {
   async deleteComponent(componentId: number): Promise<HTTPResponse<undefined>> {
     return this.httpClient.DELETE(
       `/api/bots/${this.botId}/groups/${this.groupId}/components/${componentId}`,
+      this.token
+    );
+  }
+  async setComponentPosition(
+    componentId: number,
+    position: Position
+  ): Promise<HTTPResponse<undefined>> {
+    return this.httpClient.PATCH(
+      `/api/bots/${this.botId}/groups/${this.groupId}/components/${componentId}/position`,
+      position,
       this.token
     );
   }
