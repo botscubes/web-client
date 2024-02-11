@@ -3,6 +3,7 @@ import {
   APIAddComponentRequestData,
   APIAddComponentResponseData,
   APIComponentData,
+  APISetConnectionData,
 } from "./types";
 import { Position } from "../../shared/types";
 
@@ -42,6 +43,15 @@ export class EditorClient {
     return this.httpClient.PATCH(
       `/api/bots/${this.botId}/groups/${this.groupId}/components/${componentId}/position`,
       position,
+      this.token
+    );
+  }
+  async setConnection(
+    data: APISetConnectionData
+  ): Promise<HTTPResponse<undefined>> {
+    return this.httpClient.POST(
+      `/api/bots/${this.botId}/groups/${this.groupId}/connections`,
+      data,
       this.token
     );
   }

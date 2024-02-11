@@ -28,7 +28,7 @@ export default class ComponentController {
   async create(position: Position, creator: SpecificComponentCreator) {
     this.deselectAll();
 
-    const [data, error] = await this.editor.HTTPRequest(() =>
+    const [data, error] = await this.editor.httpRequest(() =>
       this.editor.client.addComponent({
         type: creator.type,
         position: position,
@@ -66,7 +66,7 @@ export default class ComponentController {
     this.editor.connections.deleteAllFromComponent(id);
     this.deselectAll();
 
-    const [_, error] = await this.editor.HTTPRequest(() =>
+    const [_, error] = await this.editor.httpRequest(() =>
       this.editor.client.deleteComponent(id)
     );
     if (error) {
@@ -141,7 +141,7 @@ export default class ComponentController {
   async completeMove() {
     for (let [id, _] of this.selectedComponents.get()) {
       const position = this.components.component(id).position;
-      const [_, error] = await this.editor.HTTPRequest(() =>
+      const [_, error] = await this.editor.httpRequest(() =>
         this.editor.client.setComponentPosition(id, position)
       );
       if (error) {

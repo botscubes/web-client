@@ -77,7 +77,7 @@ export default class EditorController {
   }
 
   async init() {
-    const [components, error] = await this.HTTPRequest(() =>
+    const [components, error] = await this.httpRequest(() =>
       this._client.getComponents()
     );
     if (error) {
@@ -231,7 +231,7 @@ export default class EditorController {
   zoomOut() {
     this.editor.scale.set((scale) => scale - this.zoomSize);
   }
-  async HTTPRequest<T>(
+  async httpRequest<T>(
     request: () => Promise<HTTPResponse<T>>
   ): Promise<[T | undefined, Error | undefined]> {
     this.editor.setLoading(true);

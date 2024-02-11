@@ -91,8 +91,14 @@ export class HTTPClient {
     };
     const text = await response.text();
     if (text) {
-      if (response.status == 200 || response.status == 201) {
+      if (response.status == 200) {
         result.data = JSON.parse(text);
+      } else if (response.status == 201) {
+        try {
+          result.data = JSON.parse(text);
+        } catch {
+          result.data = undefined;
+        }
       } else if (response.status == 422) {
         result.error = JSON.parse(text);
       }

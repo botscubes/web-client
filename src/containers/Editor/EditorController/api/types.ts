@@ -22,3 +22,10 @@ export interface APIAddComponentRequestData {
 export interface APIAddComponentResponseData {
   id: number;
 }
+
+export interface APISetConnectionData {
+  sourceComponentId: number;
+  sourcePointName: string;
+  targetComponentId: number;
+  relativePointPosition: Position;
+}

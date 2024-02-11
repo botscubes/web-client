@@ -12,10 +12,23 @@ export default class ConnectionController {
     private components: ComponentStore
   ) {}
 
-  add(
+  async add(
     sourceConnectionData: SourceConnectionData,
     targetConnectionData: TargetConnectionData
   ) {
+    const [_, error] = await this.editor.httpRequest(() =>
+      this.editor.client.setConnection({
+        sourcePointName: sourceConnectionData.pointId,
+        sourceComponentId: sourceConnectionData.componentId,
+        targetComponentId: targetConnectionData.componentId,
+        relativePointPosition: targetConnectionData.relativePointPosition,
+      })
+    );
+    if (error) {
+      this.editor.error.set(error);
+      return;
+    }
+
     this.lines.set(
       sourceConnectionData.componentId,
       sourceConnectionData.pointId,
