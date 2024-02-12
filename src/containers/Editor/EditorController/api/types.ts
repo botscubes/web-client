@@ -23,9 +23,12 @@ export interface APIAddComponentResponseData {
   id: number;
 }
 
-export interface APISetConnectionData {
-  sourceComponentId: number;
-  sourcePointName: string;
+export interface APISetConnectionData extends APISourceComponentOutput {
   targetComponentId: number;
   relativePointPosition: Position;
+}
+
+export interface APISourceComponentOutput {
+  sourceComponentId: number;
+  sourcePointName: string;
 }

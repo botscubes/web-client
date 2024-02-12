@@ -35,8 +35,12 @@ export class HTTPClient {
   ): Promise<HTTPResponse<O>> {
     return this.request(path, "PUT", token, data);
   }
-  async DELETE<T>(path: string, token?: string): Promise<HTTPResponse<T>> {
-    return this.request(path, "DELETE", token);
+  async DELETE<I, O>(
+    path: string,
+    token?: string,
+    data?: I
+  ): Promise<HTTPResponse<O>> {
+    return this.request(path, "DELETE", token, data);
   }
 
   async request<I, O>(

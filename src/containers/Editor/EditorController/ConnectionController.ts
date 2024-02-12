@@ -52,7 +52,7 @@ export default class ConnectionController {
     );
   }
 
-  delete(
+  async delete(
     targetComponentId: number,
     sourceComponentId: number,
     sourcePointId: string
@@ -62,11 +62,23 @@ export default class ConnectionController {
       .component(sourceComponentId)
       .controller.setTargetComponentId(sourcePointId, undefined);
 
+    const [_, error] = await this.editor.httpRequest(() =>
+      this.editor.client.deleteConnection({
+        sourcePointName: sourcePointId,
+        sourceComponentId: sourceComponentId,
+      })
+    );
+    if (error) {
+      this.editor.error.set(error);
+      return;
+    }
+
     this.components.deleteConnectionPoint(
       targetComponentId,
       sourceComponentId,
       sourcePointId
     );
+
     //  const linePosition = this.editorStorage.getLinePosition(sourceCommandId);
     //  const commandConnectionPosition: Position =
     //    this.editorStorage.getCommandConnectionPosition(

@@ -3,6 +3,7 @@ import "../../Content.css";
 import { ConditionContentProps } from "./types";
 import { Input } from "../../../Input";
 import "./ConditionContent.css";
+import { OutputPointType } from "../../types";
 
 export default function ConditionContent(props: ConditionContentProps) {
   return (
@@ -17,7 +18,7 @@ export default function ConditionContent(props: ConditionContentProps) {
         }
         <ContentConnectionPoint
           targetComponentId={props.data?.idIfFalse}
-          pointId="error"
+          pointId={OutputPointType.Error}
           class="error-point"
           tooltip="error"
           handlers={props.handlers?.outputPoint}

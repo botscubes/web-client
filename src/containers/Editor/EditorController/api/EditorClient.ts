@@ -4,6 +4,7 @@ import {
   APIAddComponentResponseData,
   APIComponentData,
   APISetConnectionData,
+  APISourceComponentOutput,
 } from "./types";
 import { Position } from "../../shared/types";
 
@@ -53,6 +54,16 @@ export class EditorClient {
       `/api/bots/${this.botId}/groups/${this.groupId}/connections`,
       data,
       this.token
+    );
+  }
+
+  async deleteConnection(
+    data: APISourceComponentOutput
+  ): Promise<HTTPResponse<undefined>> {
+    return this.httpClient.DELETE(
+      `/api/bots/${this.botId}/groups/${this.groupId}/connections`,
+      this.token,
+      data
     );
   }
 }
