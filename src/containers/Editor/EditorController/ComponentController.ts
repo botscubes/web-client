@@ -63,7 +63,7 @@ export default class ComponentController {
   }
 
   async delete(id: number) {
-    this.editor.connections.deleteAllFromComponent(id);
+    await this.editor.connections.deleteAllFromComponent(id);
     this.deselectAll();
 
     const [_, error] = await this.editor.httpRequest(() =>

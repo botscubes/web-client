@@ -99,18 +99,18 @@ export default class ConnectionController {
     return this.lines.get(componentId, pointId);
   }
 
-  deleteAllFromComponent(componentId: number) {
+  async deleteAllFromComponent(componentId: number) {
     const component = this.components.get()[componentId];
     if (component) {
       const points = component.controller.getOutputPoints();
       for (const point of points) {
         if (point.targetComponentId != undefined) {
-          this.delete(point.targetComponentId, componentId, point.id);
+          await this.delete(point.targetComponentId, componentId, point.id);
         }
       }
       for (const point of Object.values(component.connectionPoints)) {
         if (point.componentId != undefined && point.pointId != undefined) {
-          this.delete(componentId, point.componentId, point.pointId);
+          await this.delete(componentId, point.componentId, point.pointId);
         }
       }
     }
