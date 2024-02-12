@@ -27,6 +27,8 @@ import { APIComponentData, APIComponentType } from "./api/types";
 import { StartContent } from "../components/ComponentContent/contents/StartContent";
 import { ConditionComponentController } from "./components/ConditionComponent";
 import { ConditionContent } from "../components/ComponentContent/contents/ConditionContent";
+import { ConnectionPointData } from "../components/ConnectionPoint/types";
+import { OutputPointType } from "../components/ComponentContent/types";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
@@ -99,15 +101,25 @@ export default class EditorController {
             {},
             abitityToDelete
           );
+          for (const [_, value] of Object.entries(component.connectionPoints)) {
+            this.components.addConnectionPoint(
+              component.id,
+              value.sourceComponentId,
+              value.sourcePointName,
+              value.relativePointPosition
+            );
+          }
         } else {
           this.editor.error.set(
             new Error(
               `This type of component does not exist: ${component.type}`
             )
           );
+          return;
         }
       }
     }
+    this.connections.addLinesBetweenComponents();
   }
 
   selectComponent(id: number, mousePosition: Position) {
@@ -259,7 +271,7 @@ export default class EditorController {
           controller,
           () => (
             <StartContent
-              data={{ nextComponentId: component.nextComponentId }}
+              data={component.outputs}
               handlers={controller.getHandlers()}
             />
           ),
@@ -270,7 +282,12 @@ export default class EditorController {
 
         return [
           controller,
-          () => <ConditionContent handlers={controller.getHandlers()} />,
+          () => (
+            <ConditionContent
+              data={component.outputs}
+              handlers={controller.getHandlers()}
+            />
+          ),
         ];
       }
       default: {

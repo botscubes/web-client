@@ -25,6 +25,9 @@ export default class ComponentController {
   component(id: number) {
     return this.components.component(id);
   }
+  get() {
+    return this.components.get();
+  }
   async create(position: Position, creator: SpecificComponentCreator) {
     this.deselectAll();
 
@@ -149,5 +152,19 @@ export default class ComponentController {
         return;
       }
     }
+  }
+
+  addConnectionPoint(
+    componentId: number,
+    sourceComponentId: number,
+    sourcePointId: string,
+    relativePointPosition: Position
+  ) {
+    this.components.addConnectionPoint(
+      componentId,
+      sourceComponentId,
+      sourcePointId,
+      relativePointPosition
+    );
   }
 }

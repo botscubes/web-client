@@ -4,8 +4,9 @@ export interface APIComponentData {
   id: number;
   type: string;
   path: string;
-  nextComponentId?: number;
   position: Position;
+  connectionPoints: Record<string, APIPointData>;
+  outputs: Record<string, number>;
 }
 
 export enum APIComponentType {
@@ -31,4 +32,8 @@ export interface APISetConnectionData extends APISourceComponentOutput {
 export interface APISourceComponentOutput {
   sourceComponentId: number;
   sourcePointName: string;
+}
+
+export interface APIPointData extends APISourceComponentOutput {
+  relativePointPosition: Position;
 }

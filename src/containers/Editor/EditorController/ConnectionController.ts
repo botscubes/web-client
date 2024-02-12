@@ -192,6 +192,25 @@ export default class ConnectionController {
       }
     }
   }
+
+  addLinesBetweenComponents() {
+    for (const component of Object.values(this.components.get())) {
+      for (const point of Object.values(component.connectionPoints)) {
+        if (point.componentId != undefined && point.pointId != undefined) {
+          const outputPointPosition = this.components
+            .component(point.componentId)
+            .controller.getOutputPoint(point.pointId)
+            .getClientPosition();
+          this.lines.set(point.componentId, point.pointId, {
+            start: this.editor.getRelativeMousePosition(outputPointPosition),
+            end: this.editor.getRelativeMousePosition(
+              point.getClientPosition()
+            ),
+          });
+        }
+      }
+    }
+  }
   //  setConnectionLines(componentId: number) {
   //    const component = this.editorData.components[componentId];
   //    if (component) {
