@@ -10,7 +10,7 @@ export interface ContentPointHandlers {
 }
 
 export enum OutputPointType {
-  Error = "IdIfError",
+  Error = "idIfError",
   Next = "nextComponentId",
   Else = "idIfFalse",
 }
