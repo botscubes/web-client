@@ -66,4 +66,15 @@ export class EditorClient {
       data
     );
   }
+
+  async updateComponentData(
+    componentId: number,
+    data: Record<string, any>
+  ): Promise<HTTPResponse<undefined>> {
+    return this.httpClient.PATCH(
+      `/api/bots/${this.botId}/groups/${this.groupId}/components/${componentId}/data`,
+      data,
+      this.token
+    );
+  }
 }
