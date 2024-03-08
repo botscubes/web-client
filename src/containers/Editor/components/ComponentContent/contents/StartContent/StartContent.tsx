@@ -14,7 +14,7 @@ export default function StartContent(props: StartContentProps) {
       </Content>
       <div class="output-points">
         <ContentConnectionPoint
-          targetComponentId={props.data?.nextComponentId}
+          targetComponentId={props.outputs?.nextComponentId}
           pointId={OutputPointType.Next}
           class="next-component-point"
           tooltip="error"

@@ -271,7 +271,7 @@ export default class EditorController {
           controller,
           () => (
             <StartContent
-              data={component.outputs}
+              outputs={component.outputs}
               handlers={controller.getHandlers()}
             />
           ),
@@ -284,7 +284,7 @@ export default class EditorController {
           controller,
           () => (
             <ConditionContent
-              data={component.outputs}
+              outputs={component.outputs}
               handlers={controller.getHandlers()}
             />
           ),
