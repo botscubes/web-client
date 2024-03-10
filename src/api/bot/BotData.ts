@@ -3,3 +3,7 @@ export interface BotData {
   title: string;
   status: number;
 }
+
+export interface BotToken {
+  token: string;
+}

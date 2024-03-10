@@ -13,7 +13,16 @@ export const botRoutes = {
     },
     {
       path: "/:id",
-      component: lazy(() => import("../pages/bots/edit.tsx")),
+      children: [
+        {
+          path: "",
+          component: lazy(() => import("../pages/bots/edit.tsx")),
+        },
+        {
+          path: "/start",
+          component: lazy(() => import("../pages/bots/start.tsx")),
+        },
+      ],
     },
   ],
 };

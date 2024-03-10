@@ -18,10 +18,19 @@ export default function Bots() {
   const [bots, setBots] = createSignal<Array<BotData>>([]);
   const [error, setError] = createSignal("");
   const [loading, setLoading] = createSignal(false);
-
-  onMount(async () => {
+  const request = async (fn: () => Promise<void>) => {
+    setError("");
     setLoading(true);
     try {
+      await fn();
+    } catch (e: any) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  onMount(async () => {
+    request(async () => {
       const response = await checkPromise(botClient.getBots(), appState.logger);
 
       if (response.statusUnauthorized()) {
@@ -32,15 +41,11 @@ export default function Bots() {
           setBots(bots);
         }
       }
-    } catch (e: any) {
-      setError(e.message);
-    }
-    setLoading(false);
+    });
   });
 
   const deleteBot = async (botId: number) => {
-    setLoading(true);
-    try {
+    request(async () => {
       const response = await checkPromise(
         botClient.deleteBot(botId),
         appState.logger
@@ -50,11 +55,31 @@ export default function Bots() {
       } else {
         checkResponse(response, appState.logger);
       }
-    } catch (e: any) {
-      setError(e.message);
-    }
-    setBots((bots) => bots.filter((bot) => bot.id != botId));
-    setLoading(false);
+      setBots((bots) => bots.filter((bot) => bot.id != botId));
+    });
+  };
+
+  const stopBot = async (botId: number) => {
+    request(async () => {
+      const response = await checkPromise(
+        botClient.stop(botId),
+        appState.logger
+      );
+      if (response.statusUnauthorized()) {
+        navigate("/signin");
+      } else {
+        checkResponse(response, appState.logger);
+      }
+      setBots((bots) =>
+        bots.map((bot) => {
+          if (bot.id == botId) {
+            return { ...bot, status: 0 };
+          } else {
+            return bot;
+          }
+        })
+      );
+    });
   };
 
   return (
@@ -72,6 +97,14 @@ export default function Bots() {
               {bot.title} | {bot.status ? "active" : "not active"}
             </A>
             <button onClick={[deleteBot, bot.id]}>Delete</button>
+            <Show
+              when={!bot.status}
+              fallback={<button onClick={() => stopBot(bot.id)}>Stop</button>}
+            >
+              <button onClick={() => navigate(`/bots/${bot.id}/start`)}>
+                Start
+              </button>
+            </Show>
           </div>
         )}
       </For>

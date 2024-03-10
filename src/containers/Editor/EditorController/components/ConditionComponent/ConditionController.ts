@@ -11,8 +11,8 @@ export class ConditionComponentController
   extends SpecificComponentController
   implements SpecificComponentHandlers<ConditionContentHandlers>
 {
-  private setExpression: (str: string) => void = (_str: string) => {};
-  private expression = "";
+  //private setExpression: (str: string) => void = (_str: string) => {};
+  //private expression = "";
 
   constructor(editor: EditorController, id: number) {
     super(editor, id);
@@ -22,13 +22,17 @@ export class ConditionComponentController
     return {
       expression: {
         onMount: (setter: (str: string) => void) => {
-          this.setExpression = (str: string) => {
-            setter(str);
-            this.expression = str;
-          };
+          //this.setExpression = (str: string) => {
+          //  setter(str);
+          //  this.expression = str;
+          //};
         },
-        onChange: (_str: string) => {},
-        onInput: (_str: string) => {},
+        onChange: (str: string) => {
+          this.editor.client.updateComponentData(this.getId(), {
+            expression: str,
+          });
+        },
+        onInput: (str: string) => {},
       },
       outputPoint: this.getPointHandlers(),
     };
