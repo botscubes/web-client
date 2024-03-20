@@ -29,6 +29,8 @@ import { ConditionComponentController } from "./components/ConditionComponent";
 import { ConditionContent } from "../components/ComponentContent/contents/ConditionContent";
 import { ConnectionPointData } from "../components/ConnectionPoint/types";
 import { OutputPointType } from "../components/ComponentContent/types";
+import { MessageContent } from "../components/ComponentContent/contents/MessageContent";
+import { MessageComponentController } from "./components/MessageComponent";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
@@ -284,6 +286,20 @@ export default class EditorController {
           controller,
           () => (
             <ConditionContent
+              outputs={component.outputs}
+              handlers={controller.getHandlers()}
+            />
+          ),
+        ];
+      }
+      case APIComponentType.Message: {
+        const controller = new MessageComponentController(this, component.id);
+
+        return [
+          controller,
+          () => (
+            <MessageContent
+              data={component.data}
               outputs={component.outputs}
               handlers={controller.getHandlers()}
             />

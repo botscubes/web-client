@@ -33,6 +33,7 @@ import { Line, LinePosition } from "./components/Line";
 import { EditorProps } from "./types";
 import { EditorClient } from "./EditorController/api/EditorClient";
 import { useNavigate } from "@solidjs/router";
+import { MessageComponentCreator } from "./EditorController/components/MessageComponent";
 
 export default function Editor(props: EditorProps) {
   //  const zoomSize = 0.05;
@@ -142,6 +143,7 @@ export default function Editor(props: EditorProps) {
   const componentCreatorList: Array<SpecificComponentCreator> = [
     //new FormatComponentCreator(editor),
     new ConditionComponentCreator(editor),
+    new MessageComponentCreator(editor),
   ];
   return (
     <div

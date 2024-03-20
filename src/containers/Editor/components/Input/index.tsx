@@ -8,11 +8,14 @@ export interface InputHandlers {
 
 export interface InputProps {
   handlers?: InputHandlers;
+  value?: string;
   class: string;
 }
 
 export function Input(props: InputProps) {
-  const [str, setStr] = createSignal("");
+  // eslint-disable-next-line solid/reactivity
+  const s = props.value ? props.value : "";
+  const [str, setStr] = createSignal(s);
 
   onMount(() => {
     props.handlers?.onMount?.(setStr);

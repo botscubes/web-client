@@ -7,12 +7,14 @@ export interface APIComponentData {
   position: Position;
   connectionPoints: Record<string, APIPointData>;
   outputs: Record<string, number>;
+  data: Record<string, any>;
 }
 
 export enum APIComponentType {
   Start = "start",
   Format = "format",
   Condition = "condition",
+  Message = "message",
 }
 
 export interface APIAddComponentRequestData {
