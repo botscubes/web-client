@@ -21,7 +21,7 @@ export default function MessageContent(props: MessageContentProps) {
         }
         <ContentConnectionPoint
           targetComponentId={props.outputs?.nextComponentId}
-          pointId={OutputPointType.Error}
+          pointId={OutputPointType.Next}
           class="next-component-point"
           tooltip="next"
           handlers={props.handlers?.outputPoint}
