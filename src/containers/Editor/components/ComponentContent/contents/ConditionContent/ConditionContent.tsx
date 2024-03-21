@@ -9,18 +9,25 @@ export default function ConditionContent(props: ConditionContentProps) {
   return (
     <>
       <Content componentName={"Condition"}>
-        <Input class="component-input" handlers={props.handlers?.expression} />
+        <Input
+          class="component-input"
+          value={props.data?.expression}
+          handlers={props.handlers?.expression}
+        />
       </Content>
       <div class="output-points">
-        {
-          // <ContentConnectionPoint class="next-component-point" tooltip="true" />
-          // <ContentConnectionPoint class="false-point" tooltip="false" />
-        }
         <ContentConnectionPoint
-          targetComponentId={props.outputs?.idIfError}
-          pointId={OutputPointType.Error}
-          class="error-point"
-          tooltip="error"
+          targetComponentId={props.outputs?.nextComponentId}
+          pointId={OutputPointType.Next}
+          class="next-component-point"
+          tooltip="next"
+          handlers={props.handlers?.outputPoint}
+        />
+        <ContentConnectionPoint
+          targetComponentId={props.outputs?.idIfFalse}
+          pointId={OutputPointType.Else}
+          class="false-point"
+          tooltip="false"
           handlers={props.handlers?.outputPoint}
         />
       </div>
