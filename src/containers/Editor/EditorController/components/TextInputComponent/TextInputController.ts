@@ -1,15 +1,13 @@
-import { FormatContentHandlers } from "~/containers/Editor/components/ComponentContent/contents/FormatContent";
+import { TextInputContentHandlers } from "~/containers/Editor/components/ComponentContent/contents/TextInputContent";
 import {
   SpecificComponentController,
   SpecificComponentHandlers,
 } from "../../SpecificComponent";
-import { Position } from "~/containers/Editor/shared/types";
 import EditorController from "../..";
-import { OutputPoint } from "../../SpecificComponent/types";
 
-export class FormatComponentController
+export class TextInputComponentController
   extends SpecificComponentController
-  implements SpecificComponentHandlers<FormatContentHandlers>
+  implements SpecificComponentHandlers<TextInputContentHandlers>
 {
   //private setExpression: (str: string) => void = (_str: string) => {};
   //private expression = "";
@@ -18,18 +16,15 @@ export class FormatComponentController
     super(editor, id);
   }
 
-  getHandlers(): FormatContentHandlers {
+  getHandlers(): TextInputContentHandlers {
     return {
-      formatString: {
+      text: {
         onMount: (setter: (str: string) => void) => {
-          //this.setExpression = (str: string) => {
-          //  setter(str);
-          //  this.expression = str;
-          //};
+          //setter(str);
         },
         onChange: (str: string) => {
           this.editor.client.updateComponentData(this.getId(), {
-            formatString: str,
+            text: str,
           });
         },
         onInput: (str: string) => {},

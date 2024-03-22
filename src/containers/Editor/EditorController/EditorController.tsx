@@ -12,14 +12,8 @@ import {
 } from "./SpecificComponent";
 import ConnectionController from "./ConnectionController";
 import LineStore from "./EditorStorage/LineStore";
-import { ComponentStorage } from "./EditorStorage/ComponentStorage";
 import ConnectionState from "./states/ConnectionState";
-import {
-  HTTPResponse,
-  checkPromise,
-  checkResponsePromise,
-} from "~/api/HTTPResponse";
-import { useNavigate } from "@solidjs/router";
+import { HTTPResponse, checkPromise } from "~/api/HTTPResponse";
 import { EditorClient } from "./api/EditorClient";
 import ComponentStore from "./EditorStorage/ComponentStorage/ComponentStore";
 import { StartComponentController } from "./components/StartComponent";
@@ -27,10 +21,12 @@ import { APIComponentData, APIComponentType } from "./api/types";
 import { StartContent } from "../components/ComponentContent/contents/StartContent";
 import { ConditionComponentController } from "./components/ConditionComponent";
 import { ConditionContent } from "../components/ComponentContent/contents/ConditionContent";
-import { ConnectionPointData } from "../components/ConnectionPoint/types";
-import { OutputPointType } from "../components/ComponentContent/types";
 import { MessageContent } from "../components/ComponentContent/contents/MessageContent";
 import { MessageComponentController } from "./components/MessageComponent";
+import { TextInputComponentController } from "./components/TextInputComponent";
+import { TextInputContent } from "../components/ComponentContent/contents/TextInputContent";
+import { FormatComponentController } from "./components/FormatComponent";
+import { FormatContent } from "../components/ComponentContent/contents/FormatContent";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
@@ -300,6 +296,34 @@ export default class EditorController {
           controller,
           () => (
             <MessageContent
+              data={component.data}
+              outputs={component.outputs}
+              handlers={controller.getHandlers()}
+            />
+          ),
+        ];
+      }
+      case APIComponentType.TextInput: {
+        const controller = new TextInputComponentController(this, component.id);
+
+        return [
+          controller,
+          () => (
+            <TextInputContent
+              data={component.data}
+              outputs={component.outputs}
+              handlers={controller.getHandlers()}
+            />
+          ),
+        ];
+      }
+      case APIComponentType.Format: {
+        const controller = new FormatComponentController(this, component.id);
+
+        return [
+          controller,
+          () => (
+            <FormatContent
               data={component.data}
               outputs={component.outputs}
               handlers={controller.getHandlers()}

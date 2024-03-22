@@ -15,6 +15,7 @@ export enum APIComponentType {
   Format = "format",
   Condition = "condition",
   Message = "message",
+  TextInput = "textInput",
 }
 
 export interface APIAddComponentRequestData {

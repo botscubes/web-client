@@ -1,19 +1,23 @@
 import { Content, ContentConnectionPoint } from "../../Content";
 import "../../Content.css";
-import { FormatContentProps } from "./types";
+import { TextInputContentProps } from "./types";
 import { Input } from "../../../Input";
 import { OutputPointType } from "../../types";
 
-export default function FormatContent(props: FormatContentProps) {
+export default function TextInputContent(props: TextInputContentProps) {
   return (
     <>
-      <Content componentName={"Format"}>
-        <Input
-          class="component-input"
-          value={props.data?.formatString}
-          handlers={props.handlers?.formatString}
-        />
+      <Content componentName={"TextInput"}>
+        <div class="content-width"> </div>
+        {
+          //          <Input
+          //            class="component-input"
+          //            value={props.data?.text}
+          //            handlers={props.handlers?.text}
+          //          />
+        }
       </Content>
+
       <div class="output-points">
         <ContentConnectionPoint
           targetComponentId={props.outputs?.nextComponentId}

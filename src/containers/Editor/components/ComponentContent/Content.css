@@ -4,7 +4,8 @@
   height: auto;
 }
 
-.component-input {
+.component-input,
+.content-width {
   width: 100px;
 }
 

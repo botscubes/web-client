@@ -8,47 +8,26 @@ import {
   getFinishConnectionHandler,
   handleMouseUp,
   handleMouseDown,
-  handleZoomIn,
-  handleZoomOut,
   getDeleteConnectionHandler,
 } from "./eventHandlers";
 import { Component } from "./components/Component";
 import EditorController from "./EditorController";
 
 import "./Editor.css";
-import { useAppState } from "~/AppContext";
-import {
-  FormatContent,
-  FormatContentHandlers,
-} from "./components/ComponentContent/contents/FormatContent";
+
 import { ExtendedComponentData } from "./EditorController/EditorStorage/ComponentStorage/types";
 import { SpecificComponentCreator } from "./EditorController/SpecificComponent";
-import {
-  ConditionContent,
-  ConditionContentHandlers,
-} from "./components/ComponentContent/contents/ConditionContent";
-import { FormatComponentCreator } from "./EditorController/components/FormatComponent";
+
 import { ConditionComponentCreator } from "./EditorController/components/ConditionComponent";
 import { Line, LinePosition } from "./components/Line";
 import { EditorProps } from "./types";
 import { EditorClient } from "./EditorController/api/EditorClient";
 import { useNavigate } from "@solidjs/router";
 import { MessageComponentCreator } from "./EditorController/components/MessageComponent";
+import { TextInputComponentCreator } from "./EditorController/components/TextInputComponent";
+import { FormatComponentCreator } from "./EditorController/components/FormatComponent";
 
 export default function Editor(props: EditorProps) {
-  //  const zoomSize = 0.05;
-  //  let [fixedPosition, setFixedPosition] = createSignal({
-  //    x: 0,
-  //    y: 0,
-  //  });
-  //  let [fixedScrollPosition, setFixedScrollPosition] = createSignal({
-  //    x: 0,
-  //    y: 0,
-  //  });
-  // const [mousePos, setMousePos] = createSignal({ x: 0, y: 0 });
-
-  //const [linePos, setLinePos] = createSignal({});
-  // const [showLine, setShowLine] = createSignal(false);
   const [componentStore, setComponentStore] = createStore<
     Record<number, ExtendedComponentData>
   >({});
@@ -76,28 +55,6 @@ export default function Editor(props: EditorProps) {
       }, 5000);
     }
   });
-  //const editorStore = createStore<EditorData>({
-  //components: {},
-  //    componentStyle: {
-  //      width: 100, //px
-  //      connectionPointSize: 20, //px
-  //      commandHeight: 40, //px
-  //      commandIndent: 20,
-  //    },
-  //    lines: {},
-  //    line: {
-  //      start: {
-  //        x: 0,
-  //        y: 0,
-  //      },
-  //      end: {
-  //        x: 0,
-  //        y: 0,
-  //      },
-  //    },
-  //    showLine: false,
-  //    scale: 1,
-  //});
 
   // eslint-disable-next-line solid/reactivity
   const logger = props.logger;
@@ -133,17 +90,13 @@ export default function Editor(props: EditorProps) {
     editor.init();
   });
 
-  //  const [editorState, setEditorState] = createSignal(EditorState.NONE);
-  //  const [scale, setScale] = createSignal(1);
-  //  let sourceComponentId: number | undefined = undefined;
-  //  let sourceCommandId: number | undefined = undefined;
-  //  let commandConnectionPosition: Position | undefined = undefined;
   const [showComponentSelection, setShowComponentSelection] =
     createSignal(false);
   const componentCreatorList: Array<SpecificComponentCreator> = [
-    //new FormatComponentCreator(editor),
     new ConditionComponentCreator(editor),
     new MessageComponentCreator(editor),
+    new TextInputComponentCreator(editor),
+    new FormatComponentCreator(editor),
   ];
   return (
     <div
