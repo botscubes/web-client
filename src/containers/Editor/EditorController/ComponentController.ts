@@ -100,16 +100,7 @@ export default class ComponentController {
     this.selectedComponents.deselectAll();
   }
   markAsSelected(id: number) {
-    if (this.selectedComponents.isSelected(id)) {
-      this.deselect(id);
-    } else {
-      this.select(id);
-    }
-    if (this.selectedComponents.haveSelected()) {
-      this.editor.setState(new ComponentMoveState(this.editor));
-    } else {
-      this.editor.setState(new WaitingState(this.editor));
-    }
+    this.editor.state.addSelectedComponent(id);
   }
   isSelected(id: number): boolean {
     return this.selectedComponents.isSelected(id);

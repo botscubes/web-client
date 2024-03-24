@@ -8,22 +8,17 @@ export default abstract class EditorState {
     return "EditorState";
   }
 
-  handleMouseDown(_event: MouseEvent) {
-    //
-  }
-  handleMouseMove(_event: MouseEvent) {
-    //
-  }
-  handleMouseUp(_event: MouseEvent) {
-    //
-  }
-  selectComponent(_id: number, _mousePosition: Position) {
-    //
-  }
+  handleMouseDown(_event: MouseEvent) {}
+  handleMouseMove(_event: MouseEvent) {}
+  handleMouseUp(_event: MouseEvent) {}
+  selectComponent(_id: number, _mousePosition: Position) {}
 
-  startConnection(_componentId: number, _pointId: string, _position: Position) {
-    //
-  }
+  addSelectedComponent(_id: number) {}
+  startConnection(
+    _componentId: number,
+    _pointId: string,
+    _position: Position
+  ) {}
   finishConnection(
     _componentId: number,
     _connectionPosition: Position,
