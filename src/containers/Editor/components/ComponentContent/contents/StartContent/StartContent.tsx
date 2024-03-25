@@ -4,7 +4,7 @@ import { StartContentProps } from "./types";
 import { Input } from "../../../Input";
 import { ConnectionPoint } from "../../../ConnectionPoint";
 import "./StartContent.css";
-import { OutputPointType } from "../../types";
+import { OutputPointColor, OutputPointType } from "../../types";
 
 export default function StartContent(props: StartContentProps) {
   return (
@@ -16,9 +16,9 @@ export default function StartContent(props: StartContentProps) {
         <ContentConnectionPoint
           targetComponentId={props.outputs?.nextComponentId}
           pointId={OutputPointType.Next}
-          class="next-component-point"
           tooltip="next"
           handlers={props.handlers?.outputPoint}
+          color={OutputPointColor.Next}
         />
       </div>
     </>

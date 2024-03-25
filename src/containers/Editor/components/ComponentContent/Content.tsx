@@ -1,4 +1,4 @@
-import { JSX, children, onMount } from "solid-js";
+import { JSX, children } from "solid-js";
 import "./Content.css";
 import { ConnectionPoint } from "../ConnectionPoint";
 import { ContentPointHandlers } from ".";
@@ -21,26 +21,32 @@ export function Content(props: {
 export function ContentConnectionPoint(props: {
   pointId: string;
   targetComponentId: number | undefined;
-  class: string;
+  class?: string;
   tooltip: string;
   handlers?: ContentPointHandlers;
+  color?: string;
 }) {
   return (
-    <ConnectionPoint
-      class={props.class}
-      tooltip={props.tooltip}
-      handlers={{
-        onMount: (getClientPosition: () => Position) => {
-          props.handlers?.onMount(
-            props.pointId,
-            props.targetComponentId,
-            getClientPosition
-          );
-        },
-        onMouseDown: (clientPosition: Position) => {
-          props.handlers?.onMouseDown(props.pointId, clientPosition);
-        },
-      }}
-    />
+    <div class={"content-point" + (props.class ? " " + props.class : "")}>
+      <ConnectionPoint
+        tooltip={props.tooltip}
+        handlers={{
+          onMount: (getClientPosition: () => Position) => {
+            props.handlers?.onMount(
+              props.pointId,
+              props.targetComponentId,
+              getClientPosition
+            );
+          },
+          onMouseDown: (clientPosition: Position) => {
+            props.handlers?.onMouseDown(props.pointId, clientPosition);
+          },
+        }}
+        style={{
+          color: props.color,
+        }}
+      />
+      <div class="point-tooltip">{props.tooltip}</div>
+    </div>
   );
 }

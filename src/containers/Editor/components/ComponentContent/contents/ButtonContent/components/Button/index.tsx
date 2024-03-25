@@ -1,5 +1,5 @@
 import { ContentConnectionPoint } from "../../../../Content";
-import { OutputPointType } from "../../../../types";
+import { OutputPointColor, OutputPointType } from "../../../../types";
 import "./style.css";
 
 export interface ButtonProps {
@@ -12,9 +12,10 @@ export function Button(props: ButtonProps) {
       <ContentConnectionPoint
         targetComponentId={0}
         pointId={OutputPointType.Next}
-        class="next-component-point button-point"
+        class="button-point"
         tooltip="next"
         handlers={undefined}
+        color={OutputPointColor.Next}
       />
       <button class="button">{props.text}</button>
     </div>

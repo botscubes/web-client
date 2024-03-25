@@ -1,6 +1,7 @@
 .button-component {
   width: 130px;
   height: 40px;
+  position: relative;
 }
 
 .button {

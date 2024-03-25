@@ -4,8 +4,8 @@ export interface ConnectionPointData {
   position?: Position;
   componentId?: number;
   pointId?: string;
-  getClientPosition: () => Position;
-  setHandlerOnGetClientPosition(handler: () => Position): void;
+  getClientPosition?: () => Position;
+  setHandlerOnGetClientPosition?(handler: () => Position): void;
 }
 
 export interface ConnectionPointHandlers {
@@ -26,6 +26,4 @@ export interface ConnectionPointProps {
   style?: ConnectionPointStyle;
   handlers?: ConnectionPointHandlers;
   tooltip?: string;
-  //startConnection: (commandId: number) => void;
-  //finishConnection: (componentId: number) => void;
 }

@@ -2,8 +2,7 @@ import { Content, ContentConnectionPoint } from "../../Content";
 import "../../Content.css";
 import { ConditionContentProps } from "./types";
 import { Input } from "../../../Input";
-import "./ConditionContent.css";
-import { OutputPointType } from "../../types";
+import { OutputPointColor, OutputPointType } from "../../types";
 
 export default function ConditionContent(props: ConditionContentProps) {
   return (
@@ -19,16 +18,16 @@ export default function ConditionContent(props: ConditionContentProps) {
         <ContentConnectionPoint
           targetComponentId={props.outputs?.nextComponentId}
           pointId={OutputPointType.Next}
-          class="next-component-point"
           tooltip="next"
           handlers={props.handlers?.outputPoint}
+          color={OutputPointColor.Next}
         />
         <ContentConnectionPoint
           targetComponentId={props.outputs?.idIfFalse}
           pointId={OutputPointType.Else}
-          class="false-point"
           tooltip="false"
           handlers={props.handlers?.outputPoint}
+          color={OutputPointColor.Else}
         />
       </div>
     </>

@@ -27,6 +27,8 @@ import { TextInputComponentController } from "./components/TextInputComponent";
 import { TextInputContent } from "../components/ComponentContent/contents/TextInputContent";
 import { FormatComponentController } from "./components/FormatComponent";
 import { FormatContent } from "../components/ComponentContent/contents/FormatContent";
+import { ButtonComponentController } from "./components/ButtonComponent";
+import { ButtonContent } from "../components/ComponentContent/contents/ButtonContent";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
@@ -324,6 +326,20 @@ export default class EditorController {
           controller,
           () => (
             <FormatContent
+              data={component.data}
+              outputs={component.outputs}
+              handlers={controller.getHandlers()}
+            />
+          ),
+        ];
+      }
+      case APIComponentType.Buttons: {
+        const controller = new ButtonComponentController(this, component.id);
+
+        return [
+          controller,
+          () => (
+            <ButtonContent
               data={component.data}
               outputs={component.outputs}
               handlers={controller.getHandlers()}

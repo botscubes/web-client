@@ -2,7 +2,7 @@ import { Content, ContentConnectionPoint } from "../../Content";
 import "../../Content.css";
 import { TextInputContentProps } from "./types";
 import { Input } from "../../../Input";
-import { OutputPointType } from "../../types";
+import { OutputPointColor, OutputPointType } from "../../types";
 
 export default function TextInputContent(props: TextInputContentProps) {
   return (
@@ -22,9 +22,9 @@ export default function TextInputContent(props: TextInputContentProps) {
         <ContentConnectionPoint
           targetComponentId={props.outputs?.nextComponentId}
           pointId={OutputPointType.Next}
-          class="next-component-point"
           tooltip="next"
           handlers={props.handlers?.outputPoint}
+          color={OutputPointColor.Next}
         />
       </div>
     </>

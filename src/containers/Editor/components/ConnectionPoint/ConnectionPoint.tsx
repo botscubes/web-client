@@ -58,28 +58,26 @@ export default function ConnectionPoint(props: ConnectionPointProps) {
   };
 
   return (
-    <div data-tooltip={props.tooltip}>
-      <div
-        ref={(el) => {
-          props.handlers?.onMount?.(() => getClientPositionFromElement(el));
-          props.data?.setHandlerOnGetClientPosition?.(() =>
-            getClientPositionFromElement(el)
-          );
-        }}
-        class={"connection-point" + (props.class ? " " + props.class : "")}
-        style={{
-          "background-color": props.style?.color,
-          left: left(),
-          top: top(),
-          width: size(),
-          height: size(),
-          opacity: opacity(),
-        }}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-      />
-    </div>
+    <div
+      ref={(el) => {
+        props.handlers?.onMount?.(() => getClientPositionFromElement(el));
+        props.data?.setHandlerOnGetClientPosition?.(() =>
+          getClientPositionFromElement(el)
+        );
+      }}
+      class={"connection-point" + (props.class ? " " + props.class : "")}
+      style={{
+        "background-color": props.style?.color,
+        left: left(),
+        top: top(),
+        width: size(),
+        height: size(),
+        opacity: opacity(),
+      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+    />
   );
 }

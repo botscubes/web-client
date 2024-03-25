@@ -14,3 +14,9 @@ export enum OutputPointType {
   Next = "nextComponentId",
   Else = "idIfFalse",
 }
+
+export enum OutputPointColor {
+  Error = "red",
+  Next = "green",
+  Else = "gray",
+}
