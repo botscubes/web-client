@@ -2,6 +2,7 @@
   width: 130px;
   height: 40px;
   position: relative;
+  display: flex;
 }
 
 .button {
@@ -14,4 +15,9 @@
   position: absolute;
   right: -10px;
   top: 10px;
+}
+
+.button-input {
+  align-items: center;
+  width: 100%;
 }

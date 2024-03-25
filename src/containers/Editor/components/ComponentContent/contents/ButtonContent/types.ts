@@ -2,7 +2,7 @@ import { ContentPointHandlers } from "../..";
 import { InputHandlers } from "../../../Input";
 
 export interface ButtonContentHandlers {
-  expression?: InputHandlers;
+  text?: InputHandlers;
   outputPoint: ContentPointHandlers;
 }
 
@@ -17,7 +17,7 @@ export interface ButtonContentOutputs {
 }
 
 export interface ButtonContentProps {
-  outputs?: ButtonContentOutputs;
+  //outputs?: ButtonContentOutputs;
   data?: ButtonContentData;
   handlers?: ButtonContentHandlers;
 }
