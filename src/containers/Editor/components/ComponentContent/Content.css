@@ -6,13 +6,13 @@
 
 .component-input,
 .content-width {
-  width: 100px;
+  width: 120px;
 }
 
 .component-content {
   width: auto;
   height: auto;
-  padding: 40px 30px 40px 30px;
+  padding: 40px 20px 40px 20px;
 }
 
 .component-name {

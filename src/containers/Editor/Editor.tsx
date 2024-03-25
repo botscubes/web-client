@@ -26,6 +26,7 @@ import { useNavigate } from "@solidjs/router";
 import { MessageComponentCreator } from "./EditorController/components/MessageComponent";
 import { TextInputComponentCreator } from "./EditorController/components/TextInputComponent";
 import { FormatComponentCreator } from "./EditorController/components/FormatComponent";
+import { ButtonComponentCreator } from "./EditorController/components/ButtonComponent";
 
 export default function Editor(props: EditorProps) {
   const [componentStore, setComponentStore] = createStore<
@@ -97,6 +98,7 @@ export default function Editor(props: EditorProps) {
     new MessageComponentCreator(editor),
     new TextInputComponentCreator(editor),
     new FormatComponentCreator(editor),
+    new ButtonComponentCreator(editor),
   ];
   return (
     <div

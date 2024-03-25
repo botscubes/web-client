@@ -1,2 +1,2 @@
-export { TextInputComponentController } from "./TextInputController";
+export { TextInputComponentController } from "./TextInputComponentController";
 export { TextInputComponentCreator } from "./TextInputComponentCreator";

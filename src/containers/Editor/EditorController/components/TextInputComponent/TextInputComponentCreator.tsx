@@ -5,7 +5,7 @@ import {
   SpecificComponent,
 } from "../../SpecificComponent";
 import { TextInputContent } from "~/containers/Editor/components/ComponentContent/contents/TextInputContent";
-import { TextInputComponentController } from "./TextInputController";
+import { TextInputComponentController } from "./TextInputComponentController";
 import { APIComponentType } from "../../api/types";
 
 export class TextInputComponentCreator implements SpecificComponentCreator {

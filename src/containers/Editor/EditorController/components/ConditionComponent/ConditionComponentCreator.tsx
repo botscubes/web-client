@@ -5,7 +5,7 @@ import {
   SpecificComponent,
 } from "../../SpecificComponent";
 import { ConditionContent } from "~/containers/Editor/components/ComponentContent/contents/ConditionContent";
-import { ConditionComponentController } from "./ConditionController";
+import { ConditionComponentController } from "./ConditionComponentController";
 import { APIComponentType } from "../../api/types";
 
 export class ConditionComponentCreator implements SpecificComponentCreator {

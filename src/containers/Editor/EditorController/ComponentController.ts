@@ -1,12 +1,7 @@
-import { SetStoreFunction, Store } from "solid-js/store";
 import SelectedComponents from "./SelectedComponents";
-import { ComponentStorage } from "./EditorStorage/ComponentStorage";
 import EditorController from ".";
-import WaitingState from "./states/WaitingState";
 import { Position } from "../shared/types";
-import ComponentMoveState from "./states/ComponentMoveState";
 import Logger from "~/logging/Logger";
-import { ExtendedComponentData } from "./EditorStorage/ComponentStorage/types";
 import {
   SpecificComponent,
   SpecificComponentCreator,

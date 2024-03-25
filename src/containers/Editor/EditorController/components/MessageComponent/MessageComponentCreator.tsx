@@ -5,7 +5,7 @@ import {
   SpecificComponent,
 } from "../../SpecificComponent";
 import { MessageContent } from "~/containers/Editor/components/ComponentContent/contents/MessageContent";
-import { MessageComponentController } from "./MessageController";
+import { MessageComponentController } from "./MessageComponentController";
 import { APIComponentType } from "../../api/types";
 
 export class MessageComponentCreator implements SpecificComponentCreator {

@@ -10,7 +10,7 @@ export default function StartContent(props: StartContentProps) {
   return (
     <>
       <Content componentName={"Start"}>
-        <></>
+        <div class="start"> </div>
       </Content>
       <div class="output-points">
         <ContentConnectionPoint

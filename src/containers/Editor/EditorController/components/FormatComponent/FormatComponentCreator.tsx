@@ -5,7 +5,7 @@ import {
   SpecificComponent,
 } from "../../SpecificComponent";
 import { FormatContent } from "~/containers/Editor/components/ComponentContent/contents/FormatContent";
-import { FormatComponentController } from "./FormatController";
+import { FormatComponentController } from "./FormatComponentController";
 import { APIComponentType } from "../../api/types";
 
 export class FormatComponentCreator implements SpecificComponentCreator {

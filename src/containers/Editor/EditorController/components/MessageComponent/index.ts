@@ -1,2 +1,2 @@
-export { MessageComponentController } from "./MessageController";
+export { MessageComponentController } from "./MessageComponentController";
 export { MessageComponentCreator } from "./MessageComponentCreator";
