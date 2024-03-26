@@ -1,4 +1,4 @@
-import { Show, createSignal } from "solid-js";
+import { Show, createEffect, createSignal } from "solid-js";
 import { ContentConnectionPoint } from "../../../../Content";
 import {
   ContentPointHandlers,
@@ -6,18 +6,23 @@ import {
   OutputPointType,
 } from "../../../../types";
 import "./style.css";
+import { ButtonData } from "../../types";
 
 export interface ButtonProps {
-  text: string;
+  data: ButtonData;
   class?: string;
+  edit: boolean;
   handlers?: {
     outputPoint?: ContentPointHandlers;
-    onDeleteButton?(name: string): void;
-    onOnChangeName?(oldName: string, newName: string): void;
+    onDeleteButton?(id: string): void;
+    onChangeText?(id: string, name: string): void;
+    onMouseEnter?(id: string): void;
   };
 }
 export function Button(props: ButtonProps) {
-  const [mouseOver, setMouseOver] = createSignal(false);
+  //const [mouseOver, setMouseOver] = createSignal(false);
+
+  let newText = "";
   return (
     <div class={"button-component" + (props.class ? " " + props.class : "")}>
       <ContentConnectionPoint
@@ -28,36 +33,45 @@ export function Button(props: ButtonProps) {
         handlers={props.handlers?.outputPoint}
         color={OutputPointColor.Next}
       />
-      <Show when={mouseOver()}>
-        <button
-          onMouseLeave={() => {
-            setMouseOver(false);
-          }}
-        >
-          ✖
-        </button>
-      </Show>
+
       <Show
-        when={!mouseOver()}
+        when={!props.edit}
         fallback={
-          <input
-            class="button-input"
+          <div
+            class="edit"
             onMouseLeave={() => {
-              setMouseOver(false);
+              // if (newText == "") {
+              //   props.handlers?.onDeleteButton?.(props.data.id);
+              // } else if (newText != props.data.id) {
+              //   props.handlers?.onChangeName?.(props.name, newText);
+              // }
             }}
-            onChange={(event) => {
-              const value = event.target.value;
-            }}
-          />
+          >
+            <button
+              onClick={() => {
+                props.handlers?.onDeleteButton?.(props.data.id);
+              }}
+            >
+              ✖
+            </button>
+            <input
+              class="button-input"
+              onInput={(event) => {
+                newText = event.target.value;
+              }}
+              value={props.data.text}
+            />
+          </div>
         }
       >
         <button
           class="button"
           onMouseEnter={() => {
-            setMouseOver(true);
+            props.handlers?.onMouseEnter?.(props.data.id);
+            // newText = props.name;
           }}
         >
-          {props.text}
+          {props.data.text}
         </button>
       </Show>
     </div>

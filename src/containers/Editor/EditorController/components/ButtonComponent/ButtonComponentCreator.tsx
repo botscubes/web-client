@@ -1,4 +1,4 @@
-import { JSX } from "solid-js";
+import { JSX, createSignal } from "solid-js";
 import EditorController from "../..";
 import {
   SpecificComponentCreator,
@@ -14,13 +14,33 @@ export class ButtonComponentCreator implements SpecificComponentCreator {
     return APIComponentType.Buttons;
   }
   get content(): () => JSX.Element {
-    return () => <ButtonContent />;
+    return () => (
+      <ButtonContent
+        data={{
+          buttons: [
+            {
+              id: "1",
+              text: "button1",
+            },
+            {
+              id: "2",
+              text: "button2",
+            },
+          ],
+        }}
+      />
+    );
   }
   create(id: number): SpecificComponent {
     const controller = new ButtonComponentController(this.editor, id);
     return [
       controller,
-      () => <ButtonContent handlers={controller.getHandlers()} />,
+      () => (
+        <ButtonContent
+          handlers={controller.getHandlers()}
+          data={{ buttons: controller.buttons() }}
+        />
+      ),
     ];
   }
 }

@@ -340,8 +340,7 @@ export default class EditorController {
           controller,
           () => (
             <ButtonContent
-              data={component.data}
-              outputs={component.outputs}
+              data={{ buttons: controller.buttons() }}
               handlers={controller.getHandlers()}
             />
           ),

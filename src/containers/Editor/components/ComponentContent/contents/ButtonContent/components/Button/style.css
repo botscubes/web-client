@@ -5,6 +5,10 @@
   display: flex;
 }
 
+.edit {
+  display: flex;
+}
+
 .button {
   padding: 5px;
   width: 100%;
