@@ -15,14 +15,14 @@ export interface ButtonProps {
   handlers?: {
     outputPoint?: ContentPointHandlers;
     onDeleteButton?(id: string): void;
-    onChangeText?(id: string, name: string): void;
-    onMouseEnter?(id: string): void;
+    onChangeText?(id: string, text: string): void;
+    onMouseEnter?(id: string, text: string): void;
+    onInputText?(id: string, text: string): void;
   };
 }
 export function Button(props: ButtonProps) {
   //const [mouseOver, setMouseOver] = createSignal(false);
 
-  let newText = "";
   return (
     <div class={"button-component" + (props.class ? " " + props.class : "")}>
       <ContentConnectionPoint
@@ -37,16 +37,7 @@ export function Button(props: ButtonProps) {
       <Show
         when={!props.edit}
         fallback={
-          <div
-            class="edit"
-            onMouseLeave={() => {
-              // if (newText == "") {
-              //   props.handlers?.onDeleteButton?.(props.data.id);
-              // } else if (newText != props.data.id) {
-              //   props.handlers?.onChangeName?.(props.name, newText);
-              // }
-            }}
-          >
+          <div class="edit">
             <button
               onClick={() => {
                 props.handlers?.onDeleteButton?.(props.data.id);
@@ -57,7 +48,8 @@ export function Button(props: ButtonProps) {
             <input
               class="button-input"
               onInput={(event) => {
-                newText = event.target.value;
+                const text = event.target.value;
+                props.handlers?.onInputText?.(props.data.id, text);
               }}
               value={props.data.text}
             />
@@ -67,8 +59,7 @@ export function Button(props: ButtonProps) {
         <button
           class="button"
           onMouseEnter={() => {
-            props.handlers?.onMouseEnter?.(props.data.id);
-            // newText = props.name;
+            props.handlers?.onMouseEnter?.(props.data.id, props.data.text);
           }}
         >
           {props.data.text}

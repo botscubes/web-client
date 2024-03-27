@@ -24,19 +24,12 @@ export class ButtonComponentController
 
     // eslint-disable-next-line solid/reactivity
     [this.buttons, this.setButtons] = createSignal<Array<ButtonData>>([]);
-    //this.buttons = get;
-    //this.setButtons = set;
   }
 
   getHandlers(): ButtonContentHandlers {
     return {
       text: {
-        onMount: (setter: (str: string) => void) => {
-          //this.setExpression = (str: string) => {
-          //  setter(str);
-          //  this.expression = str;
-          //};
-        },
+        onMount: (setter: (str: string) => void) => {},
         onChange: (str: string) => {
           this.editor.client.updateComponentData(this.getId(), {
             expression: str,
@@ -57,9 +50,17 @@ export class ButtonComponentController
           this.setButtons((buttons) => buttons.filter((val) => val.id != id));
         },
         onChangeText: (id, text) => {
-          console.log("aaaa");
           if (text == "") {
             this.setButtons((buttons) => buttons.filter((val) => val.id != id));
+          } else {
+            this.setButtons((buttons) =>
+              buttons.map((button) => {
+                if (button.id == id) {
+                  button.text = text;
+                }
+                return button;
+              })
+            );
           }
         },
       },

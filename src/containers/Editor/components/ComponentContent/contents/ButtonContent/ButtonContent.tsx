@@ -7,13 +7,21 @@ import { Button } from "./components/Button";
 import { For, createSignal } from "solid-js";
 
 export default function ButtonContent(props: ButtonContentProps) {
-  const [editButton, setEditButton] = createSignal<string | undefined>(
-    undefined
-  );
+  const [editButton, setEditButton] = createSignal<
+    | {
+        id: string;
+        text: string;
+      }
+    | undefined
+  >(undefined);
   return (
     <div
       class="button-content"
       onMouseLeave={() => {
+        let button = editButton();
+        if (button != undefined) {
+          props.handlers?.buttons?.onChangeText?.(button.id, button.text);
+        }
         setEditButton(undefined);
       }}
     >
@@ -34,14 +42,29 @@ export default function ButtonContent(props: ButtonContentProps) {
                   onDeleteButton: (id) => {
                     props.handlers?.buttons?.onDelete?.(id);
                   },
-                  onChangeText: (id, name) => {
-                    props.handlers?.buttons?.onChangeText?.(id, name);
+                  onChangeText: (id, text) => {
+                    props.handlers?.buttons?.onChangeText?.(id, text);
                   },
-                  onMouseEnter: (id) => {
-                    setEditButton(id);
+                  onMouseEnter: (id, text) => {
+                    const button = editButton();
+                    if (button != undefined) {
+                      props.handlers?.buttons?.onChangeText?.(
+                        button.id,
+                        button.text
+                      );
+                    }
+                    setEditButton({ id, text });
+                  },
+                  onInputText: (id, text) => {
+                    if (id == editButton()?.id) {
+                      setEditButton({
+                        id: id,
+                        text: text,
+                      });
+                    }
                   },
                 }}
-                edit={editButton() == button.id}
+                edit={editButton()?.id == button.id}
               />
             )}
           </For>
