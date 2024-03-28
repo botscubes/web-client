@@ -11,6 +11,7 @@ export default function ButtonContent(props: ButtonContentProps) {
     | {
         id: string;
         text: string;
+        index: number;
       }
     | undefined
   >(undefined);
@@ -19,8 +20,17 @@ export default function ButtonContent(props: ButtonContentProps) {
       class="button-content"
       onMouseLeave={() => {
         let button = editButton();
+
         if (button != undefined) {
-          props.handlers?.buttons?.onChangeText?.(button.id, button.text);
+          if (button.text == "") {
+            props.handlers?.buttons?.onDelete?.(button.id);
+          } else {
+            const buttons = props.data?.buttons;
+            if (buttons) {
+              if (buttons[button.index].text != button.text)
+                props.handlers?.buttons?.onChangeText?.(button.id, button.text);
+            }
+          }
         }
         setEditButton(undefined);
       }}
@@ -33,7 +43,7 @@ export default function ButtonContent(props: ButtonContentProps) {
             handlers={props.handlers?.text}
           />
           <For each={props.data?.buttons}>
-            {(button) => (
+            {(button, index) => (
               <Button
                 data={button}
                 class="indent"
@@ -42,24 +52,32 @@ export default function ButtonContent(props: ButtonContentProps) {
                   onDeleteButton: (id) => {
                     props.handlers?.buttons?.onDelete?.(id);
                   },
-                  onChangeText: (id, text) => {
-                    props.handlers?.buttons?.onChangeText?.(id, text);
-                  },
+
                   onMouseEnter: (id, text) => {
-                    const button = editButton();
-                    if (button != undefined) {
-                      props.handlers?.buttons?.onChangeText?.(
-                        button.id,
-                        button.text
-                      );
+                    const ebutton = editButton();
+                    if (ebutton != undefined) {
+                      if (ebutton.text == "") {
+                        props.handlers?.buttons?.onDelete?.(ebutton.id);
+                      } else {
+                        const buttons = props.data?.buttons;
+                        if (buttons) {
+                          if (buttons[ebutton.index].text != ebutton.text) {
+                            props.handlers?.buttons?.onChangeText?.(
+                              ebutton.id,
+                              ebutton.text
+                            );
+                          }
+                        }
+                      }
                     }
-                    setEditButton({ id, text });
+                    setEditButton({ id, text, index: index() });
                   },
                   onInputText: (id, text) => {
                     if (id == editButton()?.id) {
                       setEditButton({
                         id: id,
                         text: text,
+                        index: index(),
                       });
                     }
                   },

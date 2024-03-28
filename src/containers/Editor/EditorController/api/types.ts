@@ -41,3 +41,7 @@ export interface APISourceComponentOutput {
 export interface APIPointData extends APISourceComponentOutput {
   relativePointPosition: Position;
 }
+
+export interface APIButtonData {
+  text: string;
+}

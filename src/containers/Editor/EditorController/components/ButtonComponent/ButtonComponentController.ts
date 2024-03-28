@@ -8,6 +8,7 @@ import EditorController from "../..";
 import { OutputPoint } from "../../SpecificComponent/types";
 import { ButtonData } from "~/containers/Editor/components/ComponentContent/contents/ButtonContent/types";
 import { Accessor, Setter, createSignal } from "solid-js";
+import { APIButtonData } from "../../api/types";
 
 export class ButtonComponentController
   extends SpecificComponentController
@@ -32,7 +33,7 @@ export class ButtonComponentController
         onMount: (setter: (str: string) => void) => {},
         onChange: (str: string) => {
           this.editor.client.updateComponentData(this.getId(), {
-            expression: str,
+            text: str,
           });
         },
         onInput: (str: string) => {},
@@ -48,22 +49,31 @@ export class ButtonComponentController
         },
         onDelete: (id) => {
           this.setButtons((buttons) => buttons.filter((val) => val.id != id));
+          this.updateButtonsOnServer();
         },
         onChangeText: (id, text) => {
-          if (text == "") {
-            this.setButtons((buttons) => buttons.filter((val) => val.id != id));
-          } else {
-            this.setButtons((buttons) =>
-              buttons.map((button) => {
-                if (button.id == id) {
-                  button.text = text;
-                }
-                return button;
-              })
-            );
-          }
+          this.setButtons((buttons) =>
+            buttons.map((button) => {
+              if (button.id == id) {
+                button.text = text;
+              }
+              return button;
+            })
+          );
+          this.updateButtonsOnServer();
         },
       },
     };
+  }
+  private updateButtonsOnServer(): void {
+    const buttons: Record<string, APIButtonData> = {};
+    for (const button of this.buttons()) {
+      buttons[button.id] = {
+        text: button.text,
+      };
+    }
+    this.editor.client.updateComponentData(this.getId(), {
+      buttons: buttons,
+    });
   }
 }
