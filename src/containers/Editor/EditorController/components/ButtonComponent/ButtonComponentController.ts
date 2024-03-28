@@ -17,14 +17,44 @@ export class ButtonComponentController
   //private setExpression: (str: string) => void = (_str: string) => {};
   //private expression = "";
   public readonly buttons: Accessor<Array<ButtonData>>;
+  public readonly abilityToAdd: Accessor<boolean>;
   private setButtons: Setter<Array<ButtonData>>;
-  private buttonId = 1;
+  private setAbilityToAdd: Setter<boolean>;
+  private newButtonId = 1;
 
-  constructor(editor: EditorController, id: number) {
+  constructor(
+    editor: EditorController,
+    id: number,
+    buttons: Record<string, APIButtonData> = {},
+    outputs: Record<string, number> = {}
+  ) {
     super(editor, id);
 
+    let arrayOfButtonData: Array<ButtonData> = [];
+
+    for (const [id, data] of Object.entries(buttons)) {
+      const i = Number(id);
+      if (i >= this.newButtonId) {
+        this.newButtonId = i + 1;
+      }
+      if (id)
+        arrayOfButtonData.push({
+          id: id,
+          text: data.text,
+          target: outputs[id],
+        });
+    }
+
     // eslint-disable-next-line solid/reactivity
-    [this.buttons, this.setButtons] = createSignal<Array<ButtonData>>([]);
+    [this.buttons, this.setButtons] =
+      createSignal<Array<ButtonData>>(arrayOfButtonData);
+
+    let ability = true;
+    if (this.buttons().length >= 5) {
+      ability = false;
+    }
+    // eslint-disable-next-line solid/reactivity
+    [this.abilityToAdd, this.setAbilityToAdd] = createSignal(ability);
   }
 
   getHandlers(): ButtonContentHandlers {
@@ -41,15 +71,23 @@ export class ButtonComponentController
       outputPoint: this.getPointHandlers(),
       buttons: {
         onAdd: () => {
-          this.setButtons((buttons) => [
-            ...buttons,
-            { id: this.buttonId.toString(), text: "" },
-          ]);
-          this.buttonId++;
+          if (this.buttons().length < 5) {
+            this.setButtons((buttons) => [
+              ...buttons,
+              { id: this.newButtonId.toString(), text: "" },
+            ]);
+            this.newButtonId++;
+            if (this.buttons().length >= 5) {
+              this.setAbilityToAdd(false);
+            }
+          }
         },
         onDelete: (id) => {
           this.setButtons((buttons) => buttons.filter((val) => val.id != id));
           this.updateButtonsOnServer();
+
+          this.deleteOutputPoint(id);
+          this.setAbilityToAdd(true);
         },
         onChangeText: (id, text) => {
           this.setButtons((buttons) =>
@@ -72,8 +110,10 @@ export class ButtonComponentController
         text: button.text,
       };
     }
-    this.editor.client.updateComponentData(this.getId(), {
-      buttons: buttons,
-    });
+    this.editor.httpRequest(() =>
+      this.editor.client.updateComponentData(this.getId(), {
+        buttons: buttons,
+      })
+    );
   }
 }

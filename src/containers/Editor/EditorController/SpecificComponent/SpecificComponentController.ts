@@ -63,6 +63,18 @@ export abstract class SpecificComponentController {
       },
     };
   }
+  deleteOutputPoint(pointId: string) {
+    const point = this.getOutputPoint(pointId);
+    if (point && point.targetComponentId) {
+      this.editor.connections.delete(
+        point.targetComponentId,
+        this.id,
+        point.id
+      );
+    }
+    this.editor.connections.setLinesForComponent(this.id);
+    delete this.outputPoints[pointId];
+  }
   bindHandlerToPoints(
     handlers: Record<number, (componentId?: number) => void>
   ) {

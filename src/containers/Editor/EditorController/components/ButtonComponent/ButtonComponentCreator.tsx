@@ -39,6 +39,7 @@ export class ButtonComponentCreator implements SpecificComponentCreator {
         <ButtonContent
           handlers={controller.getHandlers()}
           data={{ buttons: controller.buttons() }}
+          abilityToAdd={controller.abilityToAdd()}
         />
       ),
     ];

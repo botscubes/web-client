@@ -4,14 +4,14 @@ import "./ButtonContent.css";
 import { ButtonContentProps } from "./types";
 import { Input } from "../../../Input";
 import { Button } from "./components/Button";
-import { For, createSignal } from "solid-js";
+import { For, Show, createSignal } from "solid-js";
 
 export default function ButtonContent(props: ButtonContentProps) {
   const [editButton, setEditButton] = createSignal<
     | {
         id: string;
         text: string;
-        index: number;
+        oldText: string;
       }
     | undefined
   >(undefined);
@@ -25,11 +25,8 @@ export default function ButtonContent(props: ButtonContentProps) {
           if (button.text == "") {
             props.handlers?.buttons?.onDelete?.(button.id);
           } else {
-            const buttons = props.data?.buttons;
-            if (buttons) {
-              if (buttons[button.index].text != button.text)
-                props.handlers?.buttons?.onChangeText?.(button.id, button.text);
-            }
+            if (button.oldText != button.text)
+              props.handlers?.buttons?.onChangeText?.(button.id, button.text);
           }
         }
         setEditButton(undefined);
@@ -43,7 +40,7 @@ export default function ButtonContent(props: ButtonContentProps) {
             handlers={props.handlers?.text}
           />
           <For each={props.data?.buttons}>
-            {(button, index) => (
+            {(button) => (
               <Button
                 data={button}
                 class="indent"
@@ -54,31 +51,28 @@ export default function ButtonContent(props: ButtonContentProps) {
                   },
 
                   onMouseEnter: (id, text) => {
-                    const ebutton = editButton();
-                    if (ebutton != undefined) {
-                      if (ebutton.text == "") {
-                        props.handlers?.buttons?.onDelete?.(ebutton.id);
+                    const button = editButton();
+                    if (button != undefined) {
+                      if (button.text == "") {
+                        props.handlers?.buttons?.onDelete?.(button.id);
                       } else {
-                        const buttons = props.data?.buttons;
-                        if (buttons) {
-                          if (buttons[ebutton.index].text != ebutton.text) {
-                            props.handlers?.buttons?.onChangeText?.(
-                              ebutton.id,
-                              ebutton.text
-                            );
-                          }
+                        if (button?.oldText != button.text) {
+                          props.handlers?.buttons?.onChangeText?.(
+                            button.id,
+                            button.text
+                          );
                         }
                       }
                     }
-                    setEditButton({ id, text, index: index() });
+                    setEditButton({ id, text, oldText: text });
                   },
                   onInputText: (id, text) => {
                     if (id == editButton()?.id) {
-                      setEditButton({
+                      setEditButton((button) => ({
                         id: id,
                         text: text,
-                        index: index(),
-                      });
+                        oldText: button ? button.oldText : "",
+                      }));
                     }
                   },
                 }}
@@ -86,14 +80,16 @@ export default function ButtonContent(props: ButtonContentProps) {
               />
             )}
           </For>
-          <button
-            class="add-button indent"
-            onClick={() => {
-              props.handlers?.buttons?.onAdd?.();
-            }}
-          >
-            +
-          </button>
+          <Show when={props.abilityToAdd}>
+            <button
+              class="add-button indent"
+              onClick={() => {
+                props.handlers?.buttons?.onAdd?.();
+              }}
+            >
+              +
+            </button>
+          </Show>
         </div>
       </Content>
     </div>

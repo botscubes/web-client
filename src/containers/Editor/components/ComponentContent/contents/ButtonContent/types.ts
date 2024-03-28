@@ -32,4 +32,5 @@ export interface ButtonContentProps {
   //outputs?: ButtonContentOutputs;
   data?: ButtonContentData;
   handlers?: ButtonContentHandlers;
+  abilityToAdd?: boolean;
 }

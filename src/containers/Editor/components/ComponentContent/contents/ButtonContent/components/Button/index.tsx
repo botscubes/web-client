@@ -26,8 +26,8 @@ export function Button(props: ButtonProps) {
   return (
     <div class={"button-component" + (props.class ? " " + props.class : "")}>
       <ContentConnectionPoint
-        targetComponentId={undefined}
-        pointId={OutputPointType.Next}
+        targetComponentId={props.data.target}
+        pointId={props.data.id}
         class="button-point"
         tooltip="next"
         handlers={props.handlers?.outputPoint}

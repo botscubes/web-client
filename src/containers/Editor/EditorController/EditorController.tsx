@@ -334,14 +334,23 @@ export default class EditorController {
         ];
       }
       case APIComponentType.Buttons: {
-        const controller = new ButtonComponentController(this, component.id);
+        const controller = new ButtonComponentController(
+          this,
+          component.id,
+          component.data.buttons,
+          component.outputs
+        );
 
         return [
           controller,
           () => (
             <ButtonContent
-              data={{ buttons: controller.buttons() }}
+              data={{
+                text: component.data.text,
+                buttons: controller.buttons(),
+              }}
               handlers={controller.getHandlers()}
+              abilityToAdd={controller.abilityToAdd()}
             />
           ),
         ];
