@@ -1,7 +1,31 @@
 header {
   display: flex;
-  border: 1px solid #ccc;
-  background-color: #edf5e1;
+  background-color: var(--blue);
   justify-content: space-between;
-  padding: 1%;
+}
+
+#global-menu {
+  display: flex;
+}
+
+#auth {
+  display: flex;
+}
+
+header a,
+header.action-link {
+  margin-right: 1rem;
+  text-decoration: none;
+  color: white;
+  padding: 5px 10px 5px 10px;
+  background-color: var(--light-blue);
+  border-radius: var(--border-radius);
+  margin: 10px;
+}
+
+header a:hover,
+header.action-link:hover {
+  cursor: pointer;
+  background-color: white;
+  color: var(--blue);
 }

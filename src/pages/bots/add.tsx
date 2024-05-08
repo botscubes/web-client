@@ -31,7 +31,7 @@ export default function AddBot() {
     setTitle(title);
   });
   return (
-    <>
+    <div class="block">
       <Title>Add bot</Title>
       <div>Add bot</div>
       <form action={send} method="post">
@@ -48,6 +48,6 @@ export default function AddBot() {
           <div class="error">{enrolling.error.message}</div>
         </Show>
       </form>
-    </>
+    </div>
   );
 }

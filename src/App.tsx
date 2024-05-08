@@ -22,7 +22,7 @@ function App(props: any) {
     <>
       <Title>Bot constructor</Title>
       <Header />
-      {props.children}
+      <div id="content">{props.children}</div>
       <div class="global-errors">
         <For each={errors()}>
           {(error) => (

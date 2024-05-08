@@ -37,7 +37,7 @@ export default function Signin() {
   });
 
   return (
-    <>
+    <div class="block">
       <form action={send} method="post">
         <p>Sign in</p>
         <label for="login">Login:</label>
@@ -57,6 +57,6 @@ export default function Signin() {
       </form>
 
       <A href="/signup">Sign up</A>
-    </>
+    </div>
   );
 }
