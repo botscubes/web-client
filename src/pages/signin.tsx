@@ -37,18 +37,35 @@ export default function Signin() {
   });
 
   return (
-    <div class="block">
-      <form action={send} method="post">
-        <p>Sign in</p>
-        <label for="login">Login:</label>
-        <br />
-        <input type="text" name="login" />
-        <br />
-        <label for="password">Password: </label> <br />
-        <input type="password" name="password" /> <br />
+    <div class="form-page">
+      <form action={send} method="post" class="form">
+        <div class="form-header">Sign in</div>
+        <div class="form-item">
+          <label for="login" class="form-label">
+            Login
+          </label>
+          <input
+            type="text"
+            name="login"
+            class="input"
+            placeholder="Enter login"
+          />
+        </div>
+        <div class="form-item">
+          <label for="password" class="form-label">
+            Password
+          </label>
+          <input
+            type="password"
+            name="password"
+            class="input"
+            placeholder="Enter password"
+          />
+        </div>
         <input
           type="submit"
           value="submit"
+          class="form-submit"
           style={{ "pointer-events": enrolling.loading ? "none" : undefined }}
         />
         <Show when={enrolling.error}>
@@ -56,7 +73,9 @@ export default function Signin() {
         </Show>
       </form>
 
-      <A href="/signup">Sign up</A>
+      <A href="/signup" class="link-button">
+        Sign up
+      </A>
     </div>
   );
 }

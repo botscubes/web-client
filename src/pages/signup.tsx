@@ -26,9 +26,9 @@ export default function Signup() {
   });
 
   return (
-    <div class="block">
-      <form action={send} method="post">
-        <p>Sign up</p>
+    <div class="form-page">
+      <form action={send} method="post" class="form">
+        <div class="form-header">Sign up</div>
         <label for="login">Login:</label>
         <br />
         <input type="text" name="login" />
