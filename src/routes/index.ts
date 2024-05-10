@@ -18,5 +18,9 @@ export const routes = [
     path: "signin",
     component: lazy(() => import("../pages/signin.tsx")),
   },
+  {
+    path: "about",
+    component: lazy(() => import("../pages/about.tsx")),
+  },
   botRoutes,
 ];

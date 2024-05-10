@@ -1,5 +1,5 @@
 import { Title } from "@solidjs/meta";
-import { action, useNavigate, useParams } from "@solidjs/router";
+import { A, action, useNavigate, useParams } from "@solidjs/router";
 import { Show, createSignal } from "solid-js";
 import { useAppState } from "~/AppContext";
 import {
@@ -72,23 +72,27 @@ export default function StartBot() {
     }
   };
   return (
-    <>
+    <div class="form-page">
       <Title>Run bot</Title>
-      <div>Run bot</div>
 
-      <Show when={loading()}>Loading...</Show>
-      <form action={send} method="post">
-        <label for="token">Token:</label>
-        <br />
+      <form action={send} method="post" class="form">
+        <div class="form-header">Run bot</div>
+        <div class="form-item">
+          <label for="token" class="form-label">
+            Token
+          </label>
+          <input
+            type="text"
+            name="token"
+            placeholder="Enter token"
+            class="blue-input"
+            ref={(el) => {
+              request(() => getToken(el));
+            }}
+          />
+        </div>
         <input
-          type="text"
-          name="token"
-          ref={(el) => {
-            request(() => getToken(el));
-          }}
-        />
-        <br />
-        <input
+          class="blue-button submit"
           type="submit"
           value="Run"
           style={{ "pointer-events": loading() ? "none" : undefined }}
@@ -96,7 +100,16 @@ export default function StartBot() {
         <Show when={error()}>
           <div class="error">{error()}</div>
         </Show>
+        <Show when={loading()}>
+          <div class="loading">Loading...</div>
+        </Show>
       </form>
-    </>
+
+      <div class="under-form">
+        <A href="/bots" class="yellow-button">
+          Back
+        </A>
+      </div>
+    </div>
   );
 }

@@ -29,22 +29,44 @@ export default function Signup() {
     <div class="form-page">
       <form action={send} method="post" class="form">
         <div class="form-header">Sign up</div>
-        <label for="login">Login:</label>
-        <br />
-        <input type="text" name="login" />
-        <br />
-        <label for="password">Password: </label> <br />
-        <input type="password" name="password" /> <br />
+        <div class="form-item">
+          <label for="login" class="form-label">
+            Login
+          </label>
+
+          <input
+            type="text"
+            name="login"
+            placeholder="Enter login"
+            class="green-input"
+          />
+        </div>
+        <div class="form-item">
+          <label for="password" class="form-label">
+            Password
+          </label>
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter password"
+            class="green-input"
+          />
+        </div>
         <input
           type="submit"
           value="submit"
+          class="green-button submit"
           style={{ "pointer-events": enrolling.loading ? "none" : undefined }}
         />
         <Show when={enrolling.error}>
           <div class="error">{enrolling.error.message}</div>
         </Show>
       </form>
-      <A href="/signin">Sign in</A>
+      <div class="under-form">
+        <A href="/signin" class="blue-button under">
+          Sign in
+        </A>
+      </div>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { Title } from "@solidjs/meta";
-import { action, useNavigate } from "@solidjs/router";
+import { A, action, useNavigate } from "@solidjs/router";
 import { Show, createResource, createSignal } from "solid-js";
 import { useAppState } from "~/AppContext";
 import { checkPromise, checkResponse } from "~/api/HTTPResponse";
@@ -31,23 +31,36 @@ export default function AddBot() {
     setTitle(title);
   });
   return (
-    <div class="block">
+    <div class="form-page">
       <Title>Add bot</Title>
-      <div>Add bot</div>
-      <form action={send} method="post">
-        <label for="title">Title:</label>
-        <br />
-        <input type="text" name="title" />
-        <br />
+      <form action={send} method="post" class="form">
+        <div class="form-header">Add bot</div>
+        <div class="form-item">
+          <label for="title" class="form-label">
+            Title
+          </label>
+          <input
+            type="text"
+            name="title"
+            placeholder="Enter bot title"
+            class="green-input"
+          />
+        </div>
         <input
           type="submit"
-          value="submit"
+          value="Add"
+          class="green-button submit"
           style={{ "pointer-events": enrolling.loading ? "none" : undefined }}
         />
         <Show when={enrolling.error}>
           <div class="error">{enrolling.error.message}</div>
         </Show>
       </form>
+      <div class="under-form">
+        <A href="/bots" class="yellow-button">
+          Back
+        </A>
+      </div>
     </div>
   );
 }

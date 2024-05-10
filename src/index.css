@@ -5,6 +5,11 @@
   --green: #00885a;
   --light-green: #009865;
   --light-light-green: #b8dad0;
+
+  --yellow: #ffab00;
+  --light-yellow: #ffba31;
+  --light-light-yellow: #fcf2cc;
+
   --button-padding: 5px 10px 5px 10px;
   --light-grey: #f4f4f3;
   --border-radius: 8px;
@@ -18,7 +23,8 @@ body {
   background-color: var(--light-grey);
 }
 
-#content {}
+#content {
+}
 
 /* error style */
 .error {
@@ -75,40 +81,65 @@ body {
   font-size: small;
 }
 
-.form-submit {
+.form .error,
+.form .loading {
   align-self: center;
+  margin-top: 1em;
+  /* font-size: small;*/
+}
+
+.form .submit,
+.under-form {
+  align-self: center;
+}
+
+.under-form {
+  background-color: white;
+  padding: 1rem 1.5rem 1rem 1.5rem;
+  border-radius: var(--border-radius);
+}
+
+.form .submit {
   margin-top: 1rem;
+}
+
+.button,
+.blue-button,
+.green-button,
+.yellow-button {
+  text-decoration: none;
   border-width: 0pt;
   border-radius: var(--border-radius);
   padding: var(--button-padding);
   background-color: var(--light-light-blue);
-  color: var(--blue);
+  color: var(--light-blue);
   font-size: medium;
 }
 
-.form-submit:hover {
+.button:hover,
+.blue-button:hover {
   background-color: var(--light-blue);
   color: white;
 }
 
-.form .error {
-  align-self: center;
-  margin-top: 1em;
-  font-size: small;
-}
-
-.form-page .link-button {
-  align-self: center;
-  text-decoration: none;
-  color: var(--green);
+.green-button {
   background-color: var(--light-light-green);
-  padding: var(--button-padding);
-  border-radius: var(--border-radius);
+  color: var(--light-green);
 }
 
-.form-page .link-button:hover {
-  color: white;
+.green-button:hover {
   background-color: var(--light-green);
+  color: white;
+}
+
+.yellow-button {
+  background-color: var(--light-light-yellow);
+  color: var(--yellow);
+}
+
+.yellow-button:hover {
+  background-color: var(--light-yellow);
+  color: white;
 }
 
 /*
@@ -134,7 +165,9 @@ main {
   margin: 0 auto;
 }
 
-.input {
+.input,
+.blue-input,
+.green-input {
   background-color: white;
   padding: 3px;
   display: block;
@@ -142,15 +175,31 @@ main {
   border-bottom: 2px solid var(--light-light-blue);
 }
 
-.input:focus {
+.input:focus,
+.blue-input:focus,
+.green-input:focus {
   border-width: 0px;
   outline: none;
-  border-bottom: 2px solid var(--blue);
+  border-bottom: 2px solid var(--light-blue);
 }
 
-.input:autofill {
+.input:autofill,
+.blue-input:autofill,
+.green-input:autofill {
   box-shadow: 0 0 0 30px white inset !important;
-  border-bottom: 2px solid var(--blue);
+  border-bottom: 2px solid var(--light-blue);
+}
+
+.green-input {
+  border-bottom: 2px solid var(--light-light-green);
+}
+
+.green-input:focus {
+  border-bottom: 2px solid var(--light-green);
+}
+
+.green-input:autofill {
+  border-bottom: 2px solid var(--light-green);
 }
 
 h1 {

@@ -47,7 +47,7 @@ export default function Signin() {
           <input
             type="text"
             name="login"
-            class="input"
+            class="blue-input"
             placeholder="Enter login"
           />
         </div>
@@ -58,24 +58,25 @@ export default function Signin() {
           <input
             type="password"
             name="password"
-            class="input"
+            class="blue-input"
             placeholder="Enter password"
           />
         </div>
         <input
           type="submit"
           value="submit"
-          class="form-submit"
+          class="blue-button submit"
           style={{ "pointer-events": enrolling.loading ? "none" : undefined }}
         />
         <Show when={enrolling.error}>
           <div class="error">{enrolling.error.message}</div>
         </Show>
       </form>
-
-      <A href="/signup" class="link-button">
-        Sign up
-      </A>
+      <div class="under-form">
+        <A href="/signup" class="green-button">
+          Sign up
+        </A>
+      </div>
     </div>
   );
 }
