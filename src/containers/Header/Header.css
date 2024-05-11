@@ -13,7 +13,7 @@ header {
 }
 
 header a,
-header.action-link {
+.header-link {
   margin-right: 1rem;
   text-decoration: none;
   color: white;
@@ -24,7 +24,7 @@ header.action-link {
 }
 
 header a:hover,
-header.action-link:hover {
+.header-link:hover {
   cursor: pointer;
   background-color: white;
   color: var(--blue);

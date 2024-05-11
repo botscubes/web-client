@@ -83,34 +83,72 @@ export default function Bots() {
   };
 
   return (
-    <>
+    <div class="bot-page">
       <Title>Bots</Title>
-      <A href="/bots/add">Add bot</A>
+      <div class="above-list">
+        <A href="/bots/add" class="green-button">
+          Add bot
+        </A>
+      </div>
+      <div class="list">
+        <div class="list-header">Bots</div>
 
-      <div>Bots</div>
-      <Show when={loading()}>Loading...</Show>
-      <For each={bots()}>
-        {(bot, i) => (
-          <div>
-            {i()} |
-            <A href={"/bots/" + bot.id}>
-              {bot.title} | {bot.status ? "active" : "not active"}
-            </A>
-            <button onClick={[deleteBot, bot.id]}>Delete</button>
-            <Show
-              when={!bot.status}
-              fallback={<button onClick={() => stopBot(bot.id)}>Stop</button>}
-            >
-              <button onClick={() => navigate(`/bots/${bot.id}/start`)}>
-                Start
-              </button>
-            </Show>
-          </div>
-        )}
-      </For>
-      <Show when={error()}>
-        <div class="error">{error()}</div>
-      </Show>
-    </>
+        <Show when={loading()} class="loading">
+          Loading...
+        </Show>
+        <Show when={error()}>
+          <div class="error">{error()}</div>
+        </Show>
+        <For each={bots()}>
+          {(bot, i) => {
+            const maxLen = 10;
+            let title = bot.title;
+            if (title.length > maxLen) {
+              title = title.slice(0, maxLen) + "...";
+            }
+            return (
+              <div class="list-item">
+                <div class="left">
+                  <div class="status">
+                    <div class={bot.status ? "active" : "not-active"}> </div>
+                  </div>
+                  <div class="separator"> </div>
+                  <div class="item-title">{title}</div>
+                </div>
+                <div class="buttons">
+                  <A href={"/bots/" + bot.id} class="blue-button">
+                    Edit
+                  </A>
+                  <div class="separator"> </div>
+
+                  <Show
+                    when={!bot.status}
+                    fallback={
+                      <button
+                        class="yellow-button"
+                        onClick={() => stopBot(bot.id)}
+                      >
+                        Stop
+                      </button>
+                    }
+                  >
+                    <button
+                      class="green-button"
+                      onClick={() => navigate(`/bots/${bot.id}/start`)}
+                    >
+                      Start
+                    </button>
+                  </Show>
+                  <div class="separator"> </div>
+                  <button class="red-button" onClick={[deleteBot, bot.id]}>
+                    Delete
+                  </button>
+                </div>
+              </div>
+            );
+          }}
+        </For>
+      </div>
+    </div>
   );
 }

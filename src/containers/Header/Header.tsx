@@ -37,7 +37,7 @@ export default function Header() {
         <Show
           when={!appState.token}
           fallback={
-            <div class="action-link" onClick={logout}>
+            <div class="header-link" onClick={logout}>
               Sign out
             </div>
           }
