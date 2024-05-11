@@ -93,14 +93,14 @@ export default function Bots() {
       <div class="list">
         <div class="list-header">Bots</div>
 
-        <Show when={loading()} class="loading">
-          Loading...
+        <Show when={loading()}>
+          <div class="loading">Loading...</div>
         </Show>
         <Show when={error()}>
           <div class="error">{error()}</div>
         </Show>
         <For each={bots()}>
-          {(bot, i) => {
+          {(bot) => {
             const maxLen = 10;
             let title = bot.title;
             if (title.length > maxLen) {

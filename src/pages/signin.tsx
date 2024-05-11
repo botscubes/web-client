@@ -64,7 +64,7 @@ export default function Signin() {
         </div>
         <input
           type="submit"
-          value="submit"
+          value="Sign in"
           class="blue-button submit"
           style={{ "pointer-events": enrolling.loading ? "none" : undefined }}
         />

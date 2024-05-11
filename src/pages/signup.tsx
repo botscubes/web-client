@@ -54,7 +54,7 @@ export default function Signup() {
         </div>
         <input
           type="submit"
-          value="submit"
+          value="Sign up"
           class="green-button submit"
           style={{ "pointer-events": enrolling.loading ? "none" : undefined }}
         />
