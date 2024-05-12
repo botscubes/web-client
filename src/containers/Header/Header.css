@@ -2,14 +2,18 @@ header {
   display: flex;
   background-color: var(--blue);
   justify-content: space-between;
+  height: var(--header-height);
 }
 
 #global-menu {
   display: flex;
+  align-items: center;
+  margin-left: 1em;
 }
 
 #auth {
   display: flex;
+  align-items: center;
 }
 
 header a,
@@ -20,7 +24,6 @@ header a,
   padding: var(--button-padding);
   background-color: var(--light-blue);
   border-radius: var(--border-radius);
-  margin: 10px;
 }
 
 header a:hover,
