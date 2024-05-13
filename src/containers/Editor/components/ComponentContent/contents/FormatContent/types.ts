@@ -11,7 +11,6 @@ export interface FormatContentData {
 }
 
 export interface FormatContentOutputs {
-  idIfFalse?: number;
   idIfError?: number;
   nextComponentId?: number;
 }

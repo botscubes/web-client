@@ -23,6 +23,13 @@ export default function FormatContent(props: FormatContentProps) {
           handlers={props.handlers?.outputPoint}
           color={OutputPointColor.Next}
         />
+        <ContentConnectionPoint
+          targetComponentId={props.outputs?.idIfError}
+          pointId={OutputPointType.Error}
+          tooltip="error"
+          handlers={props.handlers?.outputPoint}
+          color={OutputPointColor.Error}
+        />
       </div>
     </>
   );

@@ -1,10 +1,11 @@
-import { Content } from "../../Content";
+import { Content, ContentConnectionPoint } from "../../Content";
 import "../../Content.css";
 import "./ButtonContent.css";
 import { ButtonContentProps } from "./types";
 import { Input } from "../../../Input";
 import { Button } from "./components/Button";
 import { For, Show, createSignal } from "solid-js";
+import { OutputPointColor, OutputPointType } from "../../types";
 
 export default function ButtonContent(props: ButtonContentProps) {
   const [editButton, setEditButton] = createSignal<
@@ -93,6 +94,15 @@ export default function ButtonContent(props: ButtonContentProps) {
           </Show>
         </div>
       </Content>
+      <div class="output-points">
+        <ContentConnectionPoint
+          targetComponentId={props.outputs?.idIfError}
+          pointId={OutputPointType.Error}
+          tooltip="error"
+          handlers={props.handlers?.outputPoint}
+          color={OutputPointColor.Error}
+        />
+      </div>
     </div>
   );
 }

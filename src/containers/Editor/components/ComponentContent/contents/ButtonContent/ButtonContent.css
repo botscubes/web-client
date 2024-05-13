@@ -21,3 +21,10 @@
   position: absolute;
   opacity: 0;
 }
+
+.button-content .output-points {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  bottom: 10px;
+}

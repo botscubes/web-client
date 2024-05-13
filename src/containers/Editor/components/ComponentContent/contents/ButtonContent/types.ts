@@ -23,13 +23,11 @@ export interface ButtonContentData {
 }
 
 export interface ButtonContentOutputs {
-  idIfFalse?: number;
   idIfError?: number;
-  nextComponentId?: number;
 }
 
 export interface ButtonContentProps {
-  //outputs?: ButtonContentOutputs;
+  outputs?: ButtonContentOutputs;
   data?: ButtonContentData;
   handlers?: ButtonContentHandlers;
   abilityToAdd?: boolean;

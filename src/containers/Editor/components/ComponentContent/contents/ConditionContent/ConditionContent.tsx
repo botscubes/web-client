@@ -10,7 +10,7 @@ export default function ConditionContent(props: ConditionContentProps) {
       <Content componentName={"Condition"}>
         <Input
           class="component-input blue-input"
-          placeholder="Enter expression"
+          placeholder="Enter variable"
           value={props.data?.expression}
           handlers={props.handlers?.expression}
         />
@@ -29,6 +29,13 @@ export default function ConditionContent(props: ConditionContentProps) {
           tooltip="false"
           handlers={props.handlers?.outputPoint}
           color={OutputPointColor.Else}
+        />
+        <ContentConnectionPoint
+          targetComponentId={props.outputs?.idIfError}
+          pointId={OutputPointType.Error}
+          tooltip="error"
+          handlers={props.handlers?.outputPoint}
+          color={OutputPointColor.Error}
         />
       </div>
     </>
