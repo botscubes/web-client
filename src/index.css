@@ -7,12 +7,13 @@
   --light-green: #5cc573;
   --light-light-green: #cfefc3;
 
-  --yellow: #ff751f;
+  --yellow: #ffb300;
   --light-yellow: #ffba31;
   --light-light-yellow: #fcf2cc;
 
-  --grey: #dfdfdf;
-  --light-grey: #f4f4f4;
+  --grey: #c8c8c8;
+  --light-grey: #dfdfdf;
+  --light-light-grey: #f4f4f4;
 
   --red: red;
   --light-red: #ff5640;
@@ -29,7 +30,7 @@ body {
     "Helvetica Neue", sans-serif;
   margin: 0px;
   padding: 0px;
-  background-color: var(--light-grey);
+  background-color: var(--light-light-grey);
 }
 
 #root {
@@ -83,7 +84,7 @@ body {
   margin-top: 3rem;
   margin-bottom: 2rem;
   align-self: center;
-  box-shadow: 0 0 10px var(--grey);
+  box-shadow: 0 0 10px var(--light-grey);
 }
 
 .form-header {
@@ -113,7 +114,7 @@ body {
 }
 
 .under-form {
-  box-shadow: 0 0 10px var(--grey);
+  box-shadow: 0 0 10px var(--light-grey);
   background-color: white;
   padding: 1rem 1.5rem 1rem 1.5rem;
   border-radius: var(--border-radius);
@@ -141,7 +142,7 @@ main {
   border-radius: var(--border-radius);
   margin-top: 1rem;
   margin-bottom: 1rem;
-  box-shadow: 0 0 10px var(--grey);
+  box-shadow: 0 0 10px var(--light-grey);
 }
 
 .list {
@@ -151,7 +152,7 @@ main {
   background-color: white;
   border-radius: var(--border-radius);
   padding: 2rem;
-  box-shadow: 0 0 10px var(--grey);
+  box-shadow: 0 0 10px var(--light-grey);
 }
 
 .list-header {
@@ -160,13 +161,13 @@ main {
 }
 
 .list-item {
-  width: 20rem;
+  width: 22rem;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   background-color: white;
-  box-shadow: 0 0 10px var(--grey);
+  box-shadow: 0 0 10px var(--light-grey);
   padding: 0.5rem;
   border-radius: var(--border-radius);
   margin-top: 0.5rem;

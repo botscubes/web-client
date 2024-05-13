@@ -9,7 +9,7 @@
   z-index: 0;
   flex-grow: 1;
   border-radius: var(--border-radius);
-  box-shadow: 0px 0px 10px var(--grey);
+  box-shadow: 0px 0px 10px var(--light-grey);
   display: flex;
   flex-direction: column;
   height: calc(100vh - var(--header-height) - 2 * var(--editor-area-margin));
@@ -56,11 +56,12 @@
 }
 
 .scale-buttons {
+  background-color: white;
   position: absolute;
   padding: 10px;
   bottom: 0px;
   right: 0px;
-  box-shadow: 0px 0px 10px var(--grey);
+  box-shadow: 0px 0px 10px var(--light-grey);
   margin: 1rem;
   border-radius: var(--border-radius);
   display: flex;
@@ -84,21 +85,22 @@
   align-self: stretch;
   z-index: 25;
   border-radius: var(--border-radius);
-  box-shadow: 0px 0px 10px var(--grey);
+  box-shadow: 0px 0px 10px var(--light-grey);
   display: flex;
   align-items: center;
+  background-color: white;
 }
 
 #component-selection-panel {
   position: relative;
-  box-shadow: 0px 0px 10px var(--grey);
+  box-shadow: 0px 0px 10px var(--light-grey);
   height: auto;
   width: auto;
   margin: 1rem;
   border-radius: 5px;
   flex-basis: content;
   flex-grow: 1;
-
+  background-color: white;
   display: flex;
   flex-direction: column;
   overflow: hidden;
