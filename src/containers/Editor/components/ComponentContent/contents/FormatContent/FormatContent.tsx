@@ -9,7 +9,8 @@ export default function FormatContent(props: FormatContentProps) {
     <>
       <Content componentName={"Format"}>
         <Input
-          class="component-input"
+          class="component-input blue-input"
+          placeholder="Enter text"
           value={props.data?.formatString}
           handlers={props.handlers?.formatString}
         />

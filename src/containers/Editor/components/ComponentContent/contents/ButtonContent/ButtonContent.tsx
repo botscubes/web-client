@@ -35,7 +35,8 @@ export default function ButtonContent(props: ButtonContentProps) {
       <Content componentName={"Buttons"}>
         <div class="flex-column">
           <Input
-            class="component-input"
+            class="component-input blue-input"
+            placeholder="Enter text"
             value={props.data?.text}
             handlers={props.handlers?.text}
           />

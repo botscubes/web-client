@@ -9,7 +9,8 @@ export default function MessageContent(props: MessageContentProps) {
     <>
       <Content componentName={"Message"}>
         <Input
-          class="component-input"
+          class="component-input blue-input"
+          placeholder="Enter text"
           value={props.data?.text}
           handlers={props.handlers?.text}
         />

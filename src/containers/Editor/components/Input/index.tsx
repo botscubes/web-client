@@ -9,6 +9,7 @@ export interface InputHandlers {
 export interface InputProps {
   handlers?: InputHandlers;
   value?: string;
+  placeholder?: string;
   class: string;
 }
 
@@ -24,6 +25,7 @@ export function Input(props: InputProps) {
   return (
     <input
       class={props.class}
+      placeholder={props.placeholder}
       value={str()}
       onChange={(event) => {
         setStr(event.target.value);

@@ -9,7 +9,8 @@ export default function ConditionContent(props: ConditionContentProps) {
     <>
       <Content componentName={"Condition"}>
         <Input
-          class="component-input"
+          class="component-input blue-input"
+          placeholder="Enter expression"
           value={props.data?.expression}
           handlers={props.handlers?.expression}
         />

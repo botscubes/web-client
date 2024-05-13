@@ -1,10 +1,11 @@
 .component {
-  background-color: aqua;
+  background-color: white;
   z-index: 1;
   width: auto;
   height: auto;
-  border-radius: 5px;
-  outline: 1px solid teal;
+  border-radius: var(--border-radius);
+  outline: 1px solid var(--grey);
+  box-shadow: 0px 0px 10px var(--grey);
 }
 
 .selected {

@@ -22,7 +22,7 @@ import { ConditionComponentCreator } from "./EditorController/components/Conditi
 import { Line, LinePosition } from "./components/Line";
 import { EditorProps } from "./types";
 import { EditorClient } from "./EditorController/api/EditorClient";
-import { useNavigate } from "@solidjs/router";
+import { A, useNavigate } from "@solidjs/router";
 import { MessageComponentCreator } from "./EditorController/components/MessageComponent";
 import { TextInputComponentCreator } from "./EditorController/components/TextInputComponent";
 import { FormatComponentCreator } from "./EditorController/components/FormatComponent";
@@ -135,21 +135,31 @@ export default function Editor(props: EditorProps) {
           // </div>
         }
         <div class="scale-buttons events">
-          <button onClick={() => editor.zoomIn()}> + </button>
-          <button onClick={() => editor.zoomOut()}> - </button>
+          <button class="green-button" onClick={() => editor.zoomIn()}>
+            +
+          </button>
+          <div class="separator"> </div>
+          <button class="blue-button" onClick={() => editor.zoomOut()}>
+            {" "}
+            -{" "}
+          </button>
         </div>
         <div id="editor-menu-panel" class="events">
-          <button id="save-button">Get Bot</button>
-          <button id="save-button">Start Bot</button>
-          <button id="save-button">Stop Bot</button>
-
-          <Show when={loading()}>loading...</Show>
+          <A href="/bots" class="blue-button">
+            Bot list
+          </A>
+          <div class="separator"> </div>
+          <button class="green-button">Start bot</button>
+          <div class="separator"> </div>
+          <Show when={loading()}>
+            <div class="loading">Loading...</div>
+          </Show>
         </div>
         <Show
           when={showComponentSelection()}
           fallback={
             <button
-              class="events show-panel-btn"
+              class="events blue-button show-panel-btn"
               onClick={() => setShowComponentSelection(true)}
             >
               {"->"}
@@ -158,7 +168,7 @@ export default function Editor(props: EditorProps) {
         >
           <div id="component-selection-panel" class="events">
             <button
-              class="hide-panel-btn"
+              class="hide-panel-btn blue-button"
               onClick={() => {
                 setShowComponentSelection(false);
               }}

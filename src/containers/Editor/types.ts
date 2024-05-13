@@ -1,5 +1,4 @@
 import Logger from "~/logging/Logger";
-import { ComponentData, ComponentStyle } from "./components/Component/types";
 import { LinePosition } from "./components/Line";
 import { SetStoreFunction, Store } from "solid-js/store";
 import { Accessor, JSX, Setter } from "solid-js";

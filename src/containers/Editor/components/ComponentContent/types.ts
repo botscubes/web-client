@@ -17,6 +17,6 @@ export enum OutputPointType {
 
 export enum OutputPointColor {
   Error = "red",
-  Next = "green",
-  Else = "gray",
+  Next = "#07b12d",
+  Else = "grey",
 }
