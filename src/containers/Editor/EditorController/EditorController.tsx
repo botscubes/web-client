@@ -130,9 +130,6 @@ export default class EditorController {
   setEditorArea(editorArea?: HTMLElement) {
     this.editorArea = editorArea;
   }
-  //  getEditorData(): Store<EditorData> {
-  //    return this.editorData;
-  //  }
 
   startConnection(
     componentId: number,
@@ -181,23 +178,9 @@ export default class EditorController {
           pointPosition: line.position.start,
         },
         this.getRelativeMousePosition(clientPosition),
-        "black"
+        line.color
       )
     );
-    //    const linePosition = this.editorStorage.getLinePosition(sourceCommandId);
-    //    const commandConnectionPosition: Position =
-    //      this.editorStorage.getCommandConnectionPosition(
-    //        sourceComponentId,
-    //        sourceCommandId
-    //      );
-    //    this.setEditorState(
-    //      new ConnectionState(this, {
-    //        sourceComponentId: sourceComponentId,
-    //        sourceCommandId: sourceCommandId,
-    //        commandConnectionPosition: commandConnectionPosition,
-    //        linePosition: linePosition,
-    //      })
-    //    );
   }
   handleMouseDown(event: MouseEvent) {
     this.editorState.handleMouseDown(event);
@@ -212,15 +195,6 @@ export default class EditorController {
     this.logger.info("Editor: state changed to " + state.name);
     this.editorState = state;
   }
-  // setShowLine(value: boolean) {
-  //   this.editorStorage.setShowLine(value);
-  // }
-  // setLinePosition(
-  //   fn: (position: LinePosition) => LinePosition,
-  //   commandId?: number
-  // ) {
-  //   this.editorStorage.setLinePosition(fn, commandId);
-  // }
 
   getRelativeMousePosition(mousePosition: Position): Position {
     let relativeMousePosition = { x: 0, y: 0 };
@@ -237,10 +211,6 @@ export default class EditorController {
   startAddingComponent(event: MouseEvent, creator: SpecificComponentCreator) {
     this.setState(new AddingComponentState(this, event, creator));
   }
-  // getEditorStorage(): EditorStorage {
-  //   return this.editorStorage;
-  // }
-
   zoomIn() {
     this.editor.scale.set((scale) => scale + this.zoomSize);
   }

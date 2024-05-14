@@ -1,4 +1,3 @@
-import { JSX } from "solid-js";
 import EditorController from "..";
 import { Position } from "../../shared/types";
 import { ContentPointHandlers } from "../../components/ComponentContent";
@@ -7,7 +6,8 @@ export class OutputPoint {
   constructor(
     private _id: string,
     private _targetComponentId: number | undefined,
-    private _getClientPosition: () => Position
+    private _getClientPosition: () => Position,
+    private _color: string
   ) {}
   get id() {
     return this._id;
@@ -20,6 +20,9 @@ export class OutputPoint {
   }
   getClientPosition(): Position {
     return this._getClientPosition();
+  }
+  get color(): string {
+    return this._color;
   }
 }
 
@@ -62,12 +65,14 @@ export abstract class SpecificComponentController {
       onMount: (
         pointId: string,
         targetComponentId: number | undefined,
-        getPointClientPosition: () => Position
+        getPointClientPosition: () => Position,
+        pointColor: string
       ) => {
         this.outputPoints[pointId] = new OutputPoint(
           pointId,
           targetComponentId,
-          getPointClientPosition
+          getPointClientPosition,
+          pointColor
         );
       },
     };

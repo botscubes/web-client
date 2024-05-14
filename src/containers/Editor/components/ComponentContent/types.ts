@@ -9,7 +9,8 @@ export interface ContentPointHandlers {
   onMount: (
     pointId: string,
     targetComponentId: number | undefined,
-    getPointClientPosition: () => Position
+    getPointClientPosition: () => Position,
+    pointColor: string
   ) => void;
 }
 

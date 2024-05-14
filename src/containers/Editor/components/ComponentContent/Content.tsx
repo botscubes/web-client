@@ -35,7 +35,8 @@ export function ContentConnectionPoint(props: {
             props.handlers?.onMount(
               props.pointId,
               props.targetComponentId,
-              getClientPosition
+              getClientPosition,
+              props.color ?? "black"
             );
           },
           onMouseDown: (clientPosition: Position) => {

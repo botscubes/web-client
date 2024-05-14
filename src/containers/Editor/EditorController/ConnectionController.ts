@@ -146,14 +146,15 @@ export default class ConnectionController {
     for (const component of Object.values(this.components.get())) {
       for (const point of Object.values(component.connectionPoints)) {
         if (point.componentId != undefined && point.pointId != undefined) {
-          const outputPointPosition = this.components
+          const outputPoint = this.components
             .component(point.componentId)
-            .controller.getOutputPoint(point.pointId)
-            .getClientPosition();
+            .controller.getOutputPoint(point.pointId);
           this.lines.set(point.componentId, point.pointId, {
-            color: "blue",
+            color: outputPoint.color,
             position: {
-              start: this.editor.getRelativeMousePosition(outputPointPosition),
+              start: this.editor.getRelativeMousePosition(
+                outputPoint.getClientPosition()
+              ),
               end: this.editor.getRelativeMousePosition(
                 point.getClientPosition()
               ),
