@@ -74,9 +74,7 @@ export default class EditorController {
   get line() {
     return this.editor.line;
   }
-  get lineColor() {
-    return this.editor.lineColor;
-  }
+
   get error() {
     return this.editor.error;
   }
@@ -180,7 +178,7 @@ export default class EditorController {
         {
           componentId: sourceComponentId,
           pointId: sourcePointId,
-          pointPosition: line.start,
+          pointPosition: line.position.start,
         },
         this.getRelativeMousePosition(clientPosition),
         "black"

@@ -1,5 +1,5 @@
-import { LinePosition } from "../../components/Line";
 import { Position } from "../../shared/types";
+import { LineData } from "../../types";
 import EditorController from "../EditorController";
 import EditorState from "../EditorState";
 import { getMousePosition } from "../halpers/mouse";
@@ -11,7 +11,7 @@ export default class ConnectionState extends EditorState {
     editor: EditorController,
     private sourceConnectionData: SourceConnectionData,
     mousePosition: Position,
-    pointColor: string
+    private pointColor: string
   ) {
     super(editor);
 
@@ -20,10 +20,12 @@ export default class ConnectionState extends EditorState {
     this.editor.setUserSelect(false);
 
     this.editor.line.set({
-      start: sourceConnectionData.pointPosition,
-      end: mousePosition,
+      color: pointColor,
+      position: {
+        start: sourceConnectionData.pointPosition,
+        end: mousePosition,
+      },
     });
-    this.editor.lineColor.set(pointColor);
     editor.components.showConnectionAreas(
       new Set([sourceConnectionData.componentId])
     );
@@ -49,11 +51,14 @@ export default class ConnectionState extends EditorState {
     const mousePosition = this.editor.getRelativeMousePosition(
       getMousePosition(event)
     );
-    this.editor.line.set((position: LinePosition | undefined) => {
-      if (position) {
+    this.editor.line.set((lineData: LineData | undefined) => {
+      if (lineData) {
         return {
-          ...position,
-          end: mousePosition,
+          ...lineData,
+          position: {
+            ...lineData.position,
+            end: mousePosition,
+          },
         };
       }
       return undefined;
@@ -75,11 +80,15 @@ export default class ConnectionState extends EditorState {
     this.editor.setUserSelect(true);
     this.editor.line.set(undefined);
 
-    this.editor.connections.add(this.sourceConnectionData, {
-      componentId: componentId,
-      pointPosition: pointPosition,
-      relativePointPosition: relativePointPosition,
-    });
+    this.editor.connections.add(
+      this.sourceConnectionData,
+      {
+        componentId: componentId,
+        pointPosition: pointPosition,
+        relativePointPosition: relativePointPosition,
+      },
+      this.pointColor
+    );
     this.editor.setState(new WaitingState(this.editor));
   }
 }

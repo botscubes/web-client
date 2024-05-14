@@ -3,6 +3,7 @@ import LineStore from "./EditorStorage/LineStore";
 import { SourceConnectionData, TargetConnectionData } from "./types";
 import EditorController from ".";
 import ComponentStore from "./EditorStorage/ComponentStorage/ComponentStore";
+import { LineData } from "../types";
 
 export default class ConnectionController {
   constructor(
@@ -13,7 +14,8 @@ export default class ConnectionController {
 
   async add(
     sourceConnectionData: SourceConnectionData,
-    targetConnectionData: TargetConnectionData
+    targetConnectionData: TargetConnectionData,
+    lineColor: string
   ) {
     const [_, error] = await this.editor.httpRequest(() =>
       this.editor.client.setConnection({
@@ -32,8 +34,11 @@ export default class ConnectionController {
       sourceConnectionData.componentId,
       sourceConnectionData.pointId,
       {
-        start: sourceConnectionData.pointPosition,
-        end: targetConnectionData.pointPosition,
+        color: lineColor,
+        position: {
+          start: sourceConnectionData.pointPosition,
+          end: targetConnectionData.pointPosition,
+        },
       }
     );
     this.components
@@ -79,8 +84,11 @@ export default class ConnectionController {
     );
   }
 
-  getLine(componentId: number, pointId: string): LinePosition {
+  getLine(componentId: number, pointId: string): LineData {
     return this.lines.get(componentId, pointId);
+  }
+  getLinePosition(componentId: number, pointId: string): LinePosition {
+    return this.lines.get(componentId, pointId).position;
   }
 
   async deleteAllFromComponent(componentId: number) {
@@ -105,22 +113,30 @@ export default class ConnectionController {
 
     for (const point of Object.values(component.connectionPoints)) {
       if (point.componentId != undefined && point.pointId != undefined) {
-        const linePosition = this.lines.get(point.componentId, point.pointId);
+        const line = this.lines.get(point.componentId, point.pointId);
         this.lines.set(point.componentId, point.pointId, {
-          ...linePosition,
-          end: this.editor.getRelativeMousePosition(point.getClientPosition()),
+          ...line,
+          position: {
+            ...line.position,
+            end: this.editor.getRelativeMousePosition(
+              point.getClientPosition()
+            ),
+          },
         });
       }
     }
     const points = component.controller.getOutputPoints();
     for (const point of points) {
       if (point.targetComponentId != undefined) {
-        const linePosition = this.lines.get(componentId, point.id);
+        const line = this.lines.get(componentId, point.id);
         this.lines.set(componentId, point.id, {
-          ...linePosition,
-          start: this.editor.getRelativeMousePosition(
-            point.getClientPosition()
-          ),
+          ...line,
+          position: {
+            ...line.position,
+            start: this.editor.getRelativeMousePosition(
+              point.getClientPosition()
+            ),
+          },
         });
       }
     }
@@ -135,10 +151,13 @@ export default class ConnectionController {
             .controller.getOutputPoint(point.pointId)
             .getClientPosition();
           this.lines.set(point.componentId, point.pointId, {
-            start: this.editor.getRelativeMousePosition(outputPointPosition),
-            end: this.editor.getRelativeMousePosition(
-              point.getClientPosition()
-            ),
+            color: "blue",
+            position: {
+              start: this.editor.getRelativeMousePosition(outputPointPosition),
+              end: this.editor.getRelativeMousePosition(
+                point.getClientPosition()
+              ),
+            },
           });
         }
       }

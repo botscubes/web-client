@@ -1,22 +1,21 @@
 import { SetStoreFunction, Store } from "solid-js/store";
-import { EditorData } from "../../types";
+import { LineData } from "../../types";
 import { LinePosition } from "../../components/Line";
-import { Accessor, Setter } from "solid-js";
 
 export default class LineStore {
   constructor(
-    private _lines: Store<Record<string, LinePosition>>,
-    private setLines: SetStoreFunction<Record<string, LinePosition>>
+    private _lines: Store<Record<string, LineData>>,
+    private setLines: SetStoreFunction<Record<string, LineData>>
   ) {}
 
-  get(componentId: number, pointId: string): LinePosition {
+  get(componentId: number, pointId: string): LineData {
     return this._lines[componentId.toString() + " " + pointId.toString()];
   }
 
-  set(componentId: number, pointId: string, linePosition: LinePosition) {
+  set(componentId: number, pointId: string, lineData: LineData) {
     this.setLines((lines) => ({
       ...lines,
-      [componentId.toString() + " " + pointId]: linePosition,
+      [componentId.toString() + " " + pointId]: lineData,
     }));
   }
 

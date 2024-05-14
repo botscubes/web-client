@@ -7,6 +7,11 @@ import { Position } from "./shared/types";
 import { HTTPClient } from "~/api/HTTPClient";
 import { Navigator } from "@solidjs/router";
 
+export interface LineData {
+  color: string;
+  position: LinePosition;
+}
+
 export interface EditorData {
   componentStore: [
     Store<Record<number, ExtendedComponentData>>,
@@ -22,14 +27,11 @@ export interface EditorData {
     get: Accessor<number>;
   };
   line: {
-    set: Setter<LinePosition | undefined>;
-  };
-  lineColor: {
-    set: Setter<string>;
+    set: Setter<LineData | undefined>;
   };
   lineStore: [
-    Store<Record<string, LinePosition>>,
-    SetStoreFunction<Record<string, LinePosition>>,
+    Store<Record<string, LineData>>,
+    SetStoreFunction<Record<string, LineData>>,
   ];
   setLoading: Setter<boolean>;
   navigate: Navigator;
