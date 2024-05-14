@@ -13,6 +13,16 @@
   opacity: 1;
 }
 
+.button-content .button {
+  background-color: white;
+  color: var(--blue);
+}
+
+.button-content .button:hover {
+  background-color: var(--light-blue);
+  color: white;
+}
+
 .indent {
   margin-top: 10px;
 }
@@ -24,7 +34,7 @@
 
 .button-content .output-points {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   bottom: 10px;
 }

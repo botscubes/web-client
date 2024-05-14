@@ -39,6 +39,7 @@ export function Button(props: ButtonProps) {
         fallback={
           <div class="edit">
             <button
+              class="button"
               onClick={() => {
                 props.handlers?.onDeleteButton?.(props.data.id);
               }}
@@ -46,7 +47,8 @@ export function Button(props: ButtonProps) {
               ✖
             </button>
             <input
-              class="button-input"
+              class="button-input input"
+              placeholder="Enter name"
               onInput={(event) => {
                 const text = event.target.value;
                 props.handlers?.onInputText?.(props.data.id, text);

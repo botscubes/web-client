@@ -5,8 +5,32 @@
   display: flex;
 }
 
+.button-component .delete-button {
+  padding: 10px;
+  width: auto;
+  width: auto;
+}
+
 .edit {
   display: flex;
+  flex-direction: center;
+}
+
+.edit .button {
+  width: auto;
+  height: auto;
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+  background-color: var(--light-light-red);
+  color: var(--light-red);
+}
+
+.edit .button:hover {
+  background-color: var(--light-red);
+  color: white;
+}
+
+.edit .input {
+  border-color: var(--light-blue);
 }
 
 .button {

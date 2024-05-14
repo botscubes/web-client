@@ -84,7 +84,7 @@ export default function ButtonContent(props: ButtonContentProps) {
           </For>
           <Show when={props.abilityToAdd}>
             <button
-              class="add-button indent"
+              class="indent button add-button "
               onClick={() => {
                 props.handlers?.buttons?.onAdd?.();
               }}

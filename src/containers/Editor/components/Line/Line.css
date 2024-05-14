@@ -1,5 +1,4 @@
 .connection-line {
   position: absolute;
-  z-index: 20;
   pointer-events: none;
 }

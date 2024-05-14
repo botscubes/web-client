@@ -5,11 +5,11 @@
   width: auto;
   height: auto;
   border-radius: var(--border-radius);
+  outline: 2px solid var(--light-blue);
 }
 
 .selected {
-  box-shadow: 0 0 4px 4px teal;
-  outline: 2px solid teal;
+  box-shadow: 0 0 4px 4px var(--light-blue);
 }
 
 .delete-button {
@@ -29,5 +29,5 @@
 }
 
 .target-point {
-  background-color: blue;
+  background-color: var(--blue);
 }
