@@ -39,7 +39,11 @@ export function ContentConnectionPoint(props: {
             );
           },
           onMouseDown: (clientPosition: Position) => {
-            props.handlers?.onMouseDown(props.pointId, clientPosition);
+            props.handlers?.onMouseDown(
+              props.pointId,
+              clientPosition,
+              props.color ?? "black"
+            );
           },
         }}
         style={{

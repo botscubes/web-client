@@ -129,7 +129,7 @@ export default function Line(props: LineProps) {
         y1={lineY1()}
         x2={lineX2()}
         y2={lineY2()}
-        stroke="black"
+        stroke={props.color}
       />
 
       <path
@@ -138,7 +138,7 @@ export default function Line(props: LineProps) {
           L${lineX2()} ${lineY2()} 
           L${arrowPointX2()} ${arrowPointY2()}
         `}
-        stroke="black"
+        stroke={props.color}
         fill="transparent"
       />
     </svg>

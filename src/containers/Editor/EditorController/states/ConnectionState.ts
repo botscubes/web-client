@@ -10,7 +10,8 @@ export default class ConnectionState extends EditorState {
   constructor(
     editor: EditorController,
     private sourceConnectionData: SourceConnectionData,
-    mousePosition: Position
+    mousePosition: Position,
+    pointColor: string
   ) {
     super(editor);
 
@@ -22,6 +23,7 @@ export default class ConnectionState extends EditorState {
       start: sourceConnectionData.pointPosition,
       end: mousePosition,
     });
+    this.editor.lineColor.set(pointColor);
     editor.components.showConnectionAreas(
       new Set([sourceConnectionData.componentId])
     );
@@ -37,20 +39,6 @@ export default class ConnectionState extends EditorState {
         sourceConnectionData.pointId
       );
     }
-    //  this.editor
-    //    .getEditorStorage()
-    //    .deleteConnection(
-    //      connectionData.sourceComponentId,
-    //      connectionData.sourceCommandId
-    //    );
-    //  this.editorController.setLinePosition(
-    //    () => this.connectionData.linePosition
-    //  );
-
-    //  this.editorController.getEditorStorage().setShowLine(true);
-    //  this.editorController
-    //    .getEditorStorage()
-    //    .showConnectionAreas(new Set([connectionData.sourceComponentId]));
   }
 
   get name() {
@@ -70,18 +58,9 @@ export default class ConnectionState extends EditorState {
       }
       return undefined;
     });
-    //  this.editorController.setLinePosition((position: LinePosition) => ({
-    //    ...position,
-    //    end: mousePosition,
-    //  }));
   }
 
   handleMouseUp(_event: MouseEvent) {
-    //  this.editorController.setShowLine(false);
-    //  this.editorController.getEditorStorage().hideConnectionAreas();
-    //  this.editorController.setEditorState(
-    //    new WaitingState(this.editorController)
-    //  );
     this.editor.components.hideConnectionAreas();
     this.editor.setUserSelect(true);
     this.editor.line.set(undefined);
@@ -102,24 +81,5 @@ export default class ConnectionState extends EditorState {
       relativePointPosition: relativePointPosition,
     });
     this.editor.setState(new WaitingState(this.editor));
-
-    //    const editorStorage = this.editorController.getEditorStorage();
-    //    editorStorage.addConnection(
-    //      this.connectionData.sourceComponentId,
-    //      this.connectionData.sourceCommandId,
-    //      componentId,
-    //      relativePointPosition,
-    //      {
-    //        start: editorStorage.getLinePosition().start,
-    //        end: connectionPosition,
-    //      },
-    //      this.connectionData.commandConnectionPosition
-    //    );
-    //
-    //    editorStorage.hideConnectionAreas();
-    //    editorStorage.setShowLine(false);
-    //    this.editorController.setEditorState(
-    //      new WaitingState(this.editorController)
-    //    );
   }
 }

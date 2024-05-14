@@ -1,7 +1,11 @@
 import { Position } from "../../shared/types";
 
 export interface ContentPointHandlers {
-  onMouseDown: (pointId: string, clientPosition: Position) => void;
+  onMouseDown: (
+    pointId: string,
+    clientPosition: Position,
+    pointColor: string
+  ) => void;
   onMount: (
     pointId: string,
     targetComponentId: number | undefined,

@@ -74,6 +74,9 @@ export default class EditorController {
   get line() {
     return this.editor.line;
   }
+  get lineColor() {
+    return this.editor.lineColor;
+  }
   get error() {
     return this.editor.error;
   }
@@ -136,12 +139,14 @@ export default class EditorController {
   startConnection(
     componentId: number,
     pointId: string,
-    clientPosition: Position
+    clientPosition: Position,
+    pointColor: string
   ) {
     this.editorState.startConnection(
       componentId,
       pointId,
-      this.getRelativeMousePosition(clientPosition)
+      this.getRelativeMousePosition(clientPosition),
+      pointColor
     );
   }
   finishConnection(
@@ -177,7 +182,8 @@ export default class EditorController {
           pointId: sourcePointId,
           pointPosition: line.start,
         },
-        this.getRelativeMousePosition(clientPosition)
+        this.getRelativeMousePosition(clientPosition),
+        "black"
       )
     );
     //    const linePosition = this.editorStorage.getLinePosition(sourceCommandId);

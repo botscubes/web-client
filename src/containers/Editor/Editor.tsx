@@ -42,6 +42,7 @@ export default function Editor(props: EditorProps) {
   const [userSelect, setUserSelect] = createSignal(true);
   const [scale, setScale] = createSignal(1);
   const [line, setLine] = createSignal<LinePosition | undefined>(undefined);
+  const [lineColor, setLineColor] = createSignal("black");
   const [lines, setLines] = createStore<Record<string, LinePosition>>({});
   const [loading, setLoading] = createSignal(false);
   const [error, setError] = createSignal<Error | undefined>();
@@ -75,6 +76,9 @@ export default function Editor(props: EditorProps) {
       },
       line: {
         set: setLine,
+      },
+      lineColor: {
+        set: setLineColor,
       },
       lineStore: [lines, setLines],
       setLoading: setLoading,
@@ -242,10 +246,10 @@ export default function Editor(props: EditorProps) {
         </For>
 
         <Show when={line()}>
-          <Line position={line()!} />
+          <Line position={line()!} color={lineColor()} />
         </Show>
         <For each={Object.values(lines)}>
-          {(line) => <Line position={line} />}
+          {(line) => <Line position={line} color="red" />}
         </For>
       </div>
     </div>

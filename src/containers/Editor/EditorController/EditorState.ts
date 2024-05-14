@@ -17,7 +17,8 @@ export default abstract class EditorState {
   startConnection(
     _componentId: number,
     _pointId: string,
-    _position: Position
+    _position: Position,
+    _pointColor: string
   ) {}
   finishConnection(
     _componentId: number,

@@ -47,8 +47,17 @@ export abstract class SpecificComponentController {
   }
   getPointHandlers(): ContentPointHandlers {
     return {
-      onMouseDown: (pointId: string, clientPosition: Position) => {
-        this._editor.startConnection(this.getId(), pointId, clientPosition);
+      onMouseDown: (
+        pointId: string,
+        clientPosition: Position,
+        pointColor: string
+      ) => {
+        this._editor.startConnection(
+          this.getId(),
+          pointId,
+          clientPosition,
+          pointColor
+        );
       },
       onMount: (
         pointId: string,

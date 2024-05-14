@@ -43,7 +43,12 @@ export default class WaitingState extends EditorState {
     );
     this.mouseDownOverComponent = true;
   }
-  startConnection(componentId: number, pointId: string, position: Position) {
+  startConnection(
+    componentId: number,
+    pointId: string,
+    position: Position,
+    pointColor: string
+  ) {
     const connectionData = {
       componentId: componentId,
       pointId: pointId,
@@ -51,7 +56,7 @@ export default class WaitingState extends EditorState {
     };
 
     this.editor.setState(
-      new ConnectionState(this.editor, connectionData, position)
+      new ConnectionState(this.editor, connectionData, position, pointColor)
     );
   }
 }

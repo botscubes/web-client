@@ -6,4 +6,5 @@ export interface LinePosition {
 }
 export interface LineProps {
   position: LinePosition;
+  color: string;
 }

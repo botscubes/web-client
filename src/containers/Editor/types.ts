@@ -24,6 +24,9 @@ export interface EditorData {
   line: {
     set: Setter<LinePosition | undefined>;
   };
+  lineColor: {
+    set: Setter<string>;
+  };
   lineStore: [
     Store<Record<string, LinePosition>>,
     SetStoreFunction<Record<string, LinePosition>>,
