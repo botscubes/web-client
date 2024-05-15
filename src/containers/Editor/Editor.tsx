@@ -20,13 +20,14 @@ import { SpecificComponentCreator } from "./EditorController/SpecificComponent";
 
 import { ConditionComponentCreator } from "./EditorController/components/ConditionComponent";
 import { Line, LinePosition } from "./components/Line";
-import { EditorProps, LineData } from "./types";
+import { BotStatus, EditorProps, LineData } from "./types";
 import { EditorClient } from "./EditorController/api/EditorClient";
 import { A, useNavigate } from "@solidjs/router";
 import { MessageComponentCreator } from "./EditorController/components/MessageComponent";
 import { TextInputComponentCreator } from "./EditorController/components/TextInputComponent";
 import { FormatComponentCreator } from "./EditorController/components/FormatComponent";
 import { ButtonComponentCreator } from "./EditorController/components/ButtonComponent";
+import BotClient from "~/api/bot/BotClient";
 
 export default function Editor(props: EditorProps) {
   const [componentStore, setComponentStore] = createStore<
@@ -46,6 +47,7 @@ export default function Editor(props: EditorProps) {
   const [loading, setLoading] = createSignal(false);
   const [error, setError] = createSignal<Error | undefined>();
   const [errors, setErrors] = createSignal<Array<Error>>([]);
+  const [botStatus, setBotStatus] = createSignal(BotStatus.Stopped);
   createEffect(() => {
     if (error()) {
       const err = error() as Error;
@@ -81,6 +83,12 @@ export default function Editor(props: EditorProps) {
       navigate: navigate,
       error: {
         set: setError,
+      },
+      bot: {
+        status: {
+          set: setBotStatus,
+          get: botStatus,
+        },
       },
     },
     // eslint-disable-next-line solid/reactivity
@@ -124,16 +132,7 @@ export default function Editor(props: EditorProps) {
             )}
           </For>
         </div>
-        {
-          //<div class="control-buttons">
-          //<button onClick={[handleAddComponent, editor]} id="add-button">
-          // Add component
-          //</button>
-          //  <button id="save-button">Get Bot</button>
-          //  <button id="save-button">Start Bot</button>
-          //  <button id="save-button">Stop Bot</button>
-          // </div>
-        }
+
         <div class="scale-buttons events">
           <button class="green-button" onClick={() => editor.zoomIn()}>
             +
@@ -149,7 +148,21 @@ export default function Editor(props: EditorProps) {
             Bot list
           </A>
           <div class="separator"> </div>
-          <button class="green-button">Start bot</button>
+          <Show
+            when={botStatus() == BotStatus.Stopped}
+            fallback={
+              <button onClick={() => editor.stopBot()} class="yellow-button">
+                Stop bot
+              </button>
+            }
+          >
+            <A
+              href={"/bots/" + props.botId + "/start?prev=edit"}
+              class="green-button"
+            >
+              Start bot
+            </A>
+          </Show>
           <div class="separator"> </div>
           <Show when={loading()}>
             <div class="loading">Loading...</div>

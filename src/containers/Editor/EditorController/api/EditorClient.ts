@@ -7,14 +7,18 @@ import {
   APISourceComponentOutput,
 } from "./types";
 import { Position } from "../../shared/types";
+import BotClient from "~/api/bot/BotClient";
 
 export class EditorClient {
+  private botClient;
   constructor(
     private httpClient: HTTPClient,
     private token: string,
     private botId: number,
     private groupId: number
-  ) {}
+  ) {
+    this.botClient = new BotClient(httpClient, token);
+  }
 
   async getComponents(): Promise<HTTPResponse<APIComponentData[]>> {
     return this.httpClient.GET(
@@ -76,5 +80,13 @@ export class EditorClient {
       data,
       this.token
     );
+  }
+
+  async getBotStatus(): Promise<HTTPResponse<number>> {
+    return await this.botClient.getStatus(this.botId);
+  }
+
+  async stopBot(): Promise<HTTPResponse<undefined>> {
+    return await this.botClient.stop(this.botId);
   }
 }

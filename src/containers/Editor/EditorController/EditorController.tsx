@@ -1,4 +1,4 @@
-import { EditorData } from "../types";
+import { BotStatus, EditorData } from "../types";
 import { Position } from "../shared/types";
 import type EditorState from "./EditorState";
 import WaitingState from "./states/WaitingState";
@@ -29,6 +29,7 @@ import { FormatComponentController } from "./components/FormatComponent";
 import { FormatContent } from "../components/ComponentContent/contents/FormatContent";
 import { ButtonComponentController } from "./components/ButtonComponent";
 import { ButtonContent } from "../components/ComponentContent/contents/ButtonContent";
+import BotClient from "~/api/bot/BotClient";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
@@ -80,6 +81,7 @@ export default class EditorController {
   }
 
   async init() {
+    this.getBotStatus();
     const [components, error] = await this.httpRequest(() =>
       this._client.getComponents()
     );
@@ -217,6 +219,29 @@ export default class EditorController {
   zoomOut() {
     this.editor.scale.set((scale) => scale - this.zoomSize);
   }
+  private async getBotStatus() {
+    const [status, error] = await this.httpRequest(() =>
+      this._client.getBotStatus()
+    );
+    if (error) {
+      this.editor.error.set(error);
+      return;
+    }
+    if (status == 1) {
+      this.editor.bot.status.set(BotStatus.Running);
+    } else {
+      this.editor.bot.status.set(BotStatus.Stopped);
+    }
+  }
+  async stopBot() {
+    const [_, error] = await this.httpRequest(() => this._client.stopBot());
+    if (error) {
+      this.editor.error.set(error);
+      return;
+    }
+    this.editor.bot.status.set(BotStatus.Stopped);
+  }
+
   async httpRequest<T>(
     request: () => Promise<HTTPResponse<T>>
   ): Promise<[T | undefined, Error | undefined]> {

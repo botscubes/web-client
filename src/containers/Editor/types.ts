@@ -12,6 +12,11 @@ export interface LineData {
   position: LinePosition;
 }
 
+export enum BotStatus {
+  Running = 1,
+  Stopped = 0,
+}
+
 export interface EditorData {
   componentStore: [
     Store<Record<number, ExtendedComponentData>>,
@@ -33,16 +38,17 @@ export interface EditorData {
     Store<Record<string, LineData>>,
     SetStoreFunction<Record<string, LineData>>,
   ];
+  bot: {
+    status: {
+      set: Setter<BotStatus>;
+      get: Accessor<BotStatus>;
+    };
+  };
   setLoading: Setter<boolean>;
   navigate: Navigator;
   error: {
     set: Setter<Error | undefined>;
   };
-  //componentStyle: ComponentStyle;
-  //lines: Record<number, LinePosition>;
-  //line: LinePosition;
-  //showLine: boolean;
-  //scale: number;
 }
 
 export interface EditorProps {

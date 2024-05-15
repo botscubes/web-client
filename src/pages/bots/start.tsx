@@ -1,5 +1,11 @@
 import { Title } from "@solidjs/meta";
-import { A, action, useNavigate, useParams } from "@solidjs/router";
+import {
+  A,
+  action,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "@solidjs/router";
 import { Show, createSignal } from "solid-js";
 import { useAppState } from "~/AppContext";
 import {
@@ -15,6 +21,9 @@ export default function StartBot() {
   let oldToken = "";
   const id: number = parseInt(params.id, 10);
   const botClient = new BotClient(appState.httpClient, appState.token);
+
+  let [sparams, _] = useSearchParams();
+  let prev = sparams.prev;
 
   const navigate = useNavigate();
 
@@ -52,7 +61,7 @@ export default function StartBot() {
         navigate("/signin");
       }
       checkResponse(response, appState.logger);
-      navigate("/bots");
+      navigate(prev == "edit" ? "/bots/" + id.toString() : "/bots");
     });
   });
   const getToken = async (el: HTMLInputElement) => {
@@ -71,6 +80,7 @@ export default function StartBot() {
       }
     }
   };
+
   return (
     <div class="form-page">
       <Title>Run bot</Title>
@@ -106,7 +116,10 @@ export default function StartBot() {
       </form>
 
       <div class="under-form">
-        <A href="/bots" class="yellow-button">
+        <A
+          href={prev == "edit" ? "/bots/" + id.toString() : "/bots"}
+          class="yellow-button"
+        >
           Back
         </A>
       </div>

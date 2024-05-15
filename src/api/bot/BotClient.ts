@@ -51,4 +51,11 @@ export default class BotClient {
       this._token
     );
   }
+
+  async getStatus(id: number): Promise<HTTPResponse<number>> {
+    return await this._httpClient.GET(
+      "/api/bots/" + id.toString() + "/status",
+      this._token
+    );
+  }
 }
