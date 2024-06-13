@@ -57,14 +57,13 @@
 
 .scale-buttons {
   background-color: white;
-  position: absolute;
   padding: 10px;
-  bottom: 0px;
-  right: 0px;
   box-shadow: 0px 0px 10px var(--light-grey);
-  margin: 1rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
   border-radius: var(--border-radius);
   display: flex;
+  align-self: flex-end;
 }
 
 .scale-buttons button {
@@ -77,6 +76,27 @@
 
 .no-events {
   pointer-events: none;
+}
+
+.panel-flex {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  overflow: hidden;
+  height: 100%;
+}
+
+.edit-area {
+  display: flex;
+}
+
+#editing-panel {
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0px 0px 10px var(--light-grey);
+  background-color: white;
+  overflow: hidden;
 }
 
 #editor-menu-panel {
@@ -99,13 +119,11 @@
   margin: 1rem;
   border-radius: 5px;
   flex-basis: content;
-  flex-grow: 1;
   background-color: white;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   user-select: none;
-  z-index: 20;
   border-radius: var(--border-radius);
 }
 
@@ -129,6 +147,7 @@
 }
 
 .show-panel-btn {
+  align-self: flex-start;
   width: auto;
   margin: 1rem;
 }

@@ -135,16 +135,6 @@ export default function Editor(props: EditorProps) {
           </For>
         </div>
 
-        <div class="scale-buttons events">
-          <button class="green-button" onClick={() => editor.zoomIn()}>
-            +
-          </button>
-          <div class="separator"> </div>
-          <button class="blue-button" onClick={() => editor.zoomOut()}>
-            {" "}
-            -{" "}
-          </button>
-        </div>
         <div id="editor-menu-panel" class="events">
           <A href="/bots" class="blue-button">
             Bot list
@@ -170,42 +160,56 @@ export default function Editor(props: EditorProps) {
             <div class="loading">Loading...</div>
           </Show>
         </div>
-        <Show
-          when={showComponentSelection()}
-          fallback={
-            <button
-              class="events blue-button show-panel-btn"
-              onClick={() => setShowComponentSelection(true)}
-            >
-              {"->"}
-            </button>
-          }
-        >
-          <div id="component-selection-panel" class="events">
-            <button
-              class="hide-panel-btn blue-button"
-              onClick={() => {
-                setShowComponentSelection(false);
-              }}
-            >
-              {"<-"}
-            </button>
-            <div class="component-list">
-              <For each={componentCreatorList}>
-                {(creator) => (
-                  <div
-                    class="component reduce"
-                    onMouseDown={(event: MouseEvent) => {
-                      editor.startAddingComponent(event, creator);
-                    }}
-                  >
-                    <div class="no-events">{creator.content()}</div>
-                  </div>
-                )}
-              </For>
+        <div class="panel-flex">
+          <Show
+            when={showComponentSelection()}
+            fallback={
+              <button
+                class="events blue-button show-panel-btn"
+                onClick={() => setShowComponentSelection(true)}
+              >
+                {"->"}
+              </button>
+            }
+          >
+            <div id="component-selection-panel" class="events">
+              <button
+                class="hide-panel-btn blue-button"
+                onClick={() => {
+                  setShowComponentSelection(false);
+                }}
+              >
+                {"<-"}
+              </button>
+              <div class="component-list">
+                <For each={componentCreatorList}>
+                  {(creator) => (
+                    <div
+                      class="component reduce"
+                      onMouseDown={(event: MouseEvent) => {
+                        editor.startAddingComponent(event, creator);
+                      }}
+                    >
+                      <div class="no-events">{creator.content()}</div>
+                    </div>
+                  )}
+                </For>
+              </div>
             </div>
+          </Show>
+          <div class="edit-area">
+            <div class="scale-buttons events">
+              <button class="green-button" onClick={() => editor.zoomIn()}>
+                +
+              </button>
+              <div class="separator"> </div>
+              <button class="blue-button" onClick={() => editor.zoomOut()}>
+                -
+              </button>
+            </div>
+            <div id="editing-panel">edit panel edit panel edit panel</div>
           </div>
-        </Show>
+        </div>
         <Show when={addingComponentContent()}>
           <div
             class="scaling"
