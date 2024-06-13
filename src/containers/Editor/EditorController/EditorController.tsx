@@ -32,6 +32,7 @@ import { ButtonContent } from "../components/ComponentContent/contents/ButtonCon
 import BotClient from "~/api/bot/BotClient";
 import { CodeComponentController } from "./components/CodeComponent";
 import { CodeContent } from "../components/ComponentContent/contents/CodeContent";
+import { JSX } from "solid-js/h/jsx-runtime";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
@@ -80,6 +81,10 @@ export default class EditorController {
 
   get error() {
     return this.editor.error;
+  }
+
+  get editingContent() {
+    return this.editor.editingContent;
   }
 
   async init() {

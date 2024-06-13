@@ -24,12 +24,6 @@ export interface ComponentProps {
   deleteComponent: (id: number) => void;
   selectComponent: (id: number, mousePOsition: Position) => void;
   addSelectedComponent: (id: number) => void;
-  // startConnection: (
-  //   componentId: number,
-  //   commandId: number,
-  //   connectionPosition: Position,
-  //   relativeConnectionPosition: Position
-  // ) => void;
   finishConnection: (
     componentId: number,
     pointPosition: Position,
@@ -41,9 +35,4 @@ export interface ComponentProps {
     sourcePointId: string,
     clientPointPositin: Position
   ) => void;
-  //  moveConnection: (commandId: number, connectionPosition: Position) => void;
-  //  moveCommandConnection: (
-  //    commandId: number,
-  //    connectionPosition: Position
-  //  ) => void;
 }

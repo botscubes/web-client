@@ -26,6 +26,9 @@ export interface EditorData {
     setContent: Setter<(() => JSX.Element) | undefined>;
     setPosition: Setter<Position>;
   };
+  editingContent: {
+    set: Setter<(() => JSX.Element) | undefined>;
+  };
   setUserSelect: Setter<boolean>;
   scale: {
     set: Setter<number>;

@@ -49,6 +49,9 @@ export default function Editor(props: EditorProps) {
   const [error, setError] = createSignal<Error | undefined>();
   const [errors, setErrors] = createSignal<Array<Error>>([]);
   const [botStatus, setBotStatus] = createSignal(BotStatus.Stopped);
+  const [editingContent, setEditingContent] = createSignal<
+    (() => JSX.Element) | undefined
+  >(undefined);
   createEffect(() => {
     if (error()) {
       const err = error() as Error;
@@ -70,6 +73,9 @@ export default function Editor(props: EditorProps) {
       addingComponent: {
         setContent: setAddingComponentContent,
         setPosition: setAddingComponentPosition,
+      },
+      editingContent: {
+        set: setEditingContent,
       },
       setUserSelect: setUserSelect,
       scale: {
@@ -207,7 +213,17 @@ export default function Editor(props: EditorProps) {
                 -
               </button>
             </div>
-            <div id="editing-panel">edit panel edit panel edit panel</div>
+            <Show when={editingContent()}>
+              <div id="editing-panel">
+                <button
+                  class="delete-button"
+                  onClick={setEditingContent(undefined)}
+                >
+                  ✖
+                </button>
+                {editingContent()?.()}
+              </div>
+            </Show>
           </div>
         </div>
         <Show when={addingComponentContent()}>

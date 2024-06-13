@@ -54,23 +54,6 @@ export default function Component(props: ComponentProps) {
       }
     );
   };
-  // const handleStartConnection = (
-  //   commandId: number,
-  //   connectionPosition: Position
-  // ) => {
-  //   props.startConnection(
-  //     props.componentData.id,
-  //     commandId,
-  //     {
-  //       x: props.componentData.position.x + connectionPosition.x,
-  //       y: props.componentData.position.y + connectionPosition.y,
-  //     },
-  //     {
-  //       x: connectionPosition.x,
-  //       y: connectionPosition.y,
-  //     }
-  //   );
-  // };
 
   const c = children(() => props.children);
   return (
