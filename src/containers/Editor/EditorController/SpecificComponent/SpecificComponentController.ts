@@ -106,4 +106,12 @@ export abstract class SpecificComponentController {
       }
     }
   }
+  async updateData(data: any) {
+    const [_, error] = await this.editor.httpRequest(() =>
+      this.editor.client.updateComponentData(this.getId(), data)
+    );
+    if (error) {
+      this.editor.error.set(error);
+    }
+  }
 }

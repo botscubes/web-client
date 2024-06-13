@@ -28,7 +28,7 @@ export class CodeComponentController
           },
           onSave: (code) => {
             this.code = code;
-            this.editor.client.updateComponentData(this.getId(), {
+            this.updateData({
               code: code,
             });
             this.editor.editingContent.set(undefined);

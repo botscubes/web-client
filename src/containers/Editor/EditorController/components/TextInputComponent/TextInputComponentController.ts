@@ -18,17 +18,6 @@ export class TextInputComponentController
 
   getHandlers(): TextInputContentHandlers {
     return {
-      text: {
-        onMount: (setter: (str: string) => void) => {
-          //setter(str);
-        },
-        onChange: (str: string) => {
-          this.editor.client.updateComponentData(this.getId(), {
-            text: str,
-          });
-        },
-        onInput: (str: string) => {},
-      },
       outputPoint: this.getPointHandlers(),
     };
   }

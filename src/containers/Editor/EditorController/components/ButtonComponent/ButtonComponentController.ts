@@ -62,7 +62,7 @@ export class ButtonComponentController
       text: {
         onMount: (setter: (str: string) => void) => {},
         onChange: (str: string) => {
-          this.editor.client.updateComponentData(this.getId(), {
+          this.updateData({
             text: str,
           });
         },
@@ -110,10 +110,8 @@ export class ButtonComponentController
         text: button.text,
       };
     }
-    this.editor.httpRequest(() =>
-      this.editor.client.updateComponentData(this.getId(), {
-        buttons: buttons,
-      })
-    );
+    this.updateData({
+      buttons: buttons,
+    });
   }
 }

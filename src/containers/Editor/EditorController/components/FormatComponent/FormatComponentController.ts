@@ -28,7 +28,7 @@ export class FormatComponentController
           //};
         },
         onChange: (str: string) => {
-          this.editor.client.updateComponentData(this.getId(), {
+          this.updateData({
             formatString: str,
           });
         },

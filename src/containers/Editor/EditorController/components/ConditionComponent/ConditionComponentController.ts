@@ -28,7 +28,7 @@ export class ConditionComponentController
           //};
         },
         onChange: (str: string) => {
-          this.editor.client.updateComponentData(this.getId(), {
+          this.updateData({
             expression: str,
           });
         },

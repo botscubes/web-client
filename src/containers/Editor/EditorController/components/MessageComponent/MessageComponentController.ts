@@ -23,7 +23,7 @@ export class MessageComponentController
           //setter(str);
         },
         onChange: (str: string) => {
-          this.editor.client.updateComponentData(this.getId(), {
+          this.updateData({
             text: str,
           });
         },
