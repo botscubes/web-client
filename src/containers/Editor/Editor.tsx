@@ -28,6 +28,7 @@ import { TextInputComponentCreator } from "./EditorController/components/TextInp
 import { FormatComponentCreator } from "./EditorController/components/FormatComponent";
 import { ButtonComponentCreator } from "./EditorController/components/ButtonComponent";
 import BotClient from "~/api/bot/BotClient";
+import { CodeComponentCreator } from "./EditorController/components/CodeComponent";
 
 export default function Editor(props: EditorProps) {
   const [componentStore, setComponentStore] = createStore<
@@ -106,6 +107,7 @@ export default function Editor(props: EditorProps) {
     new MessageComponentCreator(editor),
     new TextInputComponentCreator(editor),
     new FormatComponentCreator(editor),
+    new CodeComponentCreator(editor),
     new ButtonComponentCreator(editor),
   ];
   return (

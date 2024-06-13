@@ -30,6 +30,8 @@ import { FormatContent } from "../components/ComponentContent/contents/FormatCon
 import { ButtonComponentController } from "./components/ButtonComponent";
 import { ButtonContent } from "../components/ComponentContent/contents/ButtonContent";
 import BotClient from "~/api/bot/BotClient";
+import { CodeComponentController } from "./components/CodeComponent";
+import { CodeContent } from "../components/ComponentContent/contents/CodeContent";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
@@ -325,6 +327,20 @@ export default class EditorController {
           controller,
           () => (
             <FormatContent
+              data={component.data}
+              outputs={component.outputs}
+              handlers={controller.getHandlers()}
+            />
+          ),
+        ];
+      }
+      case APIComponentType.Code: {
+        const controller = new CodeComponentController(this, component.id);
+
+        return [
+          controller,
+          () => (
+            <CodeContent
               data={component.data}
               outputs={component.outputs}
               handlers={controller.getHandlers()}

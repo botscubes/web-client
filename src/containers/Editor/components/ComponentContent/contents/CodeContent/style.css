@@ -1,0 +1,9 @@
+.code-content .button {
+  background-color: white;
+  color: var(--blue);
+}
+
+.code-content .button:hover {
+  background-color: var(--light-blue);
+  color: white;
+}
