@@ -1,9 +1,8 @@
 import { ContentPointHandlers } from "../..";
-import { InputHandlers } from "../../../Input";
 
 export interface CodeContentHandlers {
-  code?: InputHandlers;
   outputPoint: ContentPointHandlers;
+  onEditClick: () => void;
 }
 
 export interface CodeContentData {}

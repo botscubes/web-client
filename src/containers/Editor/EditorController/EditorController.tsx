@@ -340,7 +340,11 @@ export default class EditorController {
         ];
       }
       case APIComponentType.Code: {
-        const controller = new CodeComponentController(this, component.id);
+        const controller = new CodeComponentController(
+          this,
+          component.id,
+          component.data.code
+        );
 
         return [
           controller,

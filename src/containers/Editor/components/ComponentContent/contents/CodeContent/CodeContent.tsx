@@ -9,7 +9,9 @@ export default function CodeContent(props: CodeContentProps) {
     <div class="code-content">
       <Content componentName={"Code"}>
         <div class="content-width"> </div>
-        <button class="button">Edit</button>
+        <button class="button" onClick={() => props.handlers?.onEditClick()}>
+          Edit
+        </button>
       </Content>
 
       <div class="output-points">

@@ -217,10 +217,13 @@ export default function Editor(props: EditorProps) {
               <div id="editing-panel">
                 <button
                   class="delete-button"
-                  onClick={setEditingContent(undefined)}
+                  onClick={() => {
+                    setEditingContent(undefined);
+                  }}
                 >
                   ✖
                 </button>
+
                 {editingContent()?.()}
               </div>
             </Show>
