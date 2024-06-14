@@ -1,0 +1,14 @@
+# git
+.git
+.gitattributes
+.gitignore
+
+#dev
+*.md
+Dockerfile
+dist
+node_modules
+.eslintrc.cjs
+setpath.sh
+LICENSE
+.prettierrc.json
