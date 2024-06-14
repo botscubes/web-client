@@ -119,7 +119,7 @@ export default class ConnectionController {
           position: {
             ...line.position,
             end: this.editor.getRelativeMousePosition(
-              point.getClientPosition()
+              point.getClientPosition?.() ?? { x: 0, y: 0 }
             ),
           },
         });
@@ -156,7 +156,7 @@ export default class ConnectionController {
                 outputPoint.getClientPosition()
               ),
               end: this.editor.getRelativeMousePosition(
-                point.getClientPosition()
+                point.getClientPosition?.() ?? { x: 0, y: 0 }
               ),
             },
           });

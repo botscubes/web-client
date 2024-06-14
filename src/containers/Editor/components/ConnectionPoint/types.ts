@@ -4,7 +4,7 @@ export interface ConnectionPointData {
   position?: Position;
   componentId?: number;
   pointId?: string;
-  getClientPosition: () => Position;
+  getClientPosition?: () => Position;
   setHandlerOnGetClientPosition?(handler: () => Position): void;
 }
 

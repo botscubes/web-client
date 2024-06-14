@@ -1,3 +1,3 @@
-import ComponentStorage from "./ComponentStorage";
+import ComponentStorage from "./ComponentStore";
 
 export { ComponentStorage };

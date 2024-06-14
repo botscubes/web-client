@@ -29,10 +29,8 @@ import { FormatComponentController } from "./components/FormatComponent";
 import { FormatContent } from "../components/ComponentContent/contents/FormatContent";
 import { ButtonComponentController } from "./components/ButtonComponent";
 import { ButtonContent } from "../components/ComponentContent/contents/ButtonContent";
-import BotClient from "~/api/bot/BotClient";
 import { CodeComponentController } from "./components/CodeComponent";
 import { CodeContent } from "../components/ComponentContent/contents/CodeContent";
-import { JSX } from "solid-js/h/jsx-runtime";
 import { ToIntComponentController } from "./components/ToIntComponent";
 import { ToIntContent } from "../components/ComponentContent/contents/ToIntContent";
 

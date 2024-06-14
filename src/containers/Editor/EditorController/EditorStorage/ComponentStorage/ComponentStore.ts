@@ -1,6 +1,4 @@
-import { cloneDeep } from "lodash";
 import { SetStoreFunction, Store } from "solid-js/store";
-import { ComponentData } from "~/containers/Editor/components/Component";
 import { Position } from "~/containers/Editor/shared/types";
 import { ExtendedComponentData } from "./types";
 import { SpecificComponent } from "../../SpecificComponent";
@@ -48,33 +46,10 @@ export default class ComponentStore {
     );
   }
 
-  //  clone(id: number): number {
-  //    const component: ComponentData = cloneDeep(this.componentStore[id]);
-  //    const newId = id;
-  //    component.id = newId;
-  //    this.setComponentStore((components) => {
-  //      return {
-  //        ...components,
-  //        component,
-  //      };
-  //    });
-  //    this.id++;
-  //    return newId;
-  //  }
-
   delete(id: number) {
     const component = this.componentStore[id];
 
     if (component) {
-      //this.selectedComponents.delete(id);
-      //    for (const command of Object.values(component.commands)) {
-      //       this.deleteConnection(id, command.id);
-      //     }
-      //     const points = cloneDeep(component.connectionPoints);
-      //     for (const point of Object.values(points)) {
-      //       if (point.componentId != undefined && point.commandId != undefined)
-      //         this.deleteConnection(point.componentId, point.commandId);
-      //     }
       this.setComponentStore((components) => {
         return { ...components, [id]: undefined };
       });
@@ -94,7 +69,6 @@ export default class ComponentStore {
       x: mousePos.x - position.x,
       y: mousePos.y - position.y,
     });
-    //this.setConnectionLines(id);
   }
 
   select(id: number) {
@@ -121,34 +95,6 @@ export default class ComponentStore {
     }));
   }
 
-  //  setCommandConnectionPosition(
-  //    componentId: number,
-  //    commandId: number,
-  //    position: Position
-  //  ) {
-  //    this.setEditorData(
-  //      "components",
-  //      componentId,
-  //      "commands",
-  //      commandId,
-  //      (command) => ({
-  //        ...command,
-  //        connectionPosition: position,
-  //      })
-  //    );
-  //  }
-  // getCommandConnectionPosition(
-  //   componentId: number,
-  //   commandId: number
-  // ): Position {
-  //   const commandConnectionPosition =
-  //     this.editorData.components[componentId].commands[commandId]
-  //       .connectionPosition;
-  //   if (commandConnectionPosition) {
-  //     return commandConnectionPosition;
-  //   }
-  //   return { x: 0, y: 0 };
-  // }
   addConnectionPoint(
     componentId: number,
     sourceComponentId: number,
