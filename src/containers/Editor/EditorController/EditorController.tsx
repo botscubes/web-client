@@ -33,6 +33,8 @@ import BotClient from "~/api/bot/BotClient";
 import { CodeComponentController } from "./components/CodeComponent";
 import { CodeContent } from "../components/ComponentContent/contents/CodeContent";
 import { JSX } from "solid-js/h/jsx-runtime";
+import { ToIntComponentController } from "./components/ToIntComponent";
+import { ToIntContent } from "../components/ComponentContent/contents/ToIntContent";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
@@ -332,6 +334,20 @@ export default class EditorController {
           controller,
           () => (
             <FormatContent
+              data={component.data}
+              outputs={component.outputs}
+              handlers={controller.getHandlers()}
+            />
+          ),
+        ];
+      }
+      case APIComponentType.ToInt: {
+        const controller = new ToIntComponentController(this, component.id);
+
+        return [
+          controller,
+          () => (
+            <ToIntContent
               data={component.data}
               outputs={component.outputs}
               handlers={controller.getHandlers()}

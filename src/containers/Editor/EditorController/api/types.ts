@@ -18,6 +18,7 @@ export enum APIComponentType {
   TextInput = "textInput",
   Buttons = "buttons",
   Code = "code",
+  ToInt = "toInt",
 }
 
 export interface APIAddComponentRequestData {
