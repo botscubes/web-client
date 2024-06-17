@@ -387,6 +387,7 @@ export default class EditorController {
                 text: component.data.text,
                 buttons: controller.buttons(),
               }}
+              outputs={component.outputs}
               handlers={controller.getHandlers()}
               abilityToAdd={controller.abilityToAdd()}
             />

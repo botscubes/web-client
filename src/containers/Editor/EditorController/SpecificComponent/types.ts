@@ -1,7 +1,5 @@
 import { JSX } from "solid-js";
-import EditorController from "..";
 import { Position } from "../../shared/types";
-import { ContentPointHandlers } from "../../components/ComponentContent";
 import { SpecificComponentController } from ".";
 import { APIComponentType } from "../api/types";
 
