@@ -33,6 +33,8 @@ import { CodeComponentController } from "./components/CodeComponent";
 import { CodeContent } from "../components/ComponentContent/contents/CodeContent";
 import { ToIntComponentController } from "./components/ToIntComponent";
 import { ToIntContent } from "../components/ComponentContent/contents/ToIntContent";
+import { MoveContent } from "../components/ComponentContent/contents/MoveContent";
+import { MoveComponentController } from "./components/MoveComponent";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
@@ -346,6 +348,23 @@ export default class EditorController {
           controller,
           () => (
             <ToIntContent
+              data={{
+                ...component.data,
+                destination: component.path,
+              }}
+              outputs={component.outputs}
+              handlers={controller.getHandlers()}
+            />
+          ),
+        ];
+      }
+      case APIComponentType.Move: {
+        const controller = new MoveComponentController(this, component.id);
+
+        return [
+          controller,
+          () => (
+            <MoveContent
               data={{
                 ...component.data,
                 destination: component.path,

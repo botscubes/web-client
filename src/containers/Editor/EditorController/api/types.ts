@@ -19,6 +19,7 @@ export enum APIComponentType {
   Buttons = "buttons",
   Code = "code",
   ToInt = "toInt",
+  Move = "move",
 }
 
 export interface APIAddComponentRequestData {
