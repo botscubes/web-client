@@ -346,7 +346,10 @@ export default class EditorController {
           controller,
           () => (
             <ToIntContent
-              data={component.data}
+              data={{
+                ...component.data,
+                destination: component.path,
+              }}
               outputs={component.outputs}
               handlers={controller.getHandlers()}
             />

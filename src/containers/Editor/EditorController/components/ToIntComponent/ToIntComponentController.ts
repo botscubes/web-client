@@ -3,17 +3,12 @@ import {
   SpecificComponentController,
   SpecificComponentHandlers,
 } from "../../SpecificComponent";
-import { Position } from "~/containers/Editor/shared/types";
 import EditorController from "../..";
-import { OutputPoint } from "../../SpecificComponent/types";
 
 export class ToIntComponentController
   extends SpecificComponentController
   implements SpecificComponentHandlers<ToIntContentHandlers>
 {
-  //private setExpression: (str: string) => void = (_str: string) => {};
-  //private expression = "";
-
   constructor(editor: EditorController, id: number) {
     super(editor, id);
   }
@@ -32,9 +27,7 @@ export class ToIntComponentController
       destination: {
         onMount: (_setter: (str: string) => void) => {},
         onChange: (str: string) => {
-          this.updateData({
-            destination: str,
-          });
+          this.updatePath(str);
         },
         onInput: (_str: string) => {},
       },

@@ -82,6 +82,17 @@ export class EditorClient {
     );
   }
 
+  async updateComponentPath(
+    componentId: number,
+    path: string
+  ): Promise<HTTPResponse<undefined>> {
+    return this.httpClient.PATCH(
+      `/api/bots/${this.botId}/groups/${this.groupId}/components/${componentId}/path`,
+      path,
+      this.token
+    );
+  }
+
   async getBotStatus(): Promise<HTTPResponse<number>> {
     return await this.botClient.getStatus(this.botId);
   }

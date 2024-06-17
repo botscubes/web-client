@@ -114,4 +114,12 @@ export abstract class SpecificComponentController {
       this.editor.error.set(error);
     }
   }
+  async updatePath(path: string) {
+    const [_, error] = await this.editor.httpRequest(() =>
+      this.editor.client.updateComponentPath(this.getId(), path)
+    );
+    if (error) {
+      this.editor.error.set(error);
+    }
+  }
 }
