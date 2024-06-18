@@ -72,6 +72,9 @@ export default class ComponentController {
       return;
     }
     this.components.delete(id);
+    if (id == this.editor.editingContent.get()?.componentId) {
+      this.editor.editingContent.set(undefined);
+    }
   }
   move(mousePosition: Position) {
     for (const [id, position] of this.selectedComponents.get()) {

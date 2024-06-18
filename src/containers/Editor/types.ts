@@ -27,7 +27,20 @@ export interface EditorData {
     setPosition: Setter<Position>;
   };
   editingContent: {
-    set: Setter<(() => JSX.Element) | undefined>;
+    set: Setter<
+      | {
+          componentId: number;
+          content: () => JSX.Element;
+        }
+      | undefined
+    >;
+    get: Accessor<
+      | {
+          componentId: number;
+          content: () => JSX.Element;
+        }
+      | undefined
+    >;
   };
   setUserSelect: Setter<boolean>;
   scale: {

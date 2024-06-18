@@ -38,7 +38,10 @@ export class CodeComponentController
     );
     return {
       onEditClick: () => {
-        this.editor.editingContent.set(() => element);
+        this.editor.editingContent.set({
+          componentId: this.getId(),
+          content: element,
+        });
       },
       outputPoint: this.getPointHandlers(),
     };

@@ -52,7 +52,11 @@ export default function Editor(props: EditorProps) {
   const [errors, setErrors] = createSignal<Array<Error>>([]);
   const [botStatus, setBotStatus] = createSignal(BotStatus.Stopped);
   const [editingContent, setEditingContent] = createSignal<
-    (() => JSX.Element) | undefined
+    | {
+        componentId: number;
+        content: () => JSX.Element;
+      }
+    | undefined
   >(undefined);
   createEffect(() => {
     if (error()) {
@@ -78,6 +82,7 @@ export default function Editor(props: EditorProps) {
       },
       editingContent: {
         set: setEditingContent,
+        get: editingContent,
       },
       setUserSelect: setUserSelect,
       scale: {
@@ -228,7 +233,7 @@ export default function Editor(props: EditorProps) {
                   ✖
                 </button>
 
-                {editingContent()?.()}
+                {editingContent()?.content()}
               </div>
             </Show>
           </div>
