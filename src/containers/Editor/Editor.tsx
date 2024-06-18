@@ -32,6 +32,7 @@ import { CodeComponentCreator } from "./EditorController/components/CodeComponen
 import { ToIntComponentCreator } from "./EditorController/components/ToIntComponent";
 import { MoveComponentCreator } from "./EditorController/components/MoveComponent";
 import { PhotoComponentCreator } from "./EditorController/components/PhotoComponent";
+import { FromJSONComponentCreator } from "./EditorController/components/FromJSONComponent";
 
 export default function Editor(props: EditorProps) {
   const [componentStore, setComponentStore] = createStore<
@@ -124,6 +125,7 @@ export default function Editor(props: EditorProps) {
     new FormatComponentCreator(editor),
     new MoveComponentCreator(editor),
     new ToIntComponentCreator(editor),
+    new FromJSONComponentCreator(editor),
     new CodeComponentCreator(editor),
     new ButtonComponentCreator(editor),
   ];

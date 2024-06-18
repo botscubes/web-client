@@ -37,6 +37,8 @@ import { MoveContent } from "../components/ComponentContent/contents/MoveContent
 import { MoveComponentController } from "./components/MoveComponent";
 import { PhotoComponentController } from "./components/PhotoComponent";
 import { PhotoContent } from "../components/ComponentContent/contents/PhotoContent";
+import { FromJSONComponentController } from "./components/FromJSONComponent";
+import { FromJSONContent } from "../components/ComponentContent/contents/FromJSONContent";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
@@ -384,6 +386,23 @@ export default class EditorController {
               data={{
                 ...component.data,
                 destination: component.path,
+              }}
+              outputs={component.outputs}
+              handlers={controller.getHandlers()}
+            />
+          ),
+        ];
+      }
+      case APIComponentType.FromJSON: {
+        const controller = new FromJSONComponentController(this, component.id);
+
+        return [
+          controller,
+          () => (
+            <FromJSONContent
+              data={{
+                ...component.data,
+                path: component.path,
               }}
               outputs={component.outputs}
               handlers={controller.getHandlers()}
