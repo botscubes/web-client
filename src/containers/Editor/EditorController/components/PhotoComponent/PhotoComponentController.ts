@@ -18,6 +18,17 @@ export class PhotoComponentController
 
   getHandlers(): PhotoContentHandlers {
     return {
+      name: {
+        onMount: (setter: (str: string) => void) => {
+          //setter(str);
+        },
+        onChange: (str: string) => {
+          this.updateData({
+            name: str,
+          });
+        },
+        onInput: (str: string) => {},
+      },
       path: {
         onMount: (setter: (str: string) => void) => {
           //setter(str);

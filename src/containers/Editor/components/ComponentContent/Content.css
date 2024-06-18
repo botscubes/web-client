@@ -86,3 +86,7 @@
 .editing-content .vresize {
   resize: vertical;
 }
+
+.second-input {
+  margin-top: 0.5rem;
+}

@@ -10,6 +10,12 @@ export default function PhotoContent(props: PhotoContentProps) {
       <Content componentName={"Photo"}>
         <Input
           class="component-input blue-input"
+          placeholder="Enter name"
+          value={props.data?.name}
+          handlers={props.handlers?.name}
+        />
+        <Input
+          class="component-input blue-input second-input"
           placeholder="Enter path"
           value={props.data?.path}
           handlers={props.handlers?.path}
