@@ -57,3 +57,32 @@
 .content-point:hover .point-tooltip {
   opacity: 1;
 }
+
+.editing-content textarea {
+  flex-grow: 1;
+  min-width: 25rem;
+  resize: none;
+  display: block;
+  border: 1px solid var(--light-light-blue);
+  border-radius: var(--border-radius);
+  outline: none;
+  overflow: scroll;
+}
+
+.editing-content textarea:focus {
+  border-color: var(--blue);
+}
+
+.editing-content .buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.editing-content label {
+  font-size: small;
+}
+
+.editing-content .vresize {
+  resize: vertical;
+}

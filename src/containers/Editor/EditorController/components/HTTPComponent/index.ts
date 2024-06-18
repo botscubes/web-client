@@ -1,2 +1,2 @@
-export { CodeComponentController } from "./CodeComponentController";
-export { CodeComponentCreator } from "./CodeComponentCreator";
+export { HTTPComponentController } from "./HTTPComponentController";
+export { HTTPComponentCreator } from "./HTTPComponentCreator";

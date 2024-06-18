@@ -431,7 +431,11 @@ export default class EditorController {
         ];
       }
       case APIComponentType.HTTP: {
-        const controller = new HTTPComponentController(this, component.id);
+        const controller = new HTTPComponentController(
+          this,
+          component.id,
+          component.data
+        );
 
         return [
           controller,
