@@ -31,6 +31,7 @@ import BotClient from "~/api/bot/BotClient";
 import { CodeComponentCreator } from "./EditorController/components/CodeComponent";
 import { ToIntComponentCreator } from "./EditorController/components/ToIntComponent";
 import { MoveComponentCreator } from "./EditorController/components/MoveComponent";
+import { PhotoComponentCreator } from "./EditorController/components/PhotoComponent";
 
 export default function Editor(props: EditorProps) {
   const [componentStore, setComponentStore] = createStore<
@@ -118,6 +119,7 @@ export default function Editor(props: EditorProps) {
   const componentCreatorList: Array<SpecificComponentCreator> = [
     new ConditionComponentCreator(editor),
     new MessageComponentCreator(editor),
+    new PhotoComponentCreator(editor),
     new TextInputComponentCreator(editor),
     new FormatComponentCreator(editor),
     new MoveComponentCreator(editor),

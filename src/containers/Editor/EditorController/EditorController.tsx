@@ -35,6 +35,8 @@ import { ToIntComponentController } from "./components/ToIntComponent";
 import { ToIntContent } from "../components/ComponentContent/contents/ToIntContent";
 import { MoveContent } from "../components/ComponentContent/contents/MoveContent";
 import { MoveComponentController } from "./components/MoveComponent";
+import { PhotoComponentController } from "./components/PhotoComponent";
+import { PhotoContent } from "../components/ComponentContent/contents/PhotoContent";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
@@ -307,6 +309,20 @@ export default class EditorController {
           () => (
             <MessageContent
               data={component.data}
+              outputs={component.outputs}
+              handlers={controller.getHandlers()}
+            />
+          ),
+        ];
+      }
+      case APIComponentType.Photo: {
+        const controller = new PhotoComponentController(this, component.id);
+
+        return [
+          controller,
+          () => (
+            <PhotoContent
+              data={{ ...component.data, path: component.path }}
               outputs={component.outputs}
               handlers={controller.getHandlers()}
             />
