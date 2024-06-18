@@ -1,0 +1,9 @@
+.http-content .button {
+  background-color: white;
+  color: var(--blue);
+}
+
+.http-content .button:hover {
+  background-color: var(--light-blue);
+  color: white;
+}

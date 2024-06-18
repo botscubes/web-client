@@ -22,6 +22,7 @@ export enum APIComponentType {
   Move = "move",
   Photo = "photo",
   FromJSON = "fromJSON",
+  HTTP = "http",
 }
 
 export interface APIAddComponentRequestData {

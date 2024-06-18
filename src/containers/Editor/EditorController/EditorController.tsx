@@ -39,6 +39,8 @@ import { PhotoComponentController } from "./components/PhotoComponent";
 import { PhotoContent } from "../components/ComponentContent/contents/PhotoContent";
 import { FromJSONComponentController } from "./components/FromJSONComponent";
 import { FromJSONContent } from "../components/ComponentContent/contents/FromJSONContent";
+import { HTTPComponentController } from "./components/HTTPComponent/HTTPComponentController";
+import { HTTPContent } from "../components/ComponentContent/contents/HTTPContent";
 
 export default class EditorController {
   private readonly zoomSize = 0.05;
@@ -421,6 +423,20 @@ export default class EditorController {
           controller,
           () => (
             <CodeContent
+              data={component.data}
+              outputs={component.outputs}
+              handlers={controller.getHandlers()}
+            />
+          ),
+        ];
+      }
+      case APIComponentType.HTTP: {
+        const controller = new HTTPComponentController(this, component.id);
+
+        return [
+          controller,
+          () => (
+            <HTTPContent
               data={component.data}
               outputs={component.outputs}
               handlers={controller.getHandlers()}

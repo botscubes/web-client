@@ -33,6 +33,7 @@ import { ToIntComponentCreator } from "./EditorController/components/ToIntCompon
 import { MoveComponentCreator } from "./EditorController/components/MoveComponent";
 import { PhotoComponentCreator } from "./EditorController/components/PhotoComponent";
 import { FromJSONComponentCreator } from "./EditorController/components/FromJSONComponent";
+import { HTTPComponentCreator } from "./EditorController/components/HTTPComponent/HTTPComponentCreator";
 
 export default function Editor(props: EditorProps) {
   const [componentStore, setComponentStore] = createStore<
@@ -127,6 +128,7 @@ export default function Editor(props: EditorProps) {
     new ToIntComponentCreator(editor),
     new FromJSONComponentCreator(editor),
     new CodeComponentCreator(editor),
+    new HTTPComponentCreator(editor),
     new ButtonComponentCreator(editor),
   ];
   return (
